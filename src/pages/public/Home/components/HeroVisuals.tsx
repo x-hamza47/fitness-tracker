@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 export default function HeroVisuals() {
     return (
         <div className="relative flex w-full max-w-xl items-center justify-center lg:w-[48%]">
-            <div className="relative aspect-square w-full max-w-[520px] overflow-hidden rounded-[2.5rem]">
+            <div className="relative aspect-square w-full max-w-130 overflow-hidden rounded-[2.5rem]">
 
                 {/* Soft light behind the object */}
                 <div className="absolute left-1/2 top-[42%] h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-(--color-accent)/10 blur-3xl" />
@@ -27,12 +27,12 @@ export default function HeroVisuals() {
                     }}
                 >
                     {/* Left weight */}
-                    <div className="absolute right-[108px] top-1/2 h-24 w-12 -translate-y-1/2 rounded-xl border border-white/15 bg-[#202020] shadow-2xl">
+                    <div className="absolute right-27 top-1/2 h-24 w-12 -translate-y-1/2 rounded-xl border border-white/15 bg-[#202020] shadow-2xl">
                         <div className="absolute left-1/2 top-1/2 h-14 w-1 -translate-x-1/2 -translate-y-1/2 bg-white/10" />
                     </div>
 
                     {/* Left inner plate */}
-                    <div className="absolute right-[82px] top-1/2 h-16 w-8 -translate-y-1/2 rounded-lg bg-[#181818]" />
+                    <div className="absolute right-20.5 top-1/2 h-16 w-8 -translate-y-1/2 rounded-lg bg-[#181818]" />
 
                     {/* Handle */}
                     <div className="h-5 w-52 rounded-full border border-white/10 bg-[#292929] shadow-lg">
@@ -40,10 +40,10 @@ export default function HeroVisuals() {
                     </div>
 
                     {/* Right inner plate */}
-                    <div className="absolute left-[82px] top-1/2 h-16 w-8 -translate-y-1/2 rounded-lg bg-[#181818]" />
+                    <div className="absolute left-20.5 top-1/2 h-16 w-8 -translate-y-1/2 rounded-lg bg-[#181818]" />
 
                     {/* Right weight */}
-                    <div className="absolute left-[108px] top-1/2 h-24 w-12 -translate-y-1/2 rounded-xl border border-white/15 bg-[#202020] shadow-2xl">
+                    <div className="absolute left-27 top-1/2 h-24 w-12 -translate-y-1/2 rounded-xl border border-white/15 bg-[#202020] shadow-2xl">
                         <div className="absolute left-1/2 top-1/2 h-14 w-1 -translate-x-1/2 -translate-y-1/2 bg-white/10" />
                     </div>
 
