@@ -136,7 +136,7 @@ const SpecularButton = ({
   className = '',
   type = 'button'
 }: SpecularButtonProps) => {
-  
+
   const btnRef = useRef<HTMLButtonElement>(null);
   const fxRef = useRef<HTMLSpanElement>(null);
   const propsRef = useRef<ShaderProps>({
