@@ -1,16 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import type { RapierRigidBody } from "@react-three/rapier";
 import { Plane, Quaternion, Raycaster, Vector3 } from "three";
 
 export type DragOptions = {
-    stiffness?: number;          
-    damping?: number;            
-    maxAccel?: number;           
-    maxSpeed?: number;           
-    dragAngularDamping?: number; 
-    restAngularDamping?: number; 
-    minY?: number;               
+    stiffness?: number;
+    damping?: number;
+    maxAccel?: number;
+    maxSpeed?: number;
+    dragAngularDamping?: number;
+    restAngularDamping?: number;
+    minY?: number;
 };
 
 export function useDragBody(
@@ -46,18 +46,21 @@ export function useDragBody(
     const tmp = useRef(new Vector3());
     const tmp2 = useRef(new Vector3());
 
-    const setControls = (enabled: boolean) => {
+
+    const setControls = useCallback((enabled: boolean) => {
         const controls = get().controls as unknown as { enabled: boolean } | null;
         if (controls) controls.enabled = enabled;
-    };
+    }, [get]);
 
-    const release = () => {
+
+    const release = useCallback(() => {
         if (!dragging.current) return;
+
         dragging.current = false;
         setControls(true);
         bodyRef.current?.setAngularDamping(restAngularDamping);
         document.body.style.cursor = "auto";
-    };
+    }, [bodyRef, restAngularDamping, setControls]);
 
     useEffect(() => {
         window.addEventListener("pointerup", release);
@@ -69,7 +72,7 @@ export function useDragBody(
             window.removeEventListener("blur", release);
             document.body.style.cursor = "auto";
         };
-    }, []);
+    }, [release]);
 
     useFrame(({ pointer, camera }, delta) => {
         const body = bodyRef.current;
@@ -77,12 +80,12 @@ export function useDragBody(
 
         const dt = Math.min(Math.max(delta, 1 / 240), 1 / 30);
 
-        
+
         raycaster.current.setFromCamera(pointer, camera);
         if (!raycaster.current.ray.intersectPlane(plane.current, target.current)) return;
         if (target.current.y < minY) target.current.y = minY;
 
-        
+
         if (hasPrev.current) {
             rawVel.current.copy(target.current).sub(prevTarget.current).divideScalar(dt);
             rawVel.current.clampLength(0, maxSpeed);
@@ -91,7 +94,7 @@ export function useDragBody(
         prevTarget.current.copy(target.current);
         hasPrev.current = true;
 
-        
+
         const t = body.translation();
         const r = body.rotation();
         quat.current.set(r.x, r.y, r.z, r.w);
@@ -100,7 +103,7 @@ export function useDragBody(
             .applyQuaternion(quat.current)
             .add(tmp.current.set(t.x, t.y, t.z));
 
-        
+
         const c = body.worldCom();
         com.current.set(c.x, c.y, c.z);
         rel.current.copy(worldGrab.current).sub(com.current);
@@ -110,7 +113,6 @@ export function useDragBody(
             .set(lv.x, lv.y, lv.z)
             .add(tmp.current.set(av.x, av.y, av.z).cross(rel.current));
 
-        
         const k = stiffness * stiffness;
         const cd = 2 * damping * stiffness;
         accel.current

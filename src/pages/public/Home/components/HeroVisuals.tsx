@@ -1,12 +1,13 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, RoundedBox, Html, useProgress } from "@react-three/drei";
 import { Physics, RigidBody, CuboidCollider, type RapierRigidBody } from "@react-three/rapier";
-import { useRef, useEffect, Suspense } from "react";
+import { useRef, useEffect, useState, Suspense, type RefObject } from "react";
 import { Object3D, SpotLight, Group } from "three";
 import Dumbbell from "@/components/three/models/Dumbbell";
 import PunchingBag from "@/components/three/models/PunchingBag";
 import SmallDumbbell from "@/components/three/models/SmallDumbbell";
 import WaterBottle from "@/components/three/models/WaterBottle";
+import CameraRig from "@/components/three/CameraRig";
 
 const ROOM_HEIGHT = 15;
 const ROOM_WIDTH = 25;
@@ -19,6 +20,9 @@ const ROWS = 3;
 const DROP_HEIGHT = 0.1;
 const STACK_CENTER: [number, number] = [0, ROOM_CENTER_Z];
 const STACK_HEIGHT = ROWS * SIZE * 1.02;
+
+const CAMERA_END_POSITION: [number, number, number] = [-3, 6, -26];
+const CAMERA_END_TARGET: [number, number, number] = [-3, 7, -30];
 
 function Loader() {
     const { progress } = useProgress();
@@ -311,22 +315,48 @@ function TrainingBoxes({
     );
 }
 
+type HeroVisualsProps = {
+    progress: RefObject<{ value: number }>;
+};
+function HeroVisuals({ progress }: HeroVisualsProps) {
+    const wrapRef = useRef<HTMLDivElement>(null);
+    const [visible, setVisible] = useState(true);
 
-function HeroVisuals() {
+    useEffect(() => {
+        const el = wrapRef.current;
+        if (!el) return;
+
+        const io = new IntersectionObserver(
+            ([entry]) => setVisible(entry.isIntersecting),
+            { rootMargin: "200px 0px" } 
+        );
+        io.observe(el);
+        return () => io.disconnect();
+    }, []);
+
     return (
-        <div className="h-svh w-full">
-            <Canvas shadows="percentage" camera={{ position: [7, 5, 6], fov: 43 }}>
+        <div ref={wrapRef} className="h-svh w-full">
+            <Canvas
+                frameloop={visible ? "always" : "never"}
+                shadows="percentage"
+                camera={{ position: [7, 5, 6], fov: 43 }}
+            >
                 <OrbitControls
                     makeDefault
                     enableZoom={false}
                     enablePan={false}
                     target={[STACK_CENTER[0] - 2, 3, STACK_CENTER[1]]}
-                    minPolarAngle={Math.PI / 2.9}   
-                    maxPolarAngle={Math.PI / 2.05}  
-                    minAzimuthAngle={-Math.PI / 8}  
-                    maxAzimuthAngle={Math.PI / 2.7}   
+                    minPolarAngle={Math.PI / 2.9}
+                    maxPolarAngle={Math.PI / 2.05}
+                    minAzimuthAngle={-Math.PI / 8}
+                    maxAzimuthAngle={Math.PI / 2.7}
                 />
 
+                <CameraRig
+                    progress={progress}
+                    endPosition={CAMERA_END_POSITION}
+                    endTarget={CAMERA_END_TARGET}
+                />
                 <ambientLight intensity={0.3} />
                 <directionalLight position={[-6, 8, 2]} intensity={1} />
                 <StackPointLight offset={[1, -2.5, 5]} color="#ff5500" />
@@ -360,10 +390,10 @@ function HeroVisuals() {
                             floorGap={2}
                             bagFraction={0.6}
                             mass={70}
-                            minPunch={3} 
-                            maxPunch={14}      
-                            maxHoldTime={1.5}     
-                            punchStrength={30}    
+                            minPunch={3}
+                            maxPunch={14}
+                            maxHoldTime={1.5}
+                            punchStrength={30}
                             breakForce={500000}
                         />
                     </Suspense>
