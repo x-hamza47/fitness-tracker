@@ -142,7 +142,7 @@ function Stat({
             <div className="mt-4 text-6xl font-bold tracking-tighter text-white tabular-nums sm:text-6xl lg:text-7xl">
                 {loading || value === undefined ? (
                     <div
-                        className="h-14 w-40 animate-pulse rounded-sm bg-white/10 lg:h-[4.5rem]"
+                        className="h-14 w-40 animate-pulse rounded-sm bg-white/10 lg:h-18"
                         aria-hidden="true"
                     />
                 ) : (

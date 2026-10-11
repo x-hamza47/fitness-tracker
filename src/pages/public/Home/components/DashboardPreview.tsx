@@ -16,7 +16,7 @@ export default function DashboardPreview() {
                     description="Workouts, nutrition, progress, goals and reminders in one place."
                 />
 
-                <div className="mt-12 grid auto-rows-[180px] gap-4 md:grid-cols-3">
+                <div className="mt-12 grid auto-rows-45 gap-4 md:grid-cols-3">
                     <Slot
                         label="Progress chart"
                         hint="Search: bento grid, spotlight card"

@@ -11,7 +11,7 @@ const FEATURES = [
 
 export default function WorkoutTracking() {
     return (
-        <section className="bg-(--color-bg) px-4 py-24 sm:px-6 sm:py-32">
+        <section className="bg-(--color-bg) px-4 py-24 sm:px-6 sm:py-32" id="workouts">
             <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:gap-16">
                 <div className="lg:col-span-5">
                     <SectionHeader

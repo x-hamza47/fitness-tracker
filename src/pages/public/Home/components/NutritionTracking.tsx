@@ -10,7 +10,7 @@ const MEALS = [
 
 export default function NutritionTracking() {
     return (
-        <section className="bg-(--color-bg) px-4 py-24 sm:px-6 sm:py-32">
+        <section className="bg-(--color-bg) px-4 py-24 sm:px-6 sm:py-32" id="nutrition">
             <div className="mx-auto max-w-7xl">
                 <SectionHeader
                     index="05"

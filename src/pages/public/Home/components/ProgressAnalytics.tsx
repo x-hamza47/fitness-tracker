@@ -5,7 +5,7 @@ const METRICS = ["Body weight", "Lifts", "Consistency", "Measurements"];
 
 export default function ProgressAnalytics() {
     return (
-        <section className="bg-(--color-bg) px-4 py-24 sm:px-6 sm:py-32">
+        <section className="bg-(--color-bg) px-4 py-24 sm:px-6 sm:py-32" id="progress">
             <div className="mx-auto max-w-7xl">
                 <SectionHeader
                     index="04"
