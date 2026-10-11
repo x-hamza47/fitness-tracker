@@ -4,13 +4,13 @@ import type { RapierRigidBody } from "@react-three/rapier";
 import { Plane, Quaternion, Raycaster, Vector3 } from "three";
 
 export type DragOptions = {
-    stiffness?: number;          // spring frequency (rad/s). 30-60 = snappy
-    damping?: number;            // damping ratio. 0.5-0.8 = lively, 1 = smooth
-    maxAccel?: number;           // max acceleration in units/s². Higher = faster pull
-    maxSpeed?: number;           // cap on cursor speed used for tracking/throwing
-    dragAngularDamping?: number; // spin resistance while held
-    restAngularDamping?: number; // restored on release
-    minY?: number;               // keeps the target above the floor
+    stiffness?: number;          
+    damping?: number;            
+    maxAccel?: number;           
+    maxSpeed?: number;           
+    dragAngularDamping?: number; 
+    restAngularDamping?: number; 
+    minY?: number;               
 };
 
 export function useDragBody(
@@ -77,12 +77,12 @@ export function useDragBody(
 
         const dt = Math.min(Math.max(delta, 1 / 240), 1 / 30);
 
-        // cursor position on the camera-facing plane
+        
         raycaster.current.setFromCamera(pointer, camera);
         if (!raycaster.current.ray.intersectPlane(plane.current, target.current)) return;
         if (target.current.y < minY) target.current.y = minY;
 
-        // cursor velocity (smoothed) so the body tracks a moving mouse without lag
+        
         if (hasPrev.current) {
             rawVel.current.copy(target.current).sub(prevTarget.current).divideScalar(dt);
             rawVel.current.clampLength(0, maxSpeed);
@@ -91,7 +91,7 @@ export function useDragBody(
         prevTarget.current.copy(target.current);
         hasPrev.current = true;
 
-        // current world position of the grabbed point
+        
         const t = body.translation();
         const r = body.rotation();
         quat.current.set(r.x, r.y, r.z, r.w);
@@ -100,7 +100,7 @@ export function useDragBody(
             .applyQuaternion(quat.current)
             .add(tmp.current.set(t.x, t.y, t.z));
 
-        // velocity of that point = v + w x r
+        
         const c = body.worldCom();
         com.current.set(c.x, c.y, c.z);
         rel.current.copy(worldGrab.current).sub(com.current);
@@ -110,7 +110,7 @@ export function useDragBody(
             .set(lv.x, lv.y, lv.z)
             .add(tmp.current.set(av.x, av.y, av.z).cross(rel.current));
 
-        // spring toward the cursor, damped relative to the CURSOR's velocity
+        
         const k = stiffness * stiffness;
         const cd = 2 * damping * stiffness;
         accel.current
