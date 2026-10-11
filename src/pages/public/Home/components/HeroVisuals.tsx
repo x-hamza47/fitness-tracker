@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { RoundedBox, OrbitControls } from "@react-three/drei";
+import { OrbitControls, RoundedBox, Html, useProgress } from "@react-three/drei";
 import { Physics, RigidBody, CuboidCollider, type RapierRigidBody } from "@react-three/rapier";
 import { useRef, useEffect, Suspense } from "react";
 import { Object3D, SpotLight, Group } from "three";
@@ -20,7 +20,16 @@ const DROP_HEIGHT = 0.1;
 const STACK_CENTER: [number, number] = [0, ROOM_CENTER_Z];
 const STACK_HEIGHT = ROWS * SIZE * 1.02;
 
-
+function Loader() {
+    const { progress } = useProgress();
+    return (
+        <Html center>
+            <div className="text-xs tracking-[0.25em] text-white/50">
+                LOADING {progress.toFixed(0)}%
+            </div>
+        </Html>
+    );
+}
 
 function Floor() {
     return (
@@ -312,10 +321,10 @@ function HeroVisuals() {
                     enableZoom={false}
                     enablePan={false}
                     target={[STACK_CENTER[0] - 2, 3, STACK_CENTER[1]]}
-                    minPolarAngle={Math.PI / 2.9}   // how high you can look from (stops going over the roof)
-                    maxPolarAngle={Math.PI / 2.05}  // how low (stops going under the floor)
-                    minAzimuthAngle={-Math.PI / 8}  // left limit
-                    maxAzimuthAngle={Math.PI / 2.7}   // right limit
+                    minPolarAngle={Math.PI / 2.9}   
+                    maxPolarAngle={Math.PI / 2.05}  
+                    minAzimuthAngle={-Math.PI / 8}  
+                    maxAzimuthAngle={Math.PI / 2.7}   
                 />
 
                 <ambientLight intensity={0.3} />
@@ -337,7 +346,7 @@ function HeroVisuals() {
                     />
                     <RightBoundary />
                     <TrainingBoxes />
-                    <Suspense fallback={null}>
+                    <Suspense fallback={<Loader />}>
                         <Dumbbell position={[0, 2, -4.5]} rotation={[0, 0, 0]} />
                         <SmallDumbbell position={[3, 2, -15]} />
                         <SmallDumbbell position={[STACK_CENTER[0], STACK_HEIGHT + 1.5, STACK_CENTER[1]]} rotation={[0, Math.PI / 1.7, 0]} />
