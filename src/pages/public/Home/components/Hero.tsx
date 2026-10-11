@@ -5,13 +5,54 @@ import MagicButton from "@/components/ui/MagicButton";
 import SpecularButton from "@/components/ui/SpecularButton";
 import { Spotlight } from "@/components/ui/Spotlight";
 import ShinyText from "@/components/ui/ShinyText";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 const words = ["STRENGTH", "DISCIPLINE", "PROGRESS", "PERFORMANCE"];
 
 function Hero() {
+    const sectionRef = useRef<HTMLElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const cueRef = useRef<HTMLDivElement>(null);
+    const progress = useRef({ value: 0 });
+
+    useGSAP(
+        () => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top top",
+                    end: "+=150%", 
+                    scrub: 0.6,
+                    pin: true,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                },
+            });
+
+            
+            tl.to(progress.current, { value: 1, ease: "none", duration: 1 }, 0);
+
+            
+            tl.to(
+                contentRef.current,
+                { opacity: 0, y: -60, ease: "power1.in", duration: 0.35 },
+                0
+            );
+            tl.to(cueRef.current, { opacity: 0, duration: 0.15 }, 0);
+        },
+        { scope: sectionRef }
+    );
+
     return (
-        <section className="relative flex min-h-svh items-center overflow-hidden px-4 pt-28 pb-24 sm:px-6 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-24">
-            {/* Grid background */}
+        <section
+            ref={sectionRef}
+            className="relative flex min-h-svh items-center overflow-hidden px-4 pt-28 pb-24 sm:px-6 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-24"
+        >
+            {}
             <div
                 className="pointer-events-none absolute inset-0 z-0 bg-size-[48px_48px] bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] mask-[radial-gradient(ellipse_at_center,black_30%,transparent_75%)] md:bg-size-[88px_88px]"
             />
@@ -22,10 +63,13 @@ function Hero() {
 
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-y-0 right-0 w-full">
-                    <HeroVisuals />
+                   <HeroVisuals progress={progress} />
                 </div>
             </div>
-            <div className="relative z-10 mx-auto flex w-full max-w-7xl select-none pointer-events-none">
+            <div
+                ref={contentRef}
+                className="relative z-10 mx-auto flex w-full max-w-7xl select-none pointer-events-none"
+            >
 
                 <motion.div
                     className="w-full lg:w-1/2 pointer-events-none"
@@ -50,7 +94,7 @@ function Hero() {
                         />
                     </motion.span>
 
-                    {/* Heading */}
+                    {}
                     <motion.h1
                         className="text-4xl font-semibold tracking-tight min-[400px]:text-5xl sm:text-6xl md:font-bold lg:text-6xl xl:text-7xl"
                         initial={{ opacity: 0, y: 15 }}
@@ -67,7 +111,7 @@ function Hero() {
                         </span>
                     </motion.h1>
 
-                    {/* Description */}
+                    {}
                     <motion.p
                         className="mt-5 max-w-lg text-sm leading-6 text-white/50 sm:mt-6 sm:text-base sm:leading-7"
                         initial={{ opacity: 0, y: 15 }}
@@ -78,7 +122,7 @@ function Hero() {
                         Turn your training data into measurable performance.
                     </motion.p>
 
-                    {/* Buttons */}
+                    {}
                     <motion.div
                         className="mt-4 flex w-fit flex-col gap-3 sm:flex-row sm:items-center lg:mt-5 pointer-events-auto"
                         initial={{ opacity: 0, y: 15 }}
@@ -111,40 +155,42 @@ function Hero() {
                 </motion.div>
             </div>
 
-            {/* Scroll Cue */}
-            <motion.div
-                className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-xs tracking-[0.25em] text-white/30 sm:flex [@media(max-height:700px)]:hidden"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2, duration: 0.6 }}
-            >
+            {}
+            <div ref={cueRef} className="pointer-events-none absolute inset-0">
                 <motion.div
-                    className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-white/30 p-1.5"
-                    animate={{ y: [-16, 0] }}
-                    transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 5,
-                        mass: 0.8,
-                        repeat: Infinity,
-                        repeatType: "loop",
-                        repeatDelay: 1.2,
-                    }}
+                    className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-xs tracking-[0.25em] text-white/30 sm:flex [@media(max-height:700px)]:hidden"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.2, duration: 0.6 }}
                 >
-                    <motion.span
-                        className="block h-1.5 w-1 rounded-full bg-(--color-accent-dark)"
-                        animate={{ y: [0, 10] }}
+                    <motion.div
+                        className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-white/30 p-1.5"
+                        animate={{ y: [-16, 0] }}
                         transition={{
-                            duration: 0.9,
-                            ease: "easeInOut",
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 5,
+                            mass: 0.8,
                             repeat: Infinity,
-                            repeatType: "reverse",
+                            repeatType: "loop",
+                            repeatDelay: 1.2,
                         }}
-                    />
-                </motion.div>
+                    >
+                        <motion.span
+                            className="block h-1.5 w-1 rounded-full bg-(--color-accent-dark)"
+                            animate={{ y: [0, 10] }}
+                            transition={{
+                                duration: 0.9,
+                                ease: "easeInOut",
+                                repeat: Infinity,
+                                repeatType: "reverse",
+                            }}
+                        />
+                    </motion.div>
 
-                <span>SCROLL</span>
-            </motion.div>
+                    <span>SCROLL</span>
+                </motion.div>
+            </div>
         </section>
     );
 }
