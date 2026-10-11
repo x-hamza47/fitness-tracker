@@ -68,15 +68,15 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   return (
     <motion.div
       ref={ref}
-      
+
       className={cn("fixed inset-x-0 top-10 z-40 w-full", className)}
     >
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
           ? React.cloneElement(
-              child as React.ReactElement<{ visible?: boolean }>,
-              { visible },
-            )
+            child as React.ReactElement<{ visible?: boolean }>,
+            { visible },
+          )
           : child,
       )}
     </motion.div>
@@ -247,6 +247,19 @@ export const NavbarLogo = () => {
   );
 };
 
+
+type NavbarButtonProps = {
+  href?: string;
+  as?: "a" | "button";
+  children: React.ReactNode;
+  className?: string;
+  variant?: "primary" | "secondary" | "dark" | "gradient";
+} & Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement> &
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "children" | "className" | "href"
+>;
+
 export const NavbarButton = ({
   href,
   as: Tag = "a",
@@ -254,16 +267,7 @@ export const NavbarButton = ({
   className,
   variant = "primary",
   ...props
-}: {
-  href?: string;
-  as?: React.ElementType;
-  children: React.ReactNode;
-  className?: string;
-  variant?: "primary" | "secondary" | "dark" | "gradient";
-} & (
-  | React.ComponentPropsWithoutRef<"a">
-  | React.ComponentPropsWithoutRef<"button">
-)) => {
+}: NavbarButtonProps) => {
   const baseStyles =
     "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
 
@@ -278,7 +282,7 @@ export const NavbarButton = ({
 
   return (
     <Tag
-      href={href || undefined}
+      href={Tag === "a" ? href : undefined}
       className={cn(baseStyles, variantStyles[variant], className)}
       {...props}
     >
@@ -286,3 +290,5 @@ export const NavbarButton = ({
     </Tag>
   );
 };
+
+
