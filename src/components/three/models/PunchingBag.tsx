@@ -17,25 +17,25 @@ const URL = "/models/punching-bag.glb";
 
 export type PunchingBagProps = {
     url?: string;
-    position?: [number, number];   // [x, z]
-    ceilingY?: number;             // height of the ceiling
-    size?: number;                 // size of the model (chain + bag)
-    floorGap?: number;             // bottom of the bag stays this high above the floor
-    bagFraction?: number;          // bottom part of the model that is the bag (0-1)
+    position?: [number, number];   
+    ceilingY?: number;             
+    size?: number;                 
+    floorGap?: number;             
+    bagFraction?: number;          
     mass?: number;
-    breakForce?: number;           // contact force (thrown objects) that snaps the chain
+    breakForce?: number;           
     unbreakable?: boolean;
     modelRotation?: Vec3;
-    minPunch?: number;             // power of a quick tap
-    maxPunch?: number;             // power at full charge (human max)
-    maxHoldTime?: number;          // seconds of holding to reach full charge
-    punchStrength?: number;        // fixed fist strength: heavier bag = moves less
-    breakPunchPower?: number;      // punch power that snaps the chain (undefined = punches never break it)
-    drag?: DragOptions;            // right-click drag settings
+    minPunch?: number;             
+    maxPunch?: number;             
+    maxHoldTime?: number;          
+    punchStrength?: number;        
+    breakPunchPower?: number;      
+    drag?: DragOptions;            
     onBreak?: () => void;
 };
 
-/* rope from the ceiling to the model's top + extra chain drawn between them */
+
 function BagChain({
     anchorRef,
     bodyRef,
@@ -109,7 +109,7 @@ export default function PunchingBag({
     const bornAt = useRef(0);
     const [broken, setBroken] = useState(false);
 
-    // charging state: set on left press, used on release
+    
     const charge = useRef<{ start: number; point: Vector3; dir: Vector3 } | null>(null);
 
     useEffect(() => {
@@ -118,12 +118,12 @@ export default function PunchingBag({
 
     const anchor: Vec3 = [position[0], ceilingY, position[1]];
 
-    // right-click drag
+    
     const drag = useDragBody(body, {
-        stiffness: 20,
+        stiffness: 10,
         damping: 0.8,
         maxAccel: 400,
-        maxSpeed: 25,
+        maxSpeed: 15,
         dragAngularDamping: 1.5,
         restAngularDamping: 1.5,
         minY: 0.3,
@@ -165,22 +165,22 @@ export default function PunchingBag({
     const gap = Math.max(0.05, ceilingY - floorGap - size);
     const startPos: Vec3 = [anchor[0], anchor[1] - gap - halfHeight, anchor[2]];
 
-    /* ---------- left click = charge, right click = drag ---------- */
+    
     const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
-        if (broken) return;
+        // if (broken) return;
 
         if (e.nativeEvent.button === 2) {
-            drag.onPointerDown(e); // right click = drag
+            drag.onPointerDown(e); 
             return;
         }
 
-        e.stopPropagation(); // left click = charge a punch
+        e.stopPropagation(); 
         charge.current = {
             start: performance.now(),
             point: e.point.clone(),
             dir: e.ray.direction.clone().normalize(),
         };
-        setControls(false); // stop the camera from orbiting while charging
+        setControls(false); 
         document.body.style.cursor = "grabbing";
     };
 
@@ -194,19 +194,20 @@ export default function PunchingBag({
 
         const release = () => {
             const c = charge.current;
-            if (!c) return; // right-click drags are handled by useDragBody
+            if (!c) return; 
             charge.current = null;
             setControls(true);
             document.body.style.cursor = "auto";
 
             const b = body.current;
-            if (!b || broken) return;
+            // if (!b || broken) return;
+            if (!b) return;
 
-            // 0..1, capped: holding longer than maxHoldTime adds nothing
+            
             const held = Math.min((performance.now() - c.start) / 1000 / maxHoldTime, 1);
             const power = minPunch + (maxPunch - minPunch) * held;
 
-            // fixed fist strength, so a heavier bag moves less
+            
             const impulse = c.dir.clone().multiplyScalar(punchStrength * power);
             b.applyImpulseAtPoint(impulse, c.point, true);
 
@@ -227,7 +228,7 @@ export default function PunchingBag({
         };
     }, [broken, minPunch, maxPunch, maxHoldTime, punchStrength, unbreakable, breakPunchPower, onBreak]);
 
-    /* ---------- break from thrown objects (dumbbell etc.) ---------- */
+    
     const handleContactForce = (p: { totalForceMagnitude: number }) => {
         if (unbreakable || broken) return;
         if (performance.now() - bornAt.current < 1500) return;
