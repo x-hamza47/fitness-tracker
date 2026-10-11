@@ -72,8 +72,6 @@ export default function InteractiveModel({
         const s = size / maxDim;
         const off = center.clone().multiplyScalar(-s);
 
-        // Collect hull points in the RigidBody's local space
-        // (world transform -> scale -> offset), skipping bad values.
         let hullPoints: Float32Array | null = null;
         if (colliders === "hull") {
             const pts: number[] = [];

@@ -28,7 +28,7 @@ function Hero() {
             <div className="relative z-10 mx-auto flex w-full max-w-7xl select-none pointer-events-none">
 
                 <motion.div
-                    className="w-full lg:w-1/2 pointer-events-auto"
+                    className="w-full lg:w-1/2 pointer-events-none"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -80,7 +80,7 @@ function Hero() {
 
                     {/* Buttons */}
                     <motion.div
-                        className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-5"
+                        className="mt-4 flex w-fit flex-col gap-3 sm:flex-row sm:items-center lg:mt-5 pointer-events-auto"
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
