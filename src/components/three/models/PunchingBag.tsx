@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import {
@@ -17,21 +17,21 @@ const URL = "/models/punching-bag.glb";
 
 export type PunchingBagProps = {
     url?: string;
-    position?: [number, number];   
-    ceilingY?: number;             
-    size?: number;                 
-    floorGap?: number;             
-    bagFraction?: number;          
+    position?: [number, number];
+    ceilingY?: number;
+    size?: number;
+    floorGap?: number;
+    bagFraction?: number;
     mass?: number;
-    breakForce?: number;           
+    breakForce?: number;
     unbreakable?: boolean;
     modelRotation?: Vec3;
-    minPunch?: number;             
-    maxPunch?: number;             
-    maxHoldTime?: number;          
-    punchStrength?: number;        
-    breakPunchPower?: number;      
-    drag?: DragOptions;            
+    minPunch?: number;
+    maxPunch?: number;
+    maxHoldTime?: number;
+    punchStrength?: number;
+    breakPunchPower?: number;
+    drag?: DragOptions;
     onBreak?: () => void;
 };
 
@@ -109,7 +109,7 @@ export default function PunchingBag({
     const bornAt = useRef(0);
     const [broken, setBroken] = useState(false);
 
-    
+
     const charge = useRef<{ start: number; point: Vector3; dir: Vector3 } | null>(null);
 
     useEffect(() => {
@@ -118,7 +118,7 @@ export default function PunchingBag({
 
     const anchor: Vec3 = [position[0], ceilingY, position[1]];
 
-    
+
     const drag = useDragBody(body, {
         stiffness: 10,
         damping: 0.8,
@@ -130,11 +130,11 @@ export default function PunchingBag({
         ...dragOptions,
     });
 
-    const setControls = (enabled: boolean) => {
+
+    const setControls = useCallback((enabled: boolean) => {
         const controls = get().controls as unknown as { enabled: boolean } | null;
         if (controls) controls.enabled = enabled;
-    };
-
+    }, [get]);
     const { object, scale, offset, halfHeight, radius } = useMemo(() => {
         const clone = scene.clone(true);
         clone.traverse((o) => {
@@ -165,22 +165,22 @@ export default function PunchingBag({
     const gap = Math.max(0.05, ceilingY - floorGap - size);
     const startPos: Vec3 = [anchor[0], anchor[1] - gap - halfHeight, anchor[2]];
 
-    
+
     const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
         // if (broken) return;
 
         if (e.nativeEvent.button === 2) {
-            drag.onPointerDown(e); 
+            drag.onPointerDown(e);
             return;
         }
 
-        e.stopPropagation(); 
+        e.stopPropagation();
         charge.current = {
             start: performance.now(),
             point: e.point.clone(),
             dir: e.ray.direction.clone().normalize(),
         };
-        setControls(false); 
+        setControls(false);
         document.body.style.cursor = "grabbing";
     };
 
@@ -194,7 +194,7 @@ export default function PunchingBag({
 
         const release = () => {
             const c = charge.current;
-            if (!c) return; 
+            if (!c) return;
             charge.current = null;
             setControls(true);
             document.body.style.cursor = "auto";
@@ -203,11 +203,11 @@ export default function PunchingBag({
             // if (!b || broken) return;
             if (!b) return;
 
-            
+
             const held = Math.min((performance.now() - c.start) / 1000 / maxHoldTime, 1);
             const power = minPunch + (maxPunch - minPunch) * held;
 
-            
+
             const impulse = c.dir.clone().multiplyScalar(punchStrength * power);
             b.applyImpulseAtPoint(impulse, c.point, true);
 
@@ -226,9 +226,9 @@ export default function PunchingBag({
             window.removeEventListener("blur", cancel);
             document.body.style.cursor = "auto";
         };
-    }, [broken, minPunch, maxPunch, maxHoldTime, punchStrength, unbreakable, breakPunchPower, onBreak]);
+    }, [broken, minPunch, maxPunch, punchStrength, maxHoldTime, unbreakable, breakPunchPower, onBreak, setControls]);
 
-    
+
     const handleContactForce = (p: { totalForceMagnitude: number }) => {
         if (unbreakable || broken) return;
         if (performance.now() - bornAt.current < 1500) return;

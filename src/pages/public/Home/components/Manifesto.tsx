@@ -83,31 +83,31 @@ function Statement() {
 
 /* ---------- Count up ---------- */
 
+
 function CountUp({ value }: { value: number }) {
     const ref = useRef<HTMLSpanElement>(null);
-    const reduceMotion = useReducedMotion();
+    const reduceMotion = useReducedMotion() ?? false;
     const inView = useInView(ref, { once: true, amount: 0.6 });
     const [display, setDisplay] = useState(0);
 
     useEffect(() => {
-        if (!inView) return;
-        if (reduceMotion) {
-            setDisplay(value);
-            return;
-        }
+        if (!inView || reduceMotion) return;
+
         const controls = animate(0, value, {
             duration: 1.8,
             ease: "easeOut",
             onUpdate: (v) => setDisplay(Math.round(v)),
         });
+
         return () => controls.stop();
     }, [inView, value, reduceMotion]);
 
+    const shown = reduceMotion ? value : display;
+
     return (
         <span ref={ref}>
-            {/* Screen readers get the final number, not the ticking one */}
             <span className="sr-only">{value.toLocaleString()}</span>
-            <span aria-hidden="true">{display.toLocaleString()}</span>
+            <span aria-hidden="true">{shown.toLocaleString()}</span>
         </span>
     );
 }

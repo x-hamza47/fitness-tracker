@@ -1,12 +1,15 @@
 import { useMemo, useRef, type RefObject } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { Vector3 } from "three";
 
 type Vec3 = [number, number, number];
 
 export type CameraRigProps = {
+    
     progress: RefObject<{ value: number }>;
+    
     endPosition: Vec3;
+    
     endTarget: Vec3;
 };
 
@@ -19,8 +22,6 @@ type OrbitLike = {
 };
 
 export default function CameraRig({ progress, endPosition, endTarget }: CameraRigProps) {
-    const controls = useThree((s) => s.controls) as unknown as OrbitLike | null;
-
     const active = useRef(false);
     const startPos = useRef(new Vector3());
     const startTarget = useRef(new Vector3());
@@ -29,12 +30,14 @@ export default function CameraRig({ progress, endPosition, endTarget }: CameraRi
     const endT = useMemo(() => new Vector3(...endTarget), [endTarget]);
     const look = useMemo(() => new Vector3(), []);
 
-    useFrame(({ camera }) => {
+    useFrame((state) => {
+        const controls = state.controls as unknown as OrbitLike | null;
         if (!controls) return;
 
+        const camera = state.camera;
         const t = progress.current.value;
 
-
+        
         if (t <= 0.001) {
             if (active.current) {
                 active.current = false;
@@ -46,12 +49,14 @@ export default function CameraRig({ progress, endPosition, endTarget }: CameraRi
             return;
         }
 
+        
         if (!active.current) {
             active.current = true;
             startPos.current.copy(camera.position);
             startTarget.current.copy(controls.target);
         }
 
+        
         controls.enabled = false;
 
         const e = easeInOut(Math.min(t, 1));

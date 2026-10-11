@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import type { RapierRigidBody } from "@react-three/rapier";
 import { Plane, Quaternion, Raycaster, Vector3 } from "three";
@@ -46,18 +46,21 @@ export function useDragBody(
     const tmp = useRef(new Vector3());
     const tmp2 = useRef(new Vector3());
 
-    const setControls = (enabled: boolean) => {
+
+    const setControls = useCallback((enabled: boolean) => {
         const controls = get().controls as unknown as { enabled: boolean } | null;
         if (controls) controls.enabled = enabled;
-    };
+    }, [get]);
 
-    const release = () => {
+
+    const release = useCallback(() => {
         if (!dragging.current) return;
+
         dragging.current = false;
         setControls(true);
         bodyRef.current?.setAngularDamping(restAngularDamping);
         document.body.style.cursor = "auto";
-    };
+    }, [bodyRef, restAngularDamping, setControls]);
 
     useEffect(() => {
         window.addEventListener("pointerup", release);
@@ -69,7 +72,7 @@ export function useDragBody(
             window.removeEventListener("blur", release);
             document.body.style.cursor = "auto";
         };
-    }, []);
+    }, [release]);
 
     useFrame(({ pointer, camera }, delta) => {
         const body = bodyRef.current;
