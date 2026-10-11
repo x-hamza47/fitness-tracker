@@ -20,11 +20,15 @@ function Hero() {
                 fill="#f59e0b"
             />
 
-            <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-10 sm:gap-12 lg:flex-row lg:justify-between lg:gap-8">
+            <div className="absolute inset-0 z-0">
+                <div className="absolute inset-y-0 right-0 w-full">
+                    <HeroVisuals />
+                </div>
+            </div>
+            <div className="relative z-10 mx-auto flex w-full max-w-7xl select-none pointer-events-none">
 
-                {/* Left */}
                 <motion.div
-                    className="w-full lg:w-1/2"
+                    className="w-full lg:w-1/2 pointer-events-auto"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -104,16 +108,6 @@ function Hero() {
                             Explore Features
                         </SpecularButton>
                     </motion.div>
-                </motion.div>
-
-                {/* Right */}
-                <motion.div
-                    className="w-full lg:w-1/2"
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                >
-                    <HeroVisuals />
                 </motion.div>
             </div>
 
