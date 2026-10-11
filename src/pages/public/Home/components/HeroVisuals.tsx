@@ -4,6 +4,9 @@ import { Physics, RigidBody, CuboidCollider, type RapierRigidBody } from "@react
 import { useRef, useEffect, Suspense } from "react";
 import { Object3D, SpotLight, Group } from "three";
 import Dumbbell from "@/components/three/models/Dumbbell";
+import PunchingBag from "@/components/three/models/PunchingBag";
+import SmallDumbbell from "@/components/three/models/SmallDumbbell";
+import WaterBottle from "@/components/three/models/WaterBottle";
 
 const ROOM_HEIGHT = 15;
 const ROOM_WIDTH = 25;
@@ -25,6 +28,17 @@ function Floor() {
             <mesh position={[0, -0.5, ROOM_CENTER_Z]} receiveShadow>
                 <boxGeometry args={[ROOM_WIDTH, 1, ROOM_LENGTH]} />
                 <meshStandardMaterial color="#181818" roughness={0.5} metalness={0} />
+            </mesh>
+        </RigidBody>
+    );
+}
+
+function Ceiling() {
+    return (
+        <RigidBody type="fixed" colliders="cuboid" restitution={0.6} friction={0.8}>
+            <mesh position={[0, ROOM_HEIGHT + 0.5, ROOM_CENTER_Z]}>
+                <boxGeometry args={[ROOM_WIDTH, 1, ROOM_LENGTH]} />
+                <meshStandardMaterial color="#141414" roughness={0.8} />
             </mesh>
         </RigidBody>
     );
@@ -57,7 +71,7 @@ function RightBoundary() {
     );
 }
 
-/* ---------- lights ---------- */
+
 function BoxSpotlight({
     center = STACK_CENTER,
     height = STACK_HEIGHT,
@@ -93,7 +107,7 @@ function BoxSpotlight({
             <object3D ref={targetRef} position={[center[0], height * 0.3, center[1]]} />
             <spotLight
                 ref={light}
-                position={[center[0], height * 3, center[1]]}
+                position={[center[0], ROOM_HEIGHT - 1, center[1]]}
                 color={color}
                 intensity={intensity}
                 angle={angle}
@@ -156,7 +170,7 @@ function StackPointLight({
     );
 }
 
-/* ---------- boxes ---------- */
+
 type TrainingBoxProps = {
     position: [number, number, number];
     color: string;
@@ -168,33 +182,33 @@ function TrainingBox({ position, color, size }: TrainingBoxProps) {
     const body = useRef<RapierRigidBody>(null);
     const squashGroup = useRef<Group>(null);
 
-    const squash = useRef(0);      // 0 = normal, negative = squashed flat
+    const squash = useRef(0);
     const squashVel = useRef(0);
-    const lastSpeed = useRef(0);   // speed from the previous frame (before impact)
+    const lastSpeed = useRef(0);
 
     useFrame((_, delta) => {
         const dt = Math.min(delta, 1 / 30);
 
-        // remember speed BEFORE a collision resolves
+
         const v = body.current?.linvel();
         if (v) lastSpeed.current = Math.hypot(v.x, v.y, v.z);
 
-        // spring that returns the visual to normal
-        const k = 300; // higher = snappier return
-        const c = 12;  // lower = more jelly wobble
+
+        const k = 300;
+        const c = 12;
         squashVel.current += (-k * squash.current - c * squashVel.current) * dt;
         squash.current += squashVel.current * dt;
 
         const g = squashGroup.current;
         if (g) {
             g.scale.set(1 - squash.current * 0.5, 1 + squash.current, 1 - squash.current * 0.5);
-            g.position.y = half * squash.current; // keeps the base on the floor
+            g.position.y = half * squash.current;
         }
     });
 
     const onHit = () => {
         const speed = lastSpeed.current;
-        if (speed < 1) return; // ignore tiny touches while settling
+        if (speed < 1) return;
         squashVel.current = -Math.min(speed * 0.25, 2.5);
     };
 
@@ -288,25 +302,31 @@ function TrainingBoxes({
     );
 }
 
-/* ---------- scene ---------- */
+
 function HeroVisuals() {
     return (
         <div className="h-svh w-full">
-            <Canvas shadows="percentage" camera={{ position: [7, 5, 6], fov: 45 }}>
+            <Canvas shadows="percentage" camera={{ position: [7, 5, 6], fov: 43 }}>
                 <OrbitControls
                     makeDefault
                     enableZoom={false}
                     enablePan={false}
                     target={[STACK_CENTER[0] - 2, 3, STACK_CENTER[1]]}
+                    minPolarAngle={Math.PI / 2.9}   // how high you can look from (stops going over the roof)
+                    maxPolarAngle={Math.PI / 2.05}  // how low (stops going under the floor)
+                    minAzimuthAngle={-Math.PI / 8}  // left limit
+                    maxAzimuthAngle={Math.PI / 2.7}   // right limit
                 />
 
                 <ambientLight intensity={0.3} />
                 <directionalLight position={[-6, 8, 2]} intensity={1} />
-                <StackPointLight offset={[1, -2.5, 3]} showMarker color="#ff5500" />
+                <StackPointLight offset={[1, -2.5, 5]} color="#ff5500" />
+                <StackPointLight offset={[1, -2.5, -5]} color="#ff5500" />
                 <BoxSpotlight angle={0.6} intensity={1600} />
 
                 <Physics gravity={[0, -9.81, 0]}>
                     <Floor />
+                    <Ceiling />
                     <Wall
                         position={[-ROOM_WIDTH / 2, ROOM_HEIGHT / 2, ROOM_CENTER_Z]}
                         size={[0.3, ROOM_HEIGHT, ROOM_LENGTH]}
@@ -319,6 +339,24 @@ function HeroVisuals() {
                     <TrainingBoxes />
                     <Suspense fallback={null}>
                         <Dumbbell position={[0, 2, -4.5]} rotation={[0, 0, 0]} />
+                        <SmallDumbbell position={[3, 2, -15]} />
+                        <SmallDumbbell position={[STACK_CENTER[0], STACK_HEIGHT + 1.5, STACK_CENTER[1]]} rotation={[0, Math.PI / 1.7, 0]} />
+                        <WaterBottle position={[3, 3, -12]} />
+                        <WaterBottle position={[-2, 1.5, -6]} />
+                        <WaterBottle position={[0.3, 5, -12]} />
+                        <PunchingBag
+                            position={[5, -18]}
+                            ceilingY={ROOM_HEIGHT}
+                            size={12}
+                            floorGap={2}
+                            bagFraction={0.6}
+                            mass={70}
+                            minPunch={3} 
+                            maxPunch={14}      
+                            maxHoldTime={1.5}     
+                            punchStrength={30}    
+                            breakForce={500000}
+                        />
                     </Suspense>
                 </Physics>
             </Canvas>
