@@ -1,91 +1,329 @@
-import { motion } from "motion/react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { RoundedBox, OrbitControls } from "@react-three/drei";
+import { Physics, RigidBody, CuboidCollider, type RapierRigidBody } from "@react-three/rapier";
+import { useRef, useEffect, Suspense } from "react";
+import { Object3D, SpotLight, Group } from "three";
+import Dumbbell from "@/components/three/models/Dumbbell";
 
-export default function HeroVisuals() {
+const ROOM_HEIGHT = 15;
+const ROOM_WIDTH = 25;
+const ROOM_LENGTH = 30;
+const ROOM_CENTER_Z = -ROOM_LENGTH / 2;
+const BACK_Z = -ROOM_LENGTH;
+
+const SIZE = 2.5;
+const ROWS = 3;
+const DROP_HEIGHT = 0.1;
+const STACK_CENTER: [number, number] = [0, ROOM_CENTER_Z];
+const STACK_HEIGHT = ROWS * SIZE * 1.02;
+
+
+
+function Floor() {
     return (
-        <div className="relative flex w-full max-w-xl items-center justify-center lg:w-[48%]">
-            <div className="relative aspect-square w-full max-w-130 overflow-hidden rounded-[2.5rem]">
+        <RigidBody type="fixed" colliders="cuboid" restitution={0.6} friction={0.8}>
+            <mesh position={[0, -0.5, ROOM_CENTER_Z]} receiveShadow>
+                <boxGeometry args={[ROOM_WIDTH, 1, ROOM_LENGTH]} />
+                <meshStandardMaterial color="#181818" roughness={0.5} metalness={0} />
+            </mesh>
+        </RigidBody>
+    );
+}
 
-                {/* Soft light behind the object */}
-                <div className="absolute left-1/2 top-[42%] h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-(--color-accent)/10 blur-3xl" />
+type WallProps = {
+    position: [number, number, number];
+    size: [number, number, number];
+};
 
-                {/* Floor */}
-                <div className="absolute bottom-[16%] left-1/2 h-px w-[70%] -translate-x-1/2 bg-white/10" />
+function Wall({ position, size }: WallProps) {
+    return (
+        <RigidBody type="fixed" colliders="cuboid" restitution={0.6} friction={0.8}>
+            <mesh position={position} receiveShadow>
+                <boxGeometry args={size} />
+                <meshStandardMaterial color="#171717" roughness={0.75} metalness={0.05} />
+            </mesh>
+        </RigidBody>
+    );
+}
 
-                <div className="absolute bottom-[16%] left-1/2 h-32 w-[65%] -translate-x-1/2 bg-[radial-gradient(ellipse,rgba(255,255,255,0.08),transparent_70%)] blur-xl" />
+function RightBoundary() {
+    return (
+        <RigidBody type="fixed" restitution={0.6} friction={0.8}>
+            <CuboidCollider
+                args={[0.15, ROOM_HEIGHT / 2, ROOM_LENGTH / 2]}
+                position={[ROOM_WIDTH / 2, ROOM_HEIGHT / 2, ROOM_CENTER_Z]}
+            />
+        </RigidBody>
+    );
+}
 
-                {/* Floating dumbbell */}
-                <motion.div
-                    className="absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2"
-                    animate={{
-                        y: [-8, 8, -8],
-                        rotate: [-2, 2, -2],
-                    }}
-                    transition={{
-                        duration: 5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
+/* ---------- lights ---------- */
+function BoxSpotlight({
+    center = STACK_CENTER,
+    height = STACK_HEIGHT,
+    color = "#ffd9a0",
+    intensity = 400,
+    angle = 0.9,
+    penumbra = 0.8,
+    distance = 100,
+    decay = 2,
+    shadows = true,
+}: {
+    center?: [number, number];
+    height?: number;
+    color?: string;
+    intensity?: number;
+    angle?: number;
+    penumbra?: number;
+    distance?: number;
+    decay?: number;
+    shadows?: boolean;
+}) {
+    const light = useRef<SpotLight>(null);
+    const targetRef = useRef<Object3D>(null);
+
+    useEffect(() => {
+        if (light.current && targetRef.current) {
+            light.current.target = targetRef.current;
+        }
+    }, []);
+
+    return (
+        <>
+            <object3D ref={targetRef} position={[center[0], height * 0.3, center[1]]} />
+            <spotLight
+                ref={light}
+                position={[center[0], height * 3, center[1]]}
+                color={color}
+                intensity={intensity}
+                angle={angle}
+                penumbra={penumbra}
+                distance={distance}
+                decay={decay}
+                castShadow={shadows}
+                shadow-mapSize={[2048, 2048]}
+                shadow-radius={4}
+                shadow-bias={-0.0005}
+                shadow-normalBias={0.02}
+            />
+        </>
+    );
+}
+
+type StackPointLightProps = {
+    center?: [number, number];
+    height?: number;
+    color?: string;
+    intensity?: number;
+    distance?: number;
+    decay?: number;
+    offset?: [number, number, number];
+    showMarker?: boolean;
+};
+
+function StackPointLight({
+    center = STACK_CENTER,
+    height = STACK_HEIGHT,
+    color = "#ff17cd",
+    intensity = 160,
+    distance = 50,
+    decay = 2,
+    offset = [0, 0, 0],
+    showMarker = false,
+}: StackPointLightProps) {
+    const position: [number, number, number] = [
+        center[0] + offset[0],
+        height * 1.6 + offset[1],
+        center[1] + offset[2],
+    ];
+
+    return (
+        <>
+            <pointLight
+                position={position}
+                color={color}
+                intensity={intensity}
+                distance={distance}
+                decay={decay}
+            />
+            {showMarker && (
+                <mesh position={position}>
+                    <sphereGeometry args={[0.15, 16, 16]} />
+                    <meshBasicMaterial color={color} />
+                </mesh>
+            )}
+        </>
+    );
+}
+
+/* ---------- boxes ---------- */
+type TrainingBoxProps = {
+    position: [number, number, number];
+    color: string;
+    size: number;
+};
+
+function TrainingBox({ position, color, size }: TrainingBoxProps) {
+    const half = size / 2;
+    const body = useRef<RapierRigidBody>(null);
+    const squashGroup = useRef<Group>(null);
+
+    const squash = useRef(0);      // 0 = normal, negative = squashed flat
+    const squashVel = useRef(0);
+    const lastSpeed = useRef(0);   // speed from the previous frame (before impact)
+
+    useFrame((_, delta) => {
+        const dt = Math.min(delta, 1 / 30);
+
+        // remember speed BEFORE a collision resolves
+        const v = body.current?.linvel();
+        if (v) lastSpeed.current = Math.hypot(v.x, v.y, v.z);
+
+        // spring that returns the visual to normal
+        const k = 300; // higher = snappier return
+        const c = 12;  // lower = more jelly wobble
+        squashVel.current += (-k * squash.current - c * squashVel.current) * dt;
+        squash.current += squashVel.current * dt;
+
+        const g = squashGroup.current;
+        if (g) {
+            g.scale.set(1 - squash.current * 0.5, 1 + squash.current, 1 - squash.current * 0.5);
+            g.position.y = half * squash.current; // keeps the base on the floor
+        }
+    });
+
+    const onHit = () => {
+        const speed = lastSpeed.current;
+        if (speed < 1) return; // ignore tiny touches while settling
+        squashVel.current = -Math.min(speed * 0.25, 2.5);
+    };
+
+    return (
+        <RigidBody
+            ref={body}
+            position={position}
+            restitution={0.3}
+            friction={0.9}
+            linearDamping={0.3}
+            angularDamping={1}
+            onCollisionEnter={onHit}
+        >
+            <CuboidCollider args={[half, half, half]} restitution={0.3} friction={0.9} />
+            <group ref={squashGroup}>
+                <RoundedBox
+                    args={[size, size, size]}
+                    radius={size * 0.18}
+                    smoothness={5}
+                    castShadow
+                    receiveShadow
                 >
-                    {/* Left weight */}
-                    <div className="absolute right-27 top-1/2 h-24 w-12 -translate-y-1/2 rounded-xl border border-white/15 bg-[#202020] shadow-2xl">
-                        <div className="absolute left-1/2 top-1/2 h-14 w-1 -translate-x-1/2 -translate-y-1/2 bg-white/10" />
-                    </div>
+                    <meshPhysicalMaterial
+                        color={color}
+                        roughness={0.4}
+                        metalness={0}
+                        clearcoat={1}
+                        clearcoatRoughness={0.15}
+                        sheen={0.7}
+                        sheenRoughness={0.4}
+                        sheenColor="#ffffff"
+                    />
+                </RoundedBox>
+            </group>
+        </RigidBody>
+    );
+}
 
-                    {/* Left inner plate */}
-                    <div className="absolute right-20.5 top-1/2 h-16 w-8 -translate-y-1/2 rounded-lg bg-[#181818]" />
+const COLORS = ["#c93a3a", "#e8a23a", "#3f73c9", "#4fb06a", "#b84bc2", "#e8c34a", "#34aeb8"];
 
-                    {/* Handle */}
-                    <div className="h-5 w-52 rounded-full border border-white/10 bg-[#292929] shadow-lg">
-                        <div className="absolute left-1/2 top-1/2 h-3 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#111111]" />
-                    </div>
+type TrainingBoxesProps = {
+    size?: number;
+    center?: [number, number];
+    rows?: number;
+    dropHeight?: number;
+    frontBox?: boolean;
+};
 
-                    {/* Right inner plate */}
-                    <div className="absolute left-20.5 top-1/2 h-16 w-8 -translate-y-1/2 rounded-lg bg-[#181818]" />
+function TrainingBoxes({
+    size = SIZE,
+    center = STACK_CENTER,
+    rows = ROWS,
+    dropHeight = DROP_HEIGHT,
+    frontBox = true,
+}: TrainingBoxesProps) {
+    const gap = size * 0.02;
+    const s = size + gap;
+    const [cx, cz] = center;
 
-                    {/* Right weight */}
-                    <div className="absolute left-27 top-1/2 h-24 w-12 -translate-y-1/2 rounded-xl border border-white/15 bg-[#202020] shadow-2xl">
-                        <div className="absolute left-1/2 top-1/2 h-14 w-1 -translate-x-1/2 -translate-y-1/2 bg-white/10" />
-                    </div>
+    const boxes: { position: [number, number, number]; color: string }[] = [];
+    let n = 0;
 
-                    {/* Small amber detail */}
-                    <div className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-(--color-accent)/60 bg-(--color-accent)/20" />
-                </motion.div>
+    for (let r = 0; r < rows; r++) {
+        const count = rows - r;
+        for (let i = 0; i < count; i++) {
+            boxes.push({
+                position: [cx + (i - (count - 1) / 2) * s, size / 2 + r * s + dropHeight, cz],
+                color: COLORS[n++ % COLORS.length],
+            });
+        }
+    }
 
-                {/* Floating block - left */}
-                <motion.div
-                    className="absolute bottom-[27%] left-[17%] h-14 w-14 rotate-12 rounded-xl border border-white/10 bg-[#1b1b1b] shadow-xl"
-                    animate={{ y: [-4, 4, -4] }}
-                    transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
+    if (frontBox) {
+        boxes.push({
+            position: [cx + 0.3, size / 2 + dropHeight, cz + s * 1.15],
+            color: COLORS[n % COLORS.length],
+        });
+    }
+
+    return (
+        <>
+            {boxes.map((box, i) => (
+                <TrainingBox
+                    key={`${size}-${rows}-${cx}-${cz}-${i}`}
+                    position={box.position}
+                    color={box.color}
+                    size={size}
+                />
+            ))}
+        </>
+    );
+}
+
+/* ---------- scene ---------- */
+function HeroVisuals() {
+    return (
+        <div className="h-svh w-full">
+            <Canvas shadows="percentage" camera={{ position: [7, 5, 6], fov: 45 }}>
+                <OrbitControls
+                    makeDefault
+                    enableZoom={false}
+                    enablePan={false}
+                    target={[STACK_CENTER[0] - 2, 3, STACK_CENTER[1]]}
                 />
 
-                {/* Floating block - right */}
-                <motion.div
-                    className="absolute bottom-[25%] right-[18%] h-20 w-20 -rotate-6 rounded-2xl border border-white/10 bg-[#181818] shadow-xl"
-                    animate={{ y: [4, -4, 4] }}
-                    transition={{
-                        duration: 4.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                    }}
-                />
+                <ambientLight intensity={0.3} />
+                <directionalLight position={[-6, 8, 2]} intensity={1} />
+                <StackPointLight offset={[1, -2.5, 3]} showMarker color="#ff5500" />
+                <BoxSpotlight angle={0.6} intensity={1600} />
 
-                {/* Small amber accent */}
-                <motion.div
-                    className="absolute right-[24%] top-[24%] h-2 w-2 rounded-full bg-(--color-accent)"
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                    }}
-                />
-
-                {/* Subtle vignette */}
-                <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.35)_100%)]" />
-            </div>
+                <Physics gravity={[0, -9.81, 0]}>
+                    <Floor />
+                    <Wall
+                        position={[-ROOM_WIDTH / 2, ROOM_HEIGHT / 2, ROOM_CENTER_Z]}
+                        size={[0.3, ROOM_HEIGHT, ROOM_LENGTH]}
+                    />
+                    <Wall
+                        position={[0, ROOM_HEIGHT / 2, BACK_Z]}
+                        size={[ROOM_WIDTH, ROOM_HEIGHT, 0.3]}
+                    />
+                    <RightBoundary />
+                    <TrainingBoxes />
+                    <Suspense fallback={null}>
+                        <Dumbbell position={[0, 2, -4.5]} rotation={[0, 0, 0]} />
+                    </Suspense>
+                </Physics>
+            </Canvas>
         </div>
     );
 }
+
+export default HeroVisuals;
