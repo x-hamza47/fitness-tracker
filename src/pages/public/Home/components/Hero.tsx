@@ -52,7 +52,7 @@ function Hero() {
             ref={sectionRef}
             className="relative flex min-h-svh items-center overflow-hidden px-4 pt-28 pb-24 sm:px-6 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-24"
         >
-            {}
+         
             <div
                 className="pointer-events-none absolute inset-0 z-0 bg-size-[48px_48px] bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] mask-[radial-gradient(ellipse_at_center,black_30%,transparent_75%)] md:bg-size-[88px_88px]"
             />
@@ -94,9 +94,9 @@ function Hero() {
                         />
                     </motion.span>
 
-                    {}
+               
                     <motion.h1
-                        className="text-4xl font-semibold tracking-tight min-[400px]:text-5xl sm:text-6xl md:font-bold lg:text-6xl xl:text-7xl"
+                        className="text-4xl font-semibold tracking-tight min-[400px]:text-5xl sm:text-6xl md:font-bold lg:text-6xl xl:text-6xl"
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
@@ -111,7 +111,7 @@ function Hero() {
                         </span>
                     </motion.h1>
 
-                    {}
+                  
                     <motion.p
                         className="mt-5 max-w-lg text-sm leading-6 text-white/50 sm:mt-6 sm:text-base sm:leading-7"
                         initial={{ opacity: 0, y: 15 }}
@@ -122,7 +122,7 @@ function Hero() {
                         Turn your training data into measurable performance.
                     </motion.p>
 
-                    {}
+                
                     <motion.div
                         className="mt-4 flex w-fit flex-col gap-3 sm:flex-row sm:items-center lg:mt-5 pointer-events-auto"
                         initial={{ opacity: 0, y: 15 }}
@@ -155,7 +155,7 @@ function Hero() {
                 </motion.div>
             </div>
 
-            {}
+        
             <div ref={cueRef} className="pointer-events-none absolute inset-0">
                 <motion.div
                     className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-xs tracking-[0.25em] text-white/30 sm:flex [@media(max-height:700px)]:hidden"
