@@ -60,10 +60,10 @@ interface RoutineRow {
 }
 
 const ROUTINE: readonly RoutineRow[] = [
-    { name: "Barbell Bench Press", sets: "4 × 6–8", weight: "100 kg" },
-    { name: "Incline Dumbbell Press", sets: "4 × 8–10", weight: "32 kg" },
-    { name: "Overhead Press", sets: "3 × 6–8", weight: "60 kg" },
-    { name: "Cable Fly", sets: "3 × 12–15", weight: "20 kg" },
+    { name: "Barbell Bench Press", sets: "4 × 6-8", weight: "100 kg" },
+    { name: "Incline Dumbbell Press", sets: "4 × 8-10", weight: "32 kg" },
+    { name: "Overhead Press", sets: "3 × 6-8", weight: "60 kg" },
+    { name: "Cable Fly", sets: "3 × 12-15", weight: "20 kg" },
 ];
 
 const RoutineVisual = memo(function RoutineVisual() {

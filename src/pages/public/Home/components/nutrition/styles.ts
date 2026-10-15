@@ -1,0 +1,1 @@
+export const labelClass = "text-[10px] font-medium tracking-[0.22em] text-white/40 uppercase";

@@ -791,10 +791,14 @@ const MagicBento = ({
     glow
   };
   const settingsRef = useRef(settings);
-  settingsRef.current = settings;
-
+  useEffect(() => {
+    cellRefs.current.length = items.length;
+    cardRefs.current.length = items.length;
+    starRefs.current.length = items.length;
+  }, [items.length]);
   useIsomorphicLayoutEffect(() => {
     const root = rootRef.current;
+    settingsRef.current = settings;
     if (!root) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -964,11 +968,11 @@ const MagicBento = ({
       const margin = s.spotlightRadius * 0.5;
       const near =
         pointer.inside &&
-        bounds &&
-        pointer.x > bounds.left - margin &&
-        pointer.x < bounds.right + margin &&
-        pointer.y > bounds.top - margin &&
-        pointer.y < bounds.bottom + margin
+          bounds &&
+          pointer.x > bounds.left - margin &&
+          pointer.x < bounds.right + margin &&
+          pointer.y > bounds.top - margin &&
+          pointer.y < bounds.bottom + margin
           ? 1
           : 0;
       if (!light.ready && near) {
@@ -1289,9 +1293,6 @@ const MagicBento = ({
   const corner = Math.max(0, radius);
   const span = Math.max(1, cols);
 
-  cellRefs.current.length = items.length;
-  cardRefs.current.length = items.length;
-  starRefs.current.length = items.length;
 
   return (
     <div
