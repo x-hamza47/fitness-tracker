@@ -1,9 +1,7 @@
 import Hero from "./components/Hero";
 import Manifesto from "./components/Manifesto";
-import WorkoutTracking from "./components/WorkoutTracking";
-import ProgressAnalytics from "./components/ProgressAnalytics";
+import TrainingProgress from "./components/TrainingProgress";
 import NutritionTracking from "./components/NutritionTracking";
-import DashboardPreview from "./components/DashboardPreview";
 import FinalCTA from "./components/FinalCTA";
 
 export default function Home() {
@@ -11,10 +9,8 @@ export default function Home() {
         <>
             <Hero />
             <Manifesto />
-            <WorkoutTracking />
-            <ProgressAnalytics />
+            <TrainingProgress />
             <NutritionTracking />
-            <DashboardPreview />
             <FinalCTA />
         </>
     );

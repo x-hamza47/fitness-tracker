@@ -1,29 +1,60 @@
 import { motion } from "motion/react";
-import MagicButton from "@/components/ui/MagicButton";
+import { Link } from "react-router-dom";
+import { IconArrowUpRight } from "@tabler/icons-react";
 
 export default function FinalCTA() {
     return (
-        <section className="relative overflow-hidden bg-(--color-bg) px-4 py-32 sm:px-6 sm:py-44">
-            <div className="relative z-10 mx-auto max-w-7xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                    <span className="text-xs font-medium tracking-[0.25em] text-(--color-accent) uppercase">
-                        07
-                    </span>
-                    <h2 className="mt-6 max-w-4xl text-5xl leading-[0.95] font-bold tracking-tighter text-white uppercase sm:text-7xl lg:text-8xl">
-                        Start <span className="text-(--color-accent)">forging</span> today
-                    </h2>
-                    <div className="mt-10">
-                        <MagicButton title="Get Started" className="w-full sm:w-auto" />
-                    </div>
-                </motion.div>
+        <section
+            id="get-started"
+            className="relative w-full overflow-hidden border-y border-white/10 bg-[#070709] px-4 py-10 sm:px-6 sm:py-12"
+        >
+            {/* Glow from the right edge */}
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{
+                    background:
+                        "radial-gradient(50% 140% at 90% 50%, rgb(255 106 0 / 0.2), transparent 70%)",
+                }}
+            />
 
-                {/* Slot: reuse hero grid + Spotlight here, or add an image of your 3D objects */}
-            </div>
+            <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="relative mx-auto flex max-w-7xl flex-col items-start gap-6 md:flex-row md:items-center md:justify-between"
+            >
+                <div>
+                    <h2 className="text-2xl leading-tight font-semibold tracking-tighter text-(--color-text) uppercase sm:text-3xl">
+                        Stop guessing.{" "}
+                        <span className="text-(--color-accent-dark)">Start forging.</span>
+                    </h2>
+                    <p className="mt-2 text-sm text-(--color-text-muted)">
+                        Every rep, every meal, every session in one place.
+                    </p>
+                </div>
+
+                <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                    <Link
+                        to="/register"
+                        className="group/btn flex items-center justify-center gap-2 rounded-sm bg-(--color-accent-dark) px-6 py-3 text-sm font-bold tracking-wide text-black uppercase shadow-[0_8px_30px_-8px_rgb(255_106_0/0.6)] transition-[filter] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                    >
+                        Start tracking
+                        <IconArrowUpRight
+                            size={16}
+                            aria-hidden="true"
+                            className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+                        />
+                    </Link>
+                    <a
+                        href="#features"
+                        className="flex items-center justify-center rounded-sm border border-white/15 px-6 py-3 text-sm font-semibold tracking-wide text-white/70 uppercase transition-colors hover:border-white/30 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                    >
+                        See features
+                    </a>
+                </div>
+            </motion.div>
         </section>
     );
 }

@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/resizable-navbar";
 
 const navItems = [
+    { name: "Home", link: "#home" },
     { name: "Features", link: "#features" },
     { name: "Workouts", link: "#workouts" },
     { name: "Nutrition", link: "#nutrition" },
-    { name: "Progress", link: "#progress" },
 ];
 
 function ForgeLogo() {

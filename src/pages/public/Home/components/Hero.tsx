@@ -4,11 +4,11 @@ import HeroVisuals from "./HeroVisuals";
 import MagicButton from "@/components/ui/MagicButton";
 import SpecularButton from "@/components/ui/SpecularButton";
 import { Spotlight } from "@/components/ui/Spotlight";
-import ShinyText from "@/components/ui/ShinyText";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 const words = ["STRENGTH", "DISCIPLINE", "PROGRESS", "PERFORMANCE"];
@@ -25,7 +25,7 @@ function Hero() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=150%", 
+                    end: "+=150%",
                     scrub: 0.6,
                     pin: true,
                     anticipatePin: 1,
@@ -33,10 +33,10 @@ function Hero() {
                 },
             });
 
-            
+
             tl.to(progress.current, { value: 1, ease: "none", duration: 1 }, 0);
 
-            
+
             tl.to(
                 contentRef.current,
                 { opacity: 0, y: -60, ease: "power1.in", duration: 0.35 },
@@ -52,7 +52,7 @@ function Hero() {
             ref={sectionRef}
             className="relative flex min-h-svh items-center overflow-hidden px-4 pt-28 pb-24 sm:px-6 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-24"
         >
-         
+
             <div
                 className="pointer-events-none absolute inset-0 z-0 bg-size-[48px_48px] bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] mask-[radial-gradient(ellipse_at_center,black_30%,transparent_75%)] md:bg-size-[88px_88px]"
             />
@@ -63,7 +63,7 @@ function Hero() {
 
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-y-0 right-0 w-full">
-                   <HeroVisuals progress={progress} />
+                    <HeroVisuals progress={progress} />
                 </div>
             </div>
             <div
@@ -77,24 +77,12 @@ function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <motion.span
-                        className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-(--color-accent-dark)/40 bg-(--color-accent-dark)/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-white/70 backdrop-blur-sm sm:gap-3 sm:px-4 sm:text-xs sm:tracking-[0.25em]"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                    >
-                        <span className="text-(--color-accent-dark)">01</span>
-                        <span className="h-3 w-px bg-white/20" />
-                        <ShinyText
-                            text="Personal Performance System"
-                            speed={4}
-                            color="#a1a1aa"
-                            shineColor="#f5f5f5"
-                            spread={120}
-                        />
-                    </motion.span>
+                    <SectionEyebrow
+                        index="01"
+                        text="Personal Performance System"
+                    />
 
-               
+
                     <motion.h1
                         className="text-4xl font-semibold tracking-tight min-[400px]:text-5xl sm:text-6xl md:font-bold lg:text-6xl xl:text-6xl"
                         initial={{ opacity: 0, y: 15 }}
@@ -111,7 +99,7 @@ function Hero() {
                         </span>
                     </motion.h1>
 
-                  
+
                     <motion.p
                         className="mt-5 max-w-lg text-sm leading-6 text-white/50 sm:mt-6 sm:text-base sm:leading-7"
                         initial={{ opacity: 0, y: 15 }}
@@ -122,7 +110,7 @@ function Hero() {
                         Turn your training data into measurable performance.
                     </motion.p>
 
-                
+
                     <motion.div
                         className="mt-4 flex w-fit flex-col gap-3 sm:flex-row sm:items-center lg:mt-5 pointer-events-auto"
                         initial={{ opacity: 0, y: 15 }}
@@ -155,7 +143,7 @@ function Hero() {
                 </motion.div>
             </div>
 
-        
+
             <div ref={cueRef} className="pointer-events-none absolute inset-0">
                 <motion.div
                     className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-xs tracking-[0.25em] text-white/30 sm:flex [@media(max-height:700px)]:hidden"
