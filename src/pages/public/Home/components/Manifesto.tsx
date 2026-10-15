@@ -11,9 +11,9 @@ import { usePublicStats } from "@/hooks/usePublicStats";
 import LaserFlow from "@/components/ui/LaserFlow";
 import dashboardPreview from "@/assets/dashboard-preview.jpeg";
 import dashboardReveal from "@/assets/dashboard-reveal.jpeg";
-import ShinyText from "@/components/ui/ShinyText";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import CountUp from "@/components/ui/CountUp";
+import SectionEyebrow from "@/components/ui/SectionEyebrow";
 
 
 const FEATURES = [
@@ -228,7 +228,7 @@ function Manifesto() {
         return () => mq.removeEventListener("change", onChange);
     }, []);
     return (
-        <section className="relative overflow-hidden bg-(--color-bg) px-4 pb-24 sm:px-6 sm:pb-32" id="features">
+        <section className="relative overflow-hidden bg-[#030304] px-4 pb-24 sm:px-6 sm:pb-32" id="features">
             <div className="absolute inset-0 z-0">
                 <LaserFlow
                     surfaceRef={cardRef}
@@ -260,22 +260,10 @@ function Manifesto() {
 
             <div className="relative z-10 mx-auto max-w-7xl pt-20 sm:pt-24">
 
-                <motion.span
-                    className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-(--color-accent-dark)/40 bg-(--color-accent-dark)/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-white/70 backdrop-blur-sm sm:gap-3 sm:px-4 sm:text-xs sm:tracking-[0.25em]"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                    <span className="text-(--color-accent-dark)">02</span>
-                    <span className="h-3 w-px bg-white/20" />
-                    <ShinyText
-                        text="The Philosophy"
-                        speed={4}
-                        color="#a1a1aa"
-                        shineColor="#f5f5f5"
-                        spread={120}
-                    />
-                </motion.span>
+                <SectionEyebrow
+                    index="02"
+                    text="The Philosophy"
+                />
 
                 <div className="grid items-start gap-10 pt-8 sm:gap-12 sm:pt-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
                     <div className="flex flex-col gap-4 sm:gap-6">

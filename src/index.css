@@ -24,11 +24,23 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  background: #030304;
+  /* background: var(--color-bg); */
   color: var(--color-text);
   font-family: sans-serif;
 }
 
+
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; 
+}
 
 @theme inline {
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
