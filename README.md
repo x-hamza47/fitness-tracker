@@ -1,186 +1,144 @@
 <div align="center">
 
+<img src="src/assets/forge-logo.webp" alt="Forge logo" width="96" />
+
 # Forge
 
-**<!-- One-line tagline describing Forge -->**
+**Workout and nutrition tracker. Log every rep and meal, and turn your training data into measurable progress.**
 
-<!-- Optional: add a logo here -->
-<!-- <img src="docs/images/logo.png" alt="Forge logo" width="120" /> -->
-
-[Screenshots](#-screenshots--demo) · [Demo](#-project-demo) · [Features](#features) · [Installation](#installation) · [Contributing](#contributing)
+[Features](#features) · [Tech Stack](#tech-stack) · [Getting Started](#getting-started) · [Project Structure](#project-structure) · [Roadmap](#roadmap) · [License](#license) · [Author](#author)
 
 </div>
 
 ---
 
-<!-- Short description: 2-3 sentences on what Forge is and who it is for. -->
+## About
 
----
+Forge is a personal performance system for people who train seriously. It brings workout logging, nutrition tracking, and progress insights into one place, so training data becomes something you can measure and act on.
 
-## 📸 Screenshots & Demo
+The public landing page is live. The authenticated dashboard is under development (see the [Roadmap](#roadmap)).
 
-> Screenshots below are placeholders. Add the image files to `docs/images/` (see [Visual Documentation](#visual-documentation)) and they will render automatically.
-
-### Landing Page
-
-<!-- Add landing page screenshot here -->
-![Forge Landing Page](docs/images/landing-page.png)
-
-### Dashboard
-
-<!-- Add dashboard screenshot here -->
-![Forge Dashboard](docs/images/dashboard.png)
-
-### Workout Tracking
-
-<!-- Add workout tracking screenshot here -->
-![Workout Tracking](docs/images/workout-tracking.png)
-
-### Progress & Statistics
-
-<!-- Add progress screenshot here -->
-![Progress Tracking](docs/images/progress.png)
-
-### Mobile Experience
-
-<!-- Add mobile screenshots here -->
-![Forge Mobile Experience](docs/images/mobile.png)
-
----
-
-## 🎬 Feature Demonstrations
-
-> Animated GIF placeholders. Record each flow, save it to `docs/gifs/`, and keep the filenames below (or update the links).
-
-### Authentication
-
-<!-- Add authentication demo GIF here (sign up, log in, log out) -->
-![Authentication Demo](docs/gifs/authentication.gif)
-
-### Workout Creation
-
-<!-- Add workout creation demo GIF here -->
-![Workout Creation Demo](docs/gifs/workout-creation.gif)
-
-### Workout Tracking
-
-<!-- Add workout tracking demo GIF here -->
-![Workout Tracking Demo](docs/gifs/workout-tracking.gif)
-
-### Progress Charts
-
-<!-- Add progress charts demo GIF here -->
-![Progress Charts Demo](docs/gifs/progress-charts.gif)
-
-### Dashboard Interactions
-
-<!-- Add dashboard interactions demo GIF here -->
-![Dashboard Demo](docs/gifs/dashboard.gif)
-
-### Other Interactive Features
-
-<!-- Add any additional feature GIFs here, e.g. settings, exercise library, history filtering -->
-<!-- ![Feature Name Demo](docs/gifs/feature-name.gif) -->
-
----
-
-## 🎥 Project Demo
-
-> 🎥 A complete walkthrough of Forge will be added here.
-
-<!-- Add YouTube/video link here -->
-<!-- Example format: [![Forge Demo](docs/images/demo-thumbnail.png)](VIDEO_URL_HERE) -->
-
----
-
-## Visual Documentation
-
-README media lives in a `docs/` directory at the repository root. This is the suggested layout:
-
-```text
-docs/
-├── images/
-│   ├── landing-page.png
-│   ├── dashboard.png
-│   ├── workout-tracking.png
-│   ├── progress.png
-│   └── mobile.png
-│
-├── gifs/
-│   ├── authentication.gif
-│   ├── workout-creation.gif
-│   ├── workout-tracking.gif
-│   ├── progress-charts.gif
-│   └── dashboard.gif
-│
-└── demo/
-    └── forge-demo.mp4
-```
-
-These are documentation assets and are not yet part of the repository. Add them as they are produced, and replace them whenever the UI changes so the README stays accurate.
-
-A few tips:
-
-- Keep screenshots consistent in size and theme (for example, all at the same viewport width).
-- Keep GIFs short (under ~15 seconds) and compressed so the README loads quickly.
-- GitHub does not embed `.mp4` files from the repository reliably, so link to a hosted video (such as YouTube) from the [Project Demo](#-project-demo) section.
-
----
-
-## About Forge
-
-<!-- Describe the project: the problem it solves, the motivation, and the main idea. -->
+**Live site:** TODO: add your deployed URL
 
 ## Features
 
-<!-- List the real, implemented features of Forge. -->
+**Available now (landing site)**
 
-- 
+- Scroll-driven hero with interactive 3D fitness models (dumbbells, punching bag, water bottle)
+- Animated product sections: philosophy, nutrition tracking, and training progress
+- Interactive nutrition target calculator
+- Live community statistics (workouts logged, personal records, meals tracked) from the public API
+- Responsive layout with accessible, semantic markup
+- SEO setup: meta tags, Open Graph image, `sitemap.xml`, `robots.txt`, web app manifest
+
+**In development**
+
+- User authentication
+- Dashboard with workout logging, nutrition tracking, and progress charts
 
 ## Tech Stack
 
-<!-- List frontend, backend, database, tooling, etc. -->
-
 | Layer | Technology |
 | ----- | ---------- |
-|       |            |
+| Framework | React, TypeScript, Vite |
+| Styling | Tailwind CSS |
+| Animation | Motion, GSAP (ScrollTrigger) |
+| 3D | Three.js (GLB models) |
+| Data fetching | TanStack Query |
+| Routing | React Router |
+| Icons | Tabler Icons |
+| UI components | Custom components, some adapted from Aceternity UI |
+| Tooling | ESLint, GitHub Actions CI |
 
-## Architecture
+> TODO: add your backend and database here once they are finalized.
 
-<!-- High-level overview of how the application is structured. A diagram can be added at docs/images/architecture.png. -->
+## Getting Started
 
-## Installation
+### Prerequisites
 
-<!-- Prerequisites and step-by-step setup. -->
+- Node.js 20 or later
+- npm
+
+### Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd forge
+git clone https://github.com/x-hamza47/TODO-REPO-NAME.git
+cd TODO-REPO-NAME
 
-# Add install and run commands here
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
 ```
 
-## Development
+### Environment variables
 
-<!-- How to run the project locally, project scripts, environment variables, code style. -->
+Create a `.env` file in the project root (it is git-ignored):
 
-## Testing
+```env
+VITE_API_URL=TODO
+```
 
-<!-- How to run the test suite. -->
+> TODO: check `src/lib/api.ts` and match the variable name your code actually reads.
 
-```bash
-# Add test commands here
+### Scripts
+
+| Command | Description |
+| ------- | ----------- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Create a production build |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview the production build |
+
+> TODO: confirm these against the `scripts` section of `package.json`.
+
+## Project Structure
+
+```text
+src/
+├── app/            # Providers and router
+├── assets/         # Images, logo, team photos
+├── components/
+│   ├── common/     # Shared components (navbar)
+│   ├── three/      # 3D scene, camera rig, models
+│   └── ui/         # Reusable UI components
+├── hooks/          # Custom hooks
+├── layouts/        # Page layouts
+├── lib/            # API client and utilities
+├── pages/
+│   ├── public/     # Landing page and its sections
+│   └── dashboard/  # Authenticated dashboard (in progress)
+└── services/       # API service functions
 ```
 
 ## CI/CD
 
-<!-- Describe the pipeline: what runs on pull requests, how deployments happen. -->
+GitHub Actions runs on every push and pull request (see `.github/workflows/ci.yml`).
 
-## Contributing
+> TODO: list what the workflow runs (for example lint and build) and how deployment works.
 
-<!-- Contribution guidelines: branching, commit style, pull request process. -->
+## Roadmap
+
+- [x] Landing page
+- [x] Nutrition target calculator
+- [x] SEO foundations
+- [ ] Authentication
+- [ ] Dashboard
+- [ ] Workout logging
+- [ ] Nutrition tracking
+- [ ] Progress charts and insights
+- [ ] Automated tests
+
+## License
+
+Copyright (c) 2026 Hamza Aamir. All rights reserved.
+
+This code is provided for viewing purposes only. See [LICENSE](./LICENSE) for details.
 
 ## Author
 
-<!-- Your name and links. -->
+**Hamza Aamir**, Full-Stack Developer
+
+[GitHub](https://github.com/x-hamza47) · [LinkedIn](https://www.linkedin.com/in/YOUR_LINKEDIN) · [Portfolio](https://hamzaamir-portfolio.web.app/)
