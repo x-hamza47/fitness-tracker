@@ -56,7 +56,7 @@ The public landing page is live. The authenticated dashboard is under developmen
 
 ### Prerequisites
 
-- Node.js 20 or later
+- Node.js 22 or later
 - npm
 
 ### Installation
@@ -112,9 +112,7 @@ src/
 
 ## CI/CD
 
-GitHub Actions runs on every push and pull request (see `.github/workflows/ci.yml`).
-
-> TODO: list what the workflow runs (for example lint and build) and how deployment works.
+GitHub Actions (see [`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs on every push and pull request to the `master` and `develop` branches. The pipeline checks out the code, sets up Node.js 22, installs dependencies with `npm ci`, runs ESLint, and builds the project, so broken code is caught before it is merged.
 
 ## Roadmap
 
