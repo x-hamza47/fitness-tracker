@@ -63,8 +63,8 @@ The public landing page is live. The authenticated dashboard is under developmen
 
 ```bash
 # Clone the repository
-git clone https://github.com/x-hamza47/TODO-REPO-NAME.git
-cd TODO-REPO-NAME
+git clone https://github.com/x-hamza47/fitness-tracker
+cd fitness-tracker
 
 # Install dependencies
 npm install
@@ -78,7 +78,7 @@ npm run dev
 Create a `.env` file in the project root (it is git-ignored):
 
 ```env
-VITE_API_URL=TODO
+VITE_API_URL=[TODO](http://localhost:5000/api)
 ```
 
 > TODO: check `src/lib/api.ts` and match the variable name your code actually reads.
@@ -141,4 +141,4 @@ This code is provided for viewing purposes only. See [LICENSE](./LICENSE) for de
 
 **Hamza Aamir**, Full-Stack Developer
 
-[GitHub](https://github.com/x-hamza47) · [LinkedIn](https://www.linkedin.com/in/YOUR_LINKEDIN) · [Portfolio](https://hamzaamir-portfolio.web.app/)
+[GitHub](https://github.com/x-hamza47) · [LinkedIn](https://www.linkedin.com/in/hamza-aamir-dev/) · [Portfolio](https://hamzaamir-portfolio.web.app/)
