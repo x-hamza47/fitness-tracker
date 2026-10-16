@@ -50,7 +50,7 @@ function Hero() {
     return (
         <section
             ref={sectionRef}
-            className="relative flex min-h-svh items-center overflow-hidden px-4 pt-28 pb-24 sm:px-6 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-24"
+            className="relative flex min-h-svh items-center overflow-hidden px-4 pt-28 pb-24 sm:px-6 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-24" id="home"
         >
 
             <div

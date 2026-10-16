@@ -3,6 +3,7 @@ import Manifesto from "./components/Manifesto";
 import TrainingProgress from "./components/TrainingProgress";
 import NutritionTracking from "./components/NutritionTracking";
 import FinalCTA from "./components/FinalCTA";
+import Footer from "./components/Footer";
 
 export default function Home() {
     return (
@@ -12,6 +13,7 @@ export default function Home() {
             <TrainingProgress />
             <NutritionTracking />
             <FinalCTA />
+            <Footer/>
         </>
     );
 }
