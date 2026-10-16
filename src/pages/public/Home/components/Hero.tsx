@@ -89,13 +89,18 @@ function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                        BUILD YOUR <br />
-
-                        <span className="inline-block min-w-[11ch]">
-                            <FlipWords
-                                words={words}
-                                className="text-(--color-accent-dark)! p-0"
-                            />
+                        <span className="sr-only">
+                            Build your strength, discipline, progress and performance with
+                            Forge, the workout and nutrition tracker
+                        </span>
+                        <span aria-hidden="true">
+                            BUILD YOUR <br />
+                            <span className="inline-block min-w-[11ch]">
+                                <FlipWords
+                                    words={words}
+                                    className="text-(--color-accent-dark)! p-0"
+                                />
+                            </span>
                         </span>
                     </motion.h1>
 
