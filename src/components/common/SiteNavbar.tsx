@@ -10,6 +10,7 @@ import {
     NavbarButton,
 } from "@/components/ui/resizable-navbar";
 import { useAuthStore, useIsAuthenticated } from "@/stores/authStore";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
     { name: "Home", link: "/#home" },
@@ -33,6 +34,7 @@ export default function SiteNavbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const isAuthenticated = useIsAuthenticated();
     const logout = useAuthStore((s) => s.logout);
+    const navigate = useNavigate();
 
     return (
         <Navbar>
@@ -44,9 +46,19 @@ export default function SiteNavbar() {
 
 
                 {isAuthenticated ? (
-                    <NavbarButton as="button" variant="primary" onClick={logout}>
-                        Log out
-                    </NavbarButton>
+                    <div className="relative z-20 flex items-center gap-2">
+                        <NavbarButton
+                            as="button"
+                            variant="secondary"
+                            className="bg-(--color-accent)"
+                            onClick={() => navigate("/dashboard")}
+                        >
+                            Dashboard
+                        </NavbarButton>
+                        <NavbarButton as="button" variant="primary" onClick={logout}>
+                            Log out
+                        </NavbarButton>
+                    </div>
                 ) : (
                     <NavbarButton variant="primary" href="/auth">
                         Sign in
@@ -82,19 +94,32 @@ export default function SiteNavbar() {
                         </a>
                     ))}
 
-    
+
                     {isAuthenticated ? (
-                        <NavbarButton
-                            as="button"
-                            variant="primary"
-                            className="w-full"
-                            onClick={() => {
-                                logout();
-                                setIsMobileMenuOpen(false);
-                            }}
-                        >
-                            Log out
-                        </NavbarButton>
+                        <>
+                            <NavbarButton
+                                as="button"
+                                // variant="secondary"
+                                className="w-full bg-(--color-accent-dark)"
+                                onClick={() => {
+                                    navigate("/dashboard");
+                                    setIsMobileMenuOpen(false);
+                                }}
+                            >
+                                Dashboard
+                            </NavbarButton>
+                            <NavbarButton
+                                as="button"
+                                variant="primary"
+                                className="w-full"
+                                onClick={() => {
+                                    logout();
+                                    setIsMobileMenuOpen(false);
+                                }}
+                            >
+                                Log out
+                            </NavbarButton>
+                        </>
                     ) : (
                         <NavbarButton
                             variant="primary"
