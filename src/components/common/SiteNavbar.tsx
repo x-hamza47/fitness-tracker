@@ -9,12 +9,13 @@ import {
     MobileNavMenu,
     NavbarButton,
 } from "@/components/ui/resizable-navbar";
+import { useAuthStore, useIsAuthenticated } from "@/stores/authStore";
 
 const navItems = [
-    { name: "Home", link: "#home" },
-    { name: "Features", link: "#features" },
-    { name: "Workouts", link: "#workouts" },
-    { name: "Nutrition", link: "#nutrition" },
+    { name: "Home", link: "/#home" },
+    { name: "Features", link: "/#features" },
+    { name: "Workouts", link: "/#workouts" },
+    { name: "Nutrition", link: "/#nutrition" },
 ];
 
 function ForgeLogo() {
@@ -30,6 +31,8 @@ function ForgeLogo() {
 
 export default function SiteNavbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const isAuthenticated = useIsAuthenticated();
+    const logout = useAuthStore((s) => s.logout);
 
     return (
         <Navbar>
@@ -39,9 +42,16 @@ export default function SiteNavbar() {
 
                 <NavItems items={navItems} />
 
-                <NavbarButton variant="primary">
-                    Start Training
-                </NavbarButton>
+
+                {isAuthenticated ? (
+                    <NavbarButton as="button" variant="primary" onClick={logout}>
+                        Log out
+                    </NavbarButton>
+                ) : (
+                    <NavbarButton variant="primary" href="/auth">
+                        Sign in
+                    </NavbarButton>
+                )}
             </NavBody>
 
             {/* Mobile */}
@@ -72,13 +82,29 @@ export default function SiteNavbar() {
                         </a>
                     ))}
 
-                    <NavbarButton
-                        variant="primary"
-                        className="w-full"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Start Training
-                    </NavbarButton>
+    
+                    {isAuthenticated ? (
+                        <NavbarButton
+                            as="button"
+                            variant="primary"
+                            className="w-full"
+                            onClick={() => {
+                                logout();
+                                setIsMobileMenuOpen(false);
+                            }}
+                        >
+                            Log out
+                        </NavbarButton>
+                    ) : (
+                        <NavbarButton
+                            variant="primary"
+                            href="/auth"
+                            className="w-full"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Sign in
+                        </NavbarButton>
+                    )}
                 </MobileNavMenu>
             </MobileNav>
         </Navbar>
