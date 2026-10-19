@@ -31,7 +31,7 @@ export default function LoginForm({
         <div className="relative flex h-full flex-col overflow-y-auto p-6 sm:p-8">
             <div
                 aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-(--color-accent-dark)/70 to-transparent"
+                className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-(--color-accent-dark)/70 to-transparent "
             />
 
             <p className="text-[11px] tracking-[0.2em] text-(--color-accent-dark) uppercase">
