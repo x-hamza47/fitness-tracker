@@ -4,6 +4,8 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import Home from "../../pages/public/Home/Home";
 import AuthPage from "../../pages/auth/AuthPage";
+import Overview from "@/pages/dashboard/Overview/Overview";
+import Workouts from "@/pages/dashboard/Workouts/Workouts";
 
 function Placeholder({ title }: { title: string }) {
     return (
@@ -29,8 +31,8 @@ const router = createBrowserRouter([
             {
                 element: <DashboardLayout />,
                 children: [
-                    { index: true, element: <Placeholder title="Overview" /> },
-                    { path: "workouts", element: <Placeholder title="Workouts" /> },
+                    { index: true, element: <Overview /> },
+                    { path: "workouts", element: <Workouts /> },
                     { path: "nutrition", element: <Placeholder title="Nutrition" /> },
                     { path: "progress", element: <Placeholder title="Progress" /> },
                 ],
