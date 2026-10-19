@@ -15,59 +15,104 @@
   <meta name="theme-color" content="#000000" />
 
   <!-- Primary SEO -->
-  <title>Forge - Workout & Nutrition Tracker</title>
+  <title>Forge Fitness Tracker - Free Workout Log, Planner & Nutrition Tracker</title>
 
   <meta name="description"
-    content="Plan workouts, track training progress, and manage nutrition with Forge, a fitness tracker built to help you develop consistency and measure progress." />
-  <meta name="robots" content="index, follow" />
+    content="Forge is a free fitness tracker to plan workouts, log sets and reps, track gym progress, and monitor nutrition and calories. Build consistency and see your results." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://forge-fitness-tracker-sigma.vercel.app/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Forge" />
-  <meta property="og:title" content="Forge - Fitness & Workout Tracker" />
+  <meta property="og:title" content="Forge Fitness Tracker - Workout Log & Nutrition Tracker" />
   <meta property="og:description"
-    content="Plan workouts, log sets and reps, and track progress with a simple fitness tracker." />
+    content="Plan workouts, log sets and reps, track gym progress and nutrition with a simple, free fitness tracker." />
   <meta property="og:url" content="https://forge-fitness-tracker-sigma.vercel.app/" />
   <meta property="og:image" content="https://forge-fitness-tracker-sigma.vercel.app/images/og.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Forge fitness and workout tracker" />
+  <meta property="og:image:alt" content="Forge fitness tracker - workout log and nutrition tracker" />
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Forge - Fitness & Workout Tracker" />
+  <meta name="twitter:title" content="Forge Fitness Tracker - Workout Log & Nutrition Tracker" />
   <meta name="twitter:description"
-    content="Plan workouts, log sets and reps, and track progress with a simple fitness tracker." />
+    content="Plan workouts, log sets and reps, track gym progress and nutrition with a simple, free fitness tracker." />
   <meta name="twitter:image" content="https://forge-fitness-tracker-sigma.vercel.app/images/og.png" />
+
+  <!-- Structured data: WebSite -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "@id": "https://forge-fitness-tracker-sigma.vercel.app/#app",
-  "name": "Forge",
-  "url": "https://forge-fitness-tracker-sigma.vercel.app/",
-  "description": "A fitness tracking application for workout planning, training progress, and nutrition.",
-  "applicationCategory": "HealthApplication",
-  "operatingSystem": "Web Browser",
-  "image": "https://forge-fitness-tracker-sigma.vercel.app/images/og.png",
-  "creator": {
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Forge",
+    "alternateName": ["Forge Fitness Tracker", "Forge Workout Tracker", "Forge Gym Log"],
+    "url": "https://forge-fitness-tracker-sigma.vercel.app/"
+  }
+  </script>
+
+  <!-- Structured data: App -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://forge-fitness-tracker-sigma.vercel.app/#app",
+    "name": "Forge Fitness Tracker",
+    "alternateName": "Forge",
+    "url": "https://forge-fitness-tracker-sigma.vercel.app/",
+    "description": "A free fitness tracker for workout planning, gym logging (sets and reps), progress tracking, and nutrition and calorie tracking.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Web Browser",
+    "image": "https://forge-fitness-tracker-sigma.vercel.app/images/og.png",
+    "keywords": "fitness tracker, workout tracker, workout planner, gym log, sets and reps tracker, exercise log, nutrition tracker, calorie tracker, progress tracker, strength training log",
+    "featureList": [
+      "Workout planning",
+      "Log sets and reps",
+      "Training progress tracking",
+      "Nutrition and calorie tracking"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": { "@id": "https://hamzaamir-portfolio.web.app/#person" }
+  }
+  </script>
+
+  <!-- Structured data: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
     "@type": "Person",
     "@id": "https://hamzaamir-portfolio.web.app/#person",
     "name": "Hamza Aamir",
-    "jobTitle": "Software Developer",
     "url": "https://hamzaamir-portfolio.web.app/",
+    "jobTitle": "Full-Stack Developer",
     "sameAs": [
-      "https://github.com/x-hamza47"
+      "https://github.com/x-hamza47",
+      "https://www.linkedin.com/in/hamza-aamir-dev/"
     ]
   }
-}
-</script>
+  </script>
 </head>
 
 <body>
   <div id="root"></div>
+
+  <!-- Crawler-readable content (React replaces #root once JS loads) -->
+  <noscript>
+    <h1>Forge Fitness Tracker - Workout Log, Planner & Nutrition Tracker</h1>
+    <p>Forge helps you plan workouts, log sets and reps, track gym progress, and monitor nutrition and calories.</p>
+    <ul>
+      <li>Workout planner and exercise log</li>
+      <li>Strength training progress tracker</li>
+      <li>Nutrition and calorie tracker</li>
+    </ul>
+  </noscript>
+
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
