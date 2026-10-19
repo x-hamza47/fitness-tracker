@@ -9,7 +9,7 @@
   --color-text: #f5f5f5;
   --color-text-muted: #8a8a8a;
 
-  --color-accent: #f59e0b;
+  --color-accent: #f5900b;
   --color-accent-dark: #b45309;
 
   /* Forge UI */
@@ -41,7 +41,20 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none; 
 }
+/* Chrome, Edge, Safari autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-text-fill-color: white;
+    caret-color: white;
 
+    /* Replace the browser's autofill background */
+    -webkit-box-shadow: 0 0 0 1000px #11100f inset;
+    box-shadow: 0 0 0 1000px #11100f inset;
+
+    transition: background-color 9999s ease-in-out 0s;
+}
 @theme inline {
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
 }
@@ -56,4 +69,12 @@ body::-webkit-scrollbar {
     opacity: 1;
     transform: translate(-50%, -40%) scale(1);
   }
+}
+@utility no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
