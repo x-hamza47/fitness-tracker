@@ -116,7 +116,9 @@ const FlipCard: React.FC<FlipCardProps> = ({
     const [dragging, setDragging] = useState(false);
     const shown = controlled ? flipped : inner;
     const shownRef = useRef(shown);
-    shownRef.current = shown;
+    useEffect(() => {
+        shownRef.current = shown;
+    }, [shown]);
     const rootRef = useRef<HTMLDivElement>(null);
     const grip = useRef<Grip | null>(null);
     const spin = useRef<AnimationPlaybackControls | null>(null);
@@ -182,7 +184,9 @@ const FlipCard: React.FC<FlipCardProps> = ({
         if (disabled || e.button !== 0 || grip.current) return;
         try {
             e.currentTarget.setPointerCapture(e.pointerId);
-        } catch { }
+        } catch {
+            // Capture can fail if the pointer is already gone. The drag still works without it.
+        }
         spin.current?.stop();
         grip.current = {
             id: e.pointerId,
@@ -231,7 +235,9 @@ const FlipCard: React.FC<FlipCardProps> = ({
         grip.current = null;
         try {
             if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
-        } catch { }
+        } catch {
+            // The pointer may already be released. Nothing to clean up.
+        }
         setDragging(false);
         if (e.pointerType === 'touch' || !rootRef.current?.matches(':hover')) rest();
         if (!g.moved) {

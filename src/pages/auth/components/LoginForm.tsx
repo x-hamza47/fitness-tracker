@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconArrowUpRight } from "@tabler/icons-react";
 import { loginSchema, type LoginValues } from "@/schemas/authSchema";
 import FormField from "./FormField";
 

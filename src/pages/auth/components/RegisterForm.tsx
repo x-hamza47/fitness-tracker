@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconArrowUpRight } from "@tabler/icons-react";
 import { registerSchema, type RegisterValues } from "@/schemas/authSchema";
 import FormField from "./FormField";
 
@@ -29,7 +28,7 @@ export default function RegisterForm({
     });
 
     const busy = isSubmitting || isPending;
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
     const submit = handleSubmit(({ confirmPassword: _confirm, ...payload }) =>
         onSubmit(payload)
     );

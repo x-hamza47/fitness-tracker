@@ -1,16 +1,16 @@
 import type { Icon } from "@tabler/icons-react";
 import {
     IconBarbell,
-    IconBell,
-    IconCompass,
-    IconFileAnalytics,
+    // IconBell,
+    // IconCompass,
+    // IconFileAnalytics,
     IconLayoutDashboard,
-    IconLifebuoy,
-    IconMessages,
-    IconSettings,
+    // IconLifebuoy,
+    // IconMessages,
+    // IconSettings,
     IconToolsKitchen2,
     IconTrendingUp,
-    IconUsers,
+    // IconUsers,
 } from "@tabler/icons-react";
 
 /** Keys for live counters shown as a badge next to a nav item. */
@@ -46,23 +46,23 @@ export const NAV_GROUPS: NavGroup[] = [
             { name: "Progress", to: "/dashboard/progress", icon: IconTrendingUp, mobileTab: true },
         ],
     },
-    {
-        label: "Community",
-        items: [
-            { name: "Discover", to: "/dashboard/discover", icon: IconCompass },
-            { name: "Followers", to: "/dashboard/followers", icon: IconUsers },
-            { name: "Forum", to: "/dashboard/forum", icon: IconMessages },
-        ],
-    },
-    {
-        label: "Account",
-        items: [
-            { name: "Notifications", to: "/dashboard/notifications", icon: IconBell, badge: "notifications" },
-            { name: "Reports", to: "/dashboard/reports", icon: IconFileAnalytics },
-            { name: "Settings", to: "/dashboard/settings", icon: IconSettings },
-            { name: "Support", to: "/dashboard/support", icon: IconLifebuoy },
-        ],
-    },
+    // {
+    //     label: "Community",
+    //     items: [
+    //         { name: "Discover", to: "/dashboard/discover", icon: IconCompass },
+    //         { name: "Followers", to: "/dashboard/followers", icon: IconUsers },
+    //         { name: "Forum", to: "/dashboard/forum", icon: IconMessages },
+    //     ],
+    // },
+    // {
+    //     label: "Account",
+    //     items: [
+    //         { name: "Notifications", to: "/dashboard/notifications", icon: IconBell, badge: "notifications" },
+    //         { name: "Reports", to: "/dashboard/reports", icon: IconFileAnalytics },
+    //         { name: "Settings", to: "/dashboard/settings", icon: IconSettings },
+    //         { name: "Support", to: "/dashboard/support", icon: IconLifebuoy },
+    //     ],
+    // },
 ];
 
 const ALL_ITEMS: NavItem[] = NAV_GROUPS.flatMap((group) => group.items);
