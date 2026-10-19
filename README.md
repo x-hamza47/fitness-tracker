@@ -18,7 +18,7 @@ Forge is a personal performance system for people who train seriously. It brings
 
 The public landing page is live. The authenticated dashboard is under development (see the [Roadmap](#roadmap)).
 
-**Live site:** TODO: add your deployed URL
+**Live site:** https://forge-fitness-tracker-sigma.vercel.app/
 
 ## Features
 
@@ -50,13 +50,13 @@ The public landing page is live. The authenticated dashboard is under developmen
 | UI components | Custom components, some adapted from Aceternity UI |
 | Tooling | ESLint, GitHub Actions CI |
 
-> TODO: add your backend and database here once they are finalized.
+
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 20 or later
+- Node.js 22 or later
 - npm
 
 ### Installation
@@ -78,10 +78,8 @@ npm run dev
 Create a `.env` file in the project root (it is git-ignored):
 
 ```env
-VITE_API_URL=[TODO](http://localhost:5000/api)
+VITE_API_URL=http://localhost:5000/api
 ```
-
-> TODO: check `src/lib/api.ts` and match the variable name your code actually reads.
 
 ### Scripts
 
@@ -92,7 +90,6 @@ VITE_API_URL=[TODO](http://localhost:5000/api)
 | `npm run lint` | Run ESLint |
 | `npm run preview` | Preview the production build |
 
-> TODO: confirm these against the `scripts` section of `package.json`.
 
 ## Project Structure
 
@@ -115,9 +112,7 @@ src/
 
 ## CI/CD
 
-GitHub Actions runs on every push and pull request (see `.github/workflows/ci.yml`).
-
-> TODO: list what the workflow runs (for example lint and build) and how deployment works.
+GitHub Actions (see [`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs on every push and pull request to the `master` and `develop` branches. The pipeline checks out the code, sets up Node.js 22, installs dependencies with `npm ci`, runs ESLint, and builds the project, so broken code is caught before it is merged.
 
 ## Roadmap
 
