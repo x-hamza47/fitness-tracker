@@ -5,7 +5,7 @@ export function WorkoutSkeletonGrid({ count = 6 }: { count?: number }) {
     return (
         <div aria-hidden="true" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {Array.from({ length: count }, (_, i) => (
-                <div key={i} className="animate-pulse rounded-sm border border-white/10 bg-white/[0.02] p-5">
+                <div key={i} className="animate-pulse rounded-sm border border-white/10 bg-white/2 p-5">
                     <div className="h-2.5 w-16 rounded bg-white/10" />
                     <div className="mt-4 h-5 w-40 rounded bg-white/10" />
                     <div className="mt-3 flex gap-2">

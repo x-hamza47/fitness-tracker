@@ -55,7 +55,7 @@ export default function WorkoutToolbar({
                         onChange={(e) => onChange({ search: e.target.value })}
                         placeholder="Search routines, tags or exercises"
                         aria-label="Search workouts"
-                        className="w-full rounded-sm border border-white/10 bg-white/[0.02] py-2 pr-9 pl-9 text-sm text-white placeholder:text-white/30 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none [&::-webkit-search-cancel-button]:hidden"
+                        className="w-full rounded-sm border border-white/10 bg-white/2 py-2 pr-9 pl-9 text-sm text-white placeholder:text-white/30 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none [&::-webkit-search-cancel-button]:hidden"
                     />
                     {filters.search && (
                         <button
