@@ -278,7 +278,7 @@ const FlipCard: React.FC<FlipCardProps> = ({
             aria-pressed={interactive ? undefined : shown}
             aria-label={ariaLabel}
             aria-disabled={disabled || undefined}
-            className={`group relative inline-block max-w-full cursor-pointer touch-pan-y select-none outline-none [width:var(--fc-w)] [height:var(--fc-h)]  [border-radius:var(--fc-radius)] [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] data-[axis=x]:touch-pan-x data-[draggable]:cursor-grab data-[dragging]:cursor-grabbing data-[disabled]:cursor-default data-[disabled]:opacity-60 data-[interactive]:cursor-default data-[interactive] :touch-auto data-[interactive]:select-auto [&_input]:select-text [&_input]:cursor-text${className ? ` ${className}` : ''}`}
+            className={`group relative inline-block max-w-full cursor-pointer touch-pan-y select-none outline-none w-(--fc-w) h-(--fc-h)  rounded-(--fc-radius) [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] data-[axis=x]:touch-pan-x data-draggable:cursor-grab data-dragging:cursor-grabbing data-disabled:cursor-default data-disabled:opacity-60 data-interactive:cursor-default data-[interactive] :touch-auto data-interactive:select-auto [&_input]:select-text [&_input]:cursor-text${className ? ` ${className}` : ''}`}
             data-axis={axis}
             data-interactive={interactive ? '' : undefined}
             data-draggable={draggable && !disabled && !reduce ? '' : undefined}
@@ -328,20 +328,20 @@ const FlipCard: React.FC<FlipCardProps> = ({
                     {front}
                     {glare ? (
                         <span
-                            className="pointer-events-none absolute inset-0 [opacity:var(--fc-sheen,0)] [background:radial-gradient(circle_farthest-side_at_var(--fc-gx,50%)_var(--fc-gy,50%),rgba(255,255,255,var(--fc-glare))_0%,rgba(255,255,255,calc(var(--fc-glare)*0.76))_12%,rgba(255,255,255,calc(var(--fc-glare)*0.5))_26%,rgba(255,255,255,calc(var(--fc-glare)*0.28))_42%,rgba(255,255,255,calc(var(--fc-glare)*0.12))_60%,rgba(255,255,255,calc(var(--fc-glare)*0.04))_78%,rgba(255,255,255,0)_100%)]"
+                            className="pointer-events-none absolute inset-0 opacity-(--fc-sheen,0) [background:radial-gradient(circle_farthest-side_at_var(--fc-gx,50%)_var(--fc-gy,50%),rgba(255,255,255,var(--fc-glare))_0%,rgba(255,255,255,calc(var(--fc-glare)*0.76))_12%,rgba(255,255,255,calc(var(--fc-glare)*0.5))_26%,rgba(255,255,255,calc(var(--fc-glare)*0.28))_42%,rgba(255,255,255,calc(var(--fc-glare)*0.12))_60%,rgba(255,255,255,calc(var(--fc-glare)*0.04))_78%,rgba(255,255,255,0)_100%)]"
                             aria-hidden="true"
                         />
                     ) : null}
                 </div>
                 <div
-                    className="absolute inset-0 overflow-hidden [border-radius:var(--fc-radius)] [background:var(--fc-bg)] [color:var(--fc-ink)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [&_img]:[-webkit-user-drag:none] group-data-[fade]:opacity-0 group-data-[fade]:[backface-visibility:visible] group-data-[fade]:[-webkit-backface-visibility:visible] group-data-[fade]:[transition:opacity_200ms_ease] [transform:rotateY(180deg)] group-data-[axis=x]:[transform:rotateX(180deg)] group-data-[fade]:[transform:none]! group-data-[fade=back]:opacity-100!"
+                    className="absolute inset-0 overflow-hidden rounded-(--fc-radius) [background:var(--fc-bg)] text-(--fc-ink) backface-hidden [-webkit-backface-visibility:hidden] [&_img]:[-webkit-user-drag:none] group-data-fade:opacity-0 group-data-fade:backface-visible group-data-fade:[-webkit-backface-visibility:visible] group-data-fade:[transition:opacity_200ms_ease] transform-[rotateY(180deg)] group-data-[axis=x]:transform-[rotateX(180deg)] group-data-fade:transform-none! group-data-[fade=back]:opacity-100!"
                     aria-hidden={!shown}
                     inert={!shown}
                 >
                     {back}
                     {glare ? (
                         <span
-                            className="pointer-events-none absolute inset-0 [opacity:var(--fc-sheen,0)] [background:radial-gradient(circle_farthest-side_at_var(--fc-gx,50%)_var(--fc-gy,50%),rgba(255,255,255,var(--fc-glare))_0%,rgba(255,255,255,calc(var(--fc-glare)*0.76))_12%,rgba(255,255,255,calc(var(--fc-glare)*0.5))_26%,rgba(255,255,255,calc(var(--fc-glare)*0.28))_42%,rgba(255,255,255,calc(var(--fc-glare)*0.12))_60%,rgba(255,255,255,calc(var(--fc-glare)*0.04))_78%,rgba(255,255,255,0)_100%)]"
+                            className="pointer-events-none absolute inset-0 opacity-(--fc-sheen,0) [background:radial-gradient(circle_farthest-side_at_var(--fc-gx,50%)_var(--fc-gy,50%),rgba(255,255,255,var(--fc-glare))_0%,rgba(255,255,255,calc(var(--fc-glare)*0.76))_12%,rgba(255,255,255,calc(var(--fc-glare)*0.5))_26%,rgba(255,255,255,calc(var(--fc-glare)*0.28))_42%,rgba(255,255,255,calc(var(--fc-glare)*0.12))_60%,rgba(255,255,255,calc(var(--fc-glare)*0.04))_78%,rgba(255,255,255,0)_100%)]"
                             aria-hidden="true"
                         />
                     ) : null}

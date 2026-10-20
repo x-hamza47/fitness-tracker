@@ -25,7 +25,7 @@ import { MEASUREMENT_KEYS, PERFORMANCE_METRIC_KEYS, type ProgressData } from "@/
 type TrendChartProps = {
     data: ProgressData;
     unitSystem: UnitSystem;
-    /** True while a new range is loading, the old chart stays visible but dimmed */
+    
     isFetching: boolean;
 };
 
@@ -34,11 +34,8 @@ type Series = {
     group: "Body" | "Performance";
     label: string;
     color: string;
-    /** t is a timestamp, so uneven gaps between check-ins are drawn to scale */
     points: { t: number; value: number }[];
-    /** Tooltip text, with the unit */
     format: (value: number) => string;
-    /** Axis tick text, without the unit */
     tick: (value: number) => string;
     goal: number | null;
 };
@@ -53,7 +50,7 @@ function toTime(iso: string): number {
 
 const timeToLabel = (t: number) => formatShortDate(toISODate(new Date(t)));
 
-/** Turns the API data into one series per thing you can chart, already in the user's units. */
+
 function buildSeries(data: ProgressData, unitSystem: UnitSystem): Series[] {
     const wUnit = weightUnit(unitSystem);
     const lUnit = lengthUnit(unitSystem);
@@ -124,7 +121,7 @@ export default function TrendChart({ data, unitSystem, isFetching }: TrendChartP
     const groups: Series["group"][] = ["Body", "Performance"];
 
     return (
-        <section aria-label="Trend chart" className="rounded-sm border border-white/10 bg-white/[0.02] p-5">
+        <section aria-label="Trend chart" className="rounded-sm border border-white/10 bg-white/2 p-5 backdrop-blur-sm">
             <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <h2 className="text-[10px] font-semibold tracking-[0.2em] text-white uppercase">Trends</h2>

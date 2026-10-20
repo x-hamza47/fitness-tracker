@@ -26,7 +26,7 @@ export default function BodyLog({ entries, unitSystem, onAdd, onEdit, onDelete }
     const unit = lengthUnit(unitSystem);
 
     return (
-        <section aria-label="Body check-ins" className="rounded-sm border border-white/10 bg-white/[0.02]">
+        <section aria-label="Body check-ins" className="rounded-sm border border-white/10 bg-white/2 backdrop-blur-sm">
             <header className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3">
                 <h2 className="text-[10px] font-semibold tracking-[0.2em] text-white uppercase">Check-ins</h2>
                 <button

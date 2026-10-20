@@ -169,7 +169,7 @@ export default function NutritionAnalytics({
     }
 
     return (
-        <section aria-label="Nutrition analytics" className="rounded-sm border border-white/10 bg-white/[0.02] p-5">
+        <section aria-label="Nutrition analytics" className="rounded-sm border border-white/10 bg-white/2 p-5 backdrop-blur-sm">
             <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <h2 className="text-[10px] font-semibold tracking-[0.2em] text-white uppercase">Analytics</h2>

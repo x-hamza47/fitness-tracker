@@ -89,7 +89,7 @@ export default function BodyForm({ formId, entry, defaultDate, unitSystem, onSub
                         type="date"
                         max={todayISO()}
                         {...register("date")}
-                        className={cn(INPUT, "[color-scheme:dark]")}
+                        className={cn(INPUT, "scheme-dark")}
                     />
                 </Field>
                 <Field label={`Weight (${weightUnit(unitSystem)})`} error={errors.weight?.message}>

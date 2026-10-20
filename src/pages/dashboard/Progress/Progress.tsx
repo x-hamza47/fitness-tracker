@@ -140,13 +140,13 @@ export default function Progress() {
             <div aria-hidden="true" className="space-y-4">
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
                     {Array.from({ length: 4 }, (_, i) => (
-                        <div key={i} className="h-24 animate-pulse rounded-sm border border-white/10 bg-white/[0.02]" />
+                        <div key={i} className="h-24 animate-pulse rounded-sm border border-white/10 bg-white/2" />
                     ))}
                 </div>
-                <div className="h-96 animate-pulse rounded-sm border border-white/10 bg-white/[0.02]" />
+                <div className="h-96 animate-pulse rounded-sm border border-white/10 bg-white/2" />
                 <div className="grid gap-4 lg:grid-cols-2">
-                    <div className="h-64 animate-pulse rounded-sm border border-white/10 bg-white/[0.02]" />
-                    <div className="h-64 animate-pulse rounded-sm border border-white/10 bg-white/[0.02]" />
+                    <div className="h-64 animate-pulse rounded-sm border border-white/10 bg-white/2" />
+                    <div className="h-64 animate-pulse rounded-sm border border-white/10 bg-white/2" />
                 </div>
             </div>
         );
