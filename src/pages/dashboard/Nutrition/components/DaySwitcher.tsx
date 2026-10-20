@@ -49,7 +49,7 @@ export default function DaySwitcher({ date, onChange }: DaySwitcherProps) {
                 value={date}
                 max={today}
                 onChange={(e) => e.target.value && onChange(e.target.value)}
-                className="rounded-sm border border-white/10 bg-white/[0.02] px-2 py-2 text-xs text-white [color-scheme:dark] focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                className="rounded-sm border border-white/10 bg-white/2 px-2 py-2 text-xs text-white scheme-dark focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             />
 
             {!isToday && (
