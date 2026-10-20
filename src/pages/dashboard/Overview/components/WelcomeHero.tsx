@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import heroImg from "@/assets/dashboard-reveal.jpeg";
+import heroImg from "@/assets/dashboard-reveal.webp";
 import type { ReminderLike } from "./CalendarCard";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -92,7 +92,7 @@ export default function WelcomeHero({ name, reminders = [], followers }: Props) 
     return (
         <section
             aria-label="Welcome"
-            className="relative flex h-full min-h-80 flex-col justify-between overflow-hidden rounded-2xl border border-white/15 p-6 shadow-[0_8px_32px_rgb(0_0_0/0.35)] sm:p-8"
+            className="relative flex h-full min-h-80 flex-col justify-between overflow-hidden rounded-2xl border border-white/15 p-6 shadow-[0_8px_32px_rgb(0_0_0/0.35)] backdrop-blur-sm sm:p-8"
         >
             { }
             <img

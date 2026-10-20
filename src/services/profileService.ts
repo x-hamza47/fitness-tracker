@@ -7,7 +7,7 @@ import type { UpdateProfilePayload, UserProfile } from "@/types/profile";
  */
 let mockProfile: UserProfile = {
     id: "1",
-    name: "Forge Athlete",
+    name: "Hamza Aamir",
     username: "forge_athlete",
     email: "athlete@forge.app",
     avatarUrl: null,

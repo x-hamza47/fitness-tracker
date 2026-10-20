@@ -18,7 +18,6 @@ const ICONS: Record<Reminder["kind"], Icon> = {
 };
 
 export default function Reminders({ data, isLoading, isError, onRetry }: RemindersProps) {
-    // Soonest first
     const sorted = data
         ? [...data].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
         : undefined;

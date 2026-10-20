@@ -56,10 +56,9 @@ export default function StatCard({
             className="h-full w-full items-stretch"
         >
             <CardBody className="group relative flex h-full w-full flex-col rounded-2xl border border-white/15 p-5 ">
-                {/* Glass layer: same idea as Manifesto, but it clips its own glow and shine */}
                 <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl bg-linear-to-br from-white/12 via-white/5 to-white/2 backdrop-blur-md"
+                    className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl bg-linear-to-br from-white/12 via-white/5 to-white/2 backdrop-blur-sm"
                 >
                     <div className="absolute -top-10 -right-10 size-32 rounded-full bg-(--color-accent)/20 opacity-60 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
                     <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full motion-reduce:hidden" />

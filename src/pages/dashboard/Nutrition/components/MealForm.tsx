@@ -178,7 +178,7 @@ export default function MealForm({
                     {fields.map((field, index) => {
                         const rowErrors = errors.items?.[index];
                         return (
-                            <li key={field.id} className="rounded-sm border border-white/10 bg-white/[0.02] p-3">
+                            <li key={field.id} className="rounded-sm border border-white/10 bg-white/2 p-3">
                                 <div className="flex items-start gap-2">
                                     <div className="min-w-0 flex-1 space-y-3">
                                         <Field label="Food" error={rowErrors?.name?.message}>
