@@ -37,7 +37,8 @@ export default function AuthPage() {
                     draggable
                     flipOnClick={false}
                     axis="y"
-                    tilt={false}
+                    tilt
+                    tiltMax={8}
                     glare={false}
                     shadow={false}
                     width={420}

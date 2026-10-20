@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, type CSSProperties } from 'react';
 
 const VERTEX = `#version 300 es
 precision highp float;
@@ -177,7 +177,7 @@ const DotGrid = ({
 }: DotGridProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<{ rebuild: () => void; refresh: () => void } | null>(null);
-  const settings = {
+  const settings = useMemo(() => ({
     dotSize,
     gap,
     baseColor,
@@ -199,10 +199,36 @@ const DotGrid = ({
     mouseInteraction,
     clickShock,
     paused,
-    dpr
-  };
+    dpr,
+  }), [
+    dotSize,
+    gap,
+    baseColor,
+    activeColor,
+    proximity,
+    strength,
+    bounce,
+    tension,
+    returnDuration,
+    shockRadius,
+    shockStrength,
+    swell,
+    stretch,
+    glow,
+    shape,
+    fade,
+    opacity,
+    intro,
+    mouseInteraction,
+    clickShock,
+    paused,
+    dpr,
+  ]);
+
   const settingsRef = useRef(settings);
-  settingsRef.current = settings;
+  useEffect(() => {
+    settingsRef.current = settings;
+  }, [settings]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -444,7 +470,7 @@ const DotGrid = ({
         energy[i] = Math.min(
           1,
           (Math.hypot(velocity[index] + wave[target + 2], velocity[index + 1] + wave[target + 3]) / 380) * 0.85 +
-            (Math.hypot(offset[index] + wave[target], offset[index + 1] + wave[target + 1]) / (grid.cell * 2.2)) * 0.35
+          (Math.hypot(offset[index] + wave[target], offset[index + 1] + wave[target + 1]) / (grid.cell * 2.2)) * 0.35
         );
       }
       for (let i = shocks.length - 1; i >= 0; i--) {
