@@ -67,7 +67,7 @@ export default function ChartCard({
     // Order matters: loading first, then error, then empty, then content
     let body: ReactNode;
     if (isLoading) {
-        body = <div aria-hidden="true" className="size-full animate-pulse rounded-sm bg-white/5" />;
+        body = <div aria-hidden="true" className="size-full animate-pulse rounded-sm bg-white/5 backdrop-blur-xs" />;
     } else if (isError) {
         body = (
             <CardMessage
@@ -97,7 +97,7 @@ export default function ChartCard({
         <section
             aria-labelledby={titleId}
             aria-busy={isLoading || isRefetching}
-            className={cn("flex flex-col rounded-sm border border-white/10 bg-white/[0.02] p-5", className)}
+            className={cn("flex flex-col rounded-sm border border-white/10 bg-white/2 p-5 backdrop-blur-sm", className)}
         >
             <header className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">

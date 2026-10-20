@@ -85,9 +85,9 @@ export default function Nutrition() {
     if (isLoading) {
         content = (
             <div aria-hidden="true" className="space-y-4">
-                <div className="h-40 animate-pulse rounded-sm border border-white/10 bg-white/[0.02]" />
+                <div className="h-40 animate-pulse rounded-sm border border-white/10 bg-white/2" />
                 {MEAL_TYPES.map((t) => (
-                    <div key={t} className="h-24 animate-pulse rounded-sm border border-white/10 bg-white/[0.02]" />
+                    <div key={t} className="h-24 animate-pulse rounded-sm border border-white/10 bg-white/2" />
                 ))}
             </div>
         );

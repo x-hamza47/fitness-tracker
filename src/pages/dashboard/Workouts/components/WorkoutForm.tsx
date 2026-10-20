@@ -89,7 +89,7 @@ function TagInput({ value, onChange }: { value: string[]; onChange: (tags: strin
     };
 
     return (
-        <div className="mt-1.5 flex flex-wrap items-center gap-1.5 rounded-sm border border-white/10 bg-white/[0.02] p-2 focus-within:ring-2 focus-within:ring-white">
+        <div className="mt-1.5 flex flex-wrap items-center gap-1.5 rounded-sm border border-white/10 bg-white/2 p-2 focus-within:ring-2 focus-within:ring-white">
             {value.map((tag) => (
                 <span
                     key={tag}
@@ -241,7 +241,7 @@ export default function WorkoutForm({ formId, workout, unitSystem, onSubmit, err
                     {fields.map((field, index) => {
                         const rowErrors = errors.exercises?.[index];
                         return (
-                            <li key={field.id} className="rounded-sm border border-white/10 bg-white/[0.02] p-3">
+                            <li key={field.id} className="rounded-sm border border-white/10 bg-white/2 p-3">
                                 <div className="flex items-start gap-2">
                                     <span className="mt-2.5 w-5 shrink-0 text-center text-xs text-white/30 tabular-nums">
                                         {index + 1}

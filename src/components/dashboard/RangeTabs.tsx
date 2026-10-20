@@ -11,7 +11,7 @@ type RangeTabsProps<T extends string> = {
     options: readonly RangeTabOption<T>[];
     value: T;
     onChange: (value: T) => void;
-    /** Accessible name for the group, e.g. "Date range" */
+    
     label: string;
     className?: string;
 };
@@ -23,15 +23,14 @@ export default function RangeTabs<T extends string>({
     label,
     className,
 }: RangeTabsProps<T>) {
-    // Unique per instance, so two RangeTabs on one page don't share the sliding highlight
+    
     const highlightId = useId();
-
     return (
         <div
             role="radiogroup"
             aria-label={label}
             className={cn(
-                "inline-flex rounded-sm border border-white/10 bg-white/[0.02] p-0.5",
+                "inline-flex rounded-sm border border-white/10 bg-white/2 p-0.5",
                 className,
             )}
         >

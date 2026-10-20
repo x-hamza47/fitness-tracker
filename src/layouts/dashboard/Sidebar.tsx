@@ -10,19 +10,14 @@ import SidebarProfile from "./SidebarProfile";
 import { NAV_GROUPS, type NavBadgeKey, type NavItem } from "./navigation";
 import { useLogout } from "@/features/auth/useLogout";
 
-/**
- * Live counters for nav badges. Mocked for now.
- * Later, replace with the unread count from the notifications query.
- */
+
 function useNavBadges(): Record<NavBadgeKey, number> {
     return { notifications: 3 };
 }
-
 export function Logo({
     compact = false,
     className,
 }: {
-    /** Single letter, used by the collapsed rail */
     compact?: boolean;
     className?: string;
 }) {
@@ -40,11 +35,8 @@ export function Logo({
 }
 
 type SidebarContentProps = {
-    /** Icon-only rail. The mobile drawer never sets this. */
     collapsed?: boolean;
-    /** When provided, a collapse/expand toggle is shown (desktop only) */
     onToggleCollapse?: () => void;
-    /** Called when any link is clicked, used by the mobile drawer to close itself */
     onNavigate?: () => void;
 };
 
@@ -121,7 +113,7 @@ export function SidebarContent({
 
     return (
         <div className="flex h-full flex-col">
-            {/* Header: logo + collapse toggle */}
+            { }
             <div
                 className={cn(
                     "flex items-center",
@@ -142,7 +134,7 @@ export function SidebarContent({
                 )}
             </div>
 
-            {/* Profile, separated from the nav by a divider (no card) */}
+            { }
             <div className="mt-6 border-b border-white/10 pb-5">
                 <SidebarProfile collapsed={collapsed} onNavigate={onNavigate} />
             </div>
@@ -154,7 +146,7 @@ export function SidebarContent({
                 {NAV_GROUPS.map((group, index) => (
                     <div key={group.label}>
                         {collapsed ? (
-                            // Group labels don't fit in the rail, so use a thin divider instead
+
                             index > 0 && <div className="mx-3 mb-3 h-px bg-white/10" />
                         ) : (
                             <p className="mb-2 px-3 text-[10px] tracking-[0.25em] text-white/30 uppercase">
@@ -203,7 +195,7 @@ export default function Sidebar() {
         <aside
             className={cn(
                 "sticky top-0 hidden h-screen shrink-0 overflow-hidden border-r border-white/10 bg-[#0b0b0d] transition-[width,padding] duration-200 ease-out lg:block",
-                collapsed ? "w-[4.5rem] p-3" : "w-64 p-5",
+                collapsed ? "w-18 p-3" : "w-64 p-5",
             )}
         >
             <SidebarContent collapsed={collapsed} onToggleCollapse={toggleSidebar} />
