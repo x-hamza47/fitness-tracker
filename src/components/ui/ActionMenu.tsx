@@ -33,7 +33,7 @@ export default function ActionMenu({ items, label }: { items: ActionMenuItem[]; 
     }, [open]);
 
     return (
-        <div ref={ref} className="relative">
+        <div ref={ref} className="relative z-99999">
             <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
@@ -48,7 +48,7 @@ export default function ActionMenu({ items, label }: { items: ActionMenuItem[]; 
             {open && (
                 <div
                     role="menu"
-                    className="absolute top-full right-0 z-20 mt-1 w-40 rounded-sm border border-white/15 bg-[#0b0b0d] p-1 shadow-xl shadow-black/50"
+                    className="absolute top-full right-0 z-9999 mt-1 w-40 rounded-sm border border-white/15 bg-[#0b0b0d] p-1 shadow-xl shadow-black/50"
                 >
                     {items.map(({ label: itemLabel, icon: IconComponent, onClick, danger }) => (
                         <button

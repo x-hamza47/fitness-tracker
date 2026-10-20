@@ -21,7 +21,7 @@ const signed = (n: number, text: string) => `${n > 0 ? "+" : n < 0 ? "-" : ""}${
 
 function Card({ label, value, hint, tone = "neutral" }: { label: string; value: string; hint?: string; tone?: Tone }) {
     return (
-        <div className="rounded-sm border border-white/10 bg-white/[0.02] p-4">
+        <div className="rounded-sm border border-white/10 bg-white/2 p-4 backdrop-blur-sm">
             <dt className="text-[10px] tracking-[0.2em] text-white/40 uppercase">{label}</dt>
             <dd className="mt-2 text-2xl font-semibold text-white tabular-nums">{value}</dd>
             {hint && <p className={cn("mt-1 text-xs tabular-nums", TONE_CLASS[tone])}>{hint}</p>}

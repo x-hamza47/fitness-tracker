@@ -15,11 +15,8 @@ import type { CreatePerformancePayload, PerformanceEntry } from "@/types/progres
 import { Field, INPUT, SELECT } from "./Field";
 
 type PerformanceFormProps = {
-    /** Lets a button outside the form (the drawer footer) submit it */
     formId: string;
-    /** Provide to edit, omit to create */
     entry?: PerformanceEntry | null;
-    /** Used when creating */
     defaultDate: string;
     unitSystem: UnitSystem;
     onSubmit: (payload: CreatePerformancePayload) => void | Promise<void>;
@@ -40,8 +37,8 @@ function toFormValues(
         kind === "weight"
             ? String(convertWeight(entry.value, unitSystem))
             : kind === "time"
-              ? formatDuration(entry.value)
-              : String(entry.value);
+                ? formatDuration(entry.value)
+                : String(entry.value);
 
     return { date: entry.date, metric: entry.metric, value, notes: entry.notes };
 }
@@ -64,7 +61,7 @@ export default function PerformanceForm({
         defaultValues: toFormValues(entry, defaultDate, unitSystem),
     });
 
-    // The value field changes its label and hint depending on the metric
+
     const metric = useWatch({ control, name: "metric" });
     const { kind } = PERFORMANCE_CONFIG[metric];
 
@@ -78,8 +75,8 @@ export default function PerformanceForm({
             valueKind === "weight"
                 ? convertWeightToKg(Number(values.value), unitSystem)
                 : valueKind === "time"
-                  ? (parseDuration(values.value) ?? 0)
-                  : Math.round(Number(values.value));
+                    ? (parseDuration(values.value) ?? 0)
+                    : Math.round(Number(values.value));
 
         return onSubmit({ date: values.date, metric: values.metric, value, notes: values.notes });
     });
@@ -117,7 +114,7 @@ export default function PerformanceForm({
                         type="date"
                         max={todayISO()}
                         {...register("date")}
-                        className={cn(INPUT, "[color-scheme:dark]")}
+                        className={cn(INPUT, "scheme-dark")}
                     />
                 </Field>
             </div>

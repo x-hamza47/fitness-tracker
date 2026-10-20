@@ -149,6 +149,7 @@ export default function WorkoutCard({
                                 onEdit={onEdit}
                                 onDuplicate={onDuplicate}
                                 onDelete={onDelete}
+                                
                             />
                         </div>
                     )}
