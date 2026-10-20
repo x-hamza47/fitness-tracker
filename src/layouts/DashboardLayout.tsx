@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./dashboard/Sidebar";
 import MobileNav from "./dashboard/MobileNav";
+// import AmbientBackground from "@/components/dashboard/AmbientBackground";
 
 export default function DashboardLayout() {
     return (
@@ -15,14 +16,14 @@ export default function DashboardLayout() {
             {/* Desktop only (hidden below lg) */}
             <Sidebar />
 
-            <div className="flex min-w-0 flex-1 flex-col">
+            {/* relative + isolate: the background fills this whole column and stays behind its content */}
+            <div className="relative isolate flex min-h-screen min-w-0 flex-1 flex-col">
+                {/* <AmbientBackground /> */}
+
                 {/* Mobile only: top bar, bottom tabs and drawer (hidden at lg and up) */}
                 <MobileNav />
 
-                <main
-                    id="main-content"
-                    className="flex-1 p-4 pb-24 sm:p-6 lg:p-8 lg:pb-8"
-                >
+                <main id="main-content" className="flex-1 p-4 pb-24 sm:p-6 lg:p-8 lg:pb-8">
                     <Outlet />
                 </main>
             </div>

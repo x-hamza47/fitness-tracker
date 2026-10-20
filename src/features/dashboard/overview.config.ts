@@ -38,7 +38,6 @@ export function buildStatCards(summary: OverviewSummary, unitSystem: UnitSystem)
             icon: IconScale,
             value: convertWeight(summary.currentWeightKg, unitSystem),
             unit,
-            // Tone stays neutral: whether losing or gaining is good depends on the user's goal
             trend: {
                 direction,
                 label: `${weightChange > 0 ? "+" : ""}${weightChange} ${unit} in this period`,
@@ -52,5 +51,6 @@ export function buildStatCards(summary: OverviewSummary, unitSystem: UnitSystem)
             unit: summary.streakDays === 1 ? "day" : "days",
             hint: `Best: ${summary.bestStreakDays} days`,
         },
+
     ];
 }
