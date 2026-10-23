@@ -5,7 +5,7 @@ import ChartCard from "@/components/dashboard/ChartCard";
 
 
 type RecentListItemProps = {
-    icon: Icon;
+    icon?: Icon;
     title: string;
     
     subtitle?: string;
@@ -56,6 +56,8 @@ type RecentListProps<T> = {
     description?: string;
     
     viewAllTo?: string;
+    onViewAll?: () => void;
+    viewAllText?: string;
     items?: T[];
     getKey: (item: T) => string;
     renderItem: (item: T) => ReactNode;
@@ -91,6 +93,8 @@ export default function RecentList<T>({
     title,
     description,
     viewAllTo,
+    onViewAll,
+    viewAllText,
     items,
     getKey,
     renderItem,
@@ -107,14 +111,22 @@ export default function RecentList<T>({
             title={title}
             description={description}
             action={
-                viewAllTo && (
+                onViewAll ? (
+                    <button
+                        type="button"
+                        onClick={onViewAll}
+                        className="cursor-pointer text-[10px] tracking-[0.15em] text-white/50 uppercase transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                    >
+                        {viewAllText ?? "Manage"}
+                    </button>
+                ) : viewAllTo ? (
                     <Link
                         to={viewAllTo}
                         className="text-[10px] tracking-[0.15em] text-white/50 uppercase transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                     >
-                        View all
+                        {viewAllText ?? "View all"}
                     </Link>
-                )
+                ) : undefined
             }
             
             

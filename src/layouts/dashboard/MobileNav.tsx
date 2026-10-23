@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 import Avatar from "@/components/ui/Avatar";
 import { useProfile } from "@/features/profile/useProfile";
 import { Logo, SidebarContent } from "./Sidebar";
-import { MOBILE_TABS, PROFILE_PATH } from "./navigation";
+import { getMobileTabs, PROFILE_PATH } from "./navigation";
+import { useAuthStore } from "@/stores/authStore";
 
 function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
     // Lock body scroll and close on Escape while the drawer is open
@@ -93,12 +94,16 @@ function MobileTopBar({ onMenuClick }: { onMenuClick: () => void }) {
 }
 
 function MobileTabBar() {
+    const user = useAuthStore((s) => s.user);
+    const isAdmin = user?.role === "admin";
+    const tabs = getMobileTabs(isAdmin);
+
     return (
         <nav
             aria-label="Main"
             className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-4 border-t border-white/10 bg-[#0b0b0d] pb-[env(safe-area-inset-bottom)] lg:hidden"
         >
-            {MOBILE_TABS.map(({ name, to, icon: Icon, end }) => (
+            {tabs.map(({ name, to, icon: Icon, end }) => (
                 <NavLink
                     key={to}
                     to={to}

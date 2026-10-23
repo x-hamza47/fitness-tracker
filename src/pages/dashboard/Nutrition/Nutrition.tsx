@@ -16,6 +16,7 @@ import DaySwitcher from "./components/DaySwitcher";
 import MealForm from "./components/MealForm";
 import MealSection from "./components/MealSection";
 import NutritionAnalytics from "./components/NutritionAnalytics";
+import YourPlanCard from "@/components/dashboard/YourPlanCard";
 
 const FORM_ID = "meal-form";
 
@@ -140,6 +141,8 @@ export default function Nutrition() {
             </header>
 
             <DaySwitcher date={date} onChange={setDate} />
+
+            <YourPlanCard />
 
             {content}
 

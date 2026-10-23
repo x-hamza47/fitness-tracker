@@ -63,8 +63,8 @@ export default function WorkoutCard({
     const hiddenCount = workout.exercises.length - PREVIEW_COUNT;
 
     return (
-        <article className="group relative flex flex-col rounded-sm border border-white/10 bg-white/2 transition-colors hover:border-white/25 backdrop-blur-sm">
-            <div className={cn("h-0.5 rounded-t-sm", category.bar)} />
+        <article className="group relative flex flex-col rounded-xl border border-white/10 bg-white/3 transition-all hover:border-white/25 hover:bg-white/5 backdrop-blur-md shadow-lg">
+            <div className={cn("h-1 rounded-t-xl", category.bar)} />
 
             <div className={cn("flex flex-1 flex-col gap-4 p-5", isList && "sm:flex-row sm:items-center sm:gap-6")}>
                 {/* Identity */}

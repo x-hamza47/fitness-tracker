@@ -16,7 +16,7 @@ export default function MealSection({ mealType, meals, onAdd, onEdit, onDelete }
     const kcal = Math.round(getMealsTotals(meals).calories);
 
     return (
-        <section aria-label={label} className="rounded-sm border border-white/10 bg-white/2 backdrop-blur-sm">
+        <section aria-label={label} className="rounded-xl border border-white/10 bg-white/3 backdrop-blur-md shadow-lg">
             <header className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3">
                 <div className="flex items-center gap-2">
                     <MealIcon size={16} stroke={1.75} className={text} aria-hidden="true" />

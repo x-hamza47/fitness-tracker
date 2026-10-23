@@ -16,6 +16,7 @@ import RecentMeals from "./components/RecentMeals";
 import RecentWorkouts from "./components/RecentWorkouts";
 import Reminders from "./components/Reminders";
 import WorkoutActivity from "./components/WorkoutActivity";
+import YourPlanCard from "@/components/dashboard/YourPlanCard";
 // import AmbientBackground from "@/components/dashboard/AmbientBackground";
 
 export default function Overview() {
@@ -57,6 +58,8 @@ export default function Overview() {
                     ))
                     : isLoading && Array.from({ length: 4 }, (_, i) => <StatCardSkeleton key={i} />)}
             </section>
+
+            <YourPlanCard />
 
             <div className="grid gap-4 lg:grid-cols-3">
                 <div className="min-w-0 *:h-full lg:col-span-2">

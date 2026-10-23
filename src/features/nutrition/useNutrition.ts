@@ -6,12 +6,14 @@ import {
     deleteMeal,
     getNutritionAnalytics,
     getNutritionDay,
+    getNutritionPlan,
     updateMeal,
 } from "@/services/userService";
 import { useIsAuthenticated } from "@/stores/authStore";
 import type {
     NutritionAnalytics,
     NutritionDay,
+    NutritionPlan,
     NutritionRange,
     UpdateMealPayload,
 } from "@/types/nutrition";
@@ -20,7 +22,26 @@ export const nutritionKeys = {
     all: ["nutrition"] as const,
     day: (date: string) => ["nutrition", "day", date] as const,
     analytics: (range: NutritionRange) => ["nutrition", "analytics", range] as const,
+    plan: () => ["nutrition", "plan"] as const,
 };
+
+export function useNutritionPlan() {
+    const isAuthenticated = useIsAuthenticated();
+
+    const query = useQuery<NutritionPlan>({
+        queryKey: nutritionKeys.plan(),
+        queryFn: getNutritionPlan,
+        enabled: isAuthenticated,
+        staleTime: 60 * 1000,
+    });
+
+    return {
+        plan: query.data ?? null,
+        isLoading: query.isLoading,
+        isError: query.isError,
+        refetch: query.refetch,
+    };
+}
 
 export function useNutritionDay(date: string) {
     const isAuthenticated = useIsAuthenticated();

@@ -7,9 +7,10 @@ import {
 import { cn } from "@/lib/utils";
 import { useUiStore } from "@/stores/uiStore";
 import SidebarProfile from "./SidebarProfile";
-import { NAV_GROUPS, type NavBadgeKey, type NavItem } from "./navigation";
+import { getNavGroups, type NavBadgeKey, type NavItem } from "./navigation";
 import { useLogout } from "@/features/auth/useLogout";
 import { useUnreadCount } from "@/features/social/useNotifications";
+import { useAuthStore } from "@/stores/authStore";
 
 function useNavBadges(): Record<NavBadgeKey, number> {
     const notifications = useUnreadCount();
@@ -107,6 +108,9 @@ export function SidebarContent({
 }: SidebarContentProps) {
     const logout = useLogout();
     const badges = useNavBadges();
+    const user = useAuthStore((s) => s.user);
+    const isAdmin = user?.role === "admin";
+    const navGroups = getNavGroups(isAdmin);
 
     const ToggleIcon = collapsed
         ? IconLayoutSidebarLeftExpand
@@ -144,7 +148,7 @@ export function SidebarContent({
                 aria-label="Dashboard"
                 className="no-scrollbar mt-5 flex-1 space-y-5 overflow-x-hidden overflow-y-auto"
             >
-                {NAV_GROUPS.map((group, index) => (
+                {navGroups.map((group, index) => (
                     <div key={group.label}>
                         {collapsed ? (
 

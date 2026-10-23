@@ -1,15 +1,13 @@
 import type { Icon } from "@tabler/icons-react";
 import {
     IconBarbell,
-    // IconBell,
-    // IconCompass,
-    // IconFileAnalytics,
+    IconFileAnalytics,
     IconLayoutDashboard,
-    // IconLifebuoy,
-    // IconMessages,
+    IconLifebuoy,
     IconSettings,
     IconToolsKitchen2,
     IconTrendingUp,
+    IconUser,
     IconUsers,
 } from "@tabler/icons-react";
 
@@ -54,10 +52,27 @@ export const NAV_GROUPS: NavGroup[] = [
     {
         label: "Account",
         items: [
-            // { name: "Notifications", to: "/dashboard/notifications", icon: IconBell, badge: "notifications" },
-            // { name: "Reports", to: "/dashboard/reports", icon: IconFileAnalytics },
+            { name: "Reports", to: "/dashboard/reports", icon: IconFileAnalytics },
+            { name: "Support", to: "/dashboard/support", icon: IconLifebuoy },
             { name: "Settings", to: "/dashboard/settings", icon: IconSettings },
-            // { name: "Support", to: "/dashboard/support", icon: IconLifebuoy },
+        ],
+    },
+];
+
+export const ADMIN_NAV_GROUPS: NavGroup[] = [
+    {
+        label: "Administration",
+        items: [
+            { name: "Stats", to: "/admin", icon: IconLayoutDashboard, end: true, mobileTab: true },
+            { name: "Users", to: "/admin/users", icon: IconUsers, mobileTab: true },
+            { name: "Tickets", to: "/admin/tickets", icon: IconLifebuoy, mobileTab: true },
+        ],
+    },
+    {
+        label: "Account",
+        items: [
+            { name: "Profile", to: "/dashboard/profile", icon: IconUser, mobileTab: true },
+            { name: "Settings", to: "/dashboard/settings", icon: IconSettings },
         ],
     },
 ];
@@ -66,6 +81,12 @@ const ALL_ITEMS: NavItem[] = NAV_GROUPS.flatMap((group) => group.items);
 
 /** The 4 main pages shown in the mobile bottom tab bar. */
 export const MOBILE_TABS: NavItem[] = ALL_ITEMS.filter((item) => item.mobileTab);
+
+export const getNavGroups = (isAdmin: boolean): NavGroup[] => (isAdmin ? ADMIN_NAV_GROUPS : NAV_GROUPS);
+export const getMobileTabs = (isAdmin: boolean): NavItem[] =>
+    isAdmin
+        ? ADMIN_NAV_GROUPS.flatMap((g) => g.items).filter((i) => i.mobileTab)
+        : MOBILE_TABS;
 
 /** Groups for the mobile drawer, so the pages already in the tab bar aren't repeated. */
 export const DRAWER_GROUPS: NavGroup[] = NAV_GROUPS.map((group) => ({

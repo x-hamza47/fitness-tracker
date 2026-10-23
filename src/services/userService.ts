@@ -10,6 +10,7 @@ import type {
     Meal,
     NutritionAnalytics,
     NutritionDay,
+    NutritionPlan,
     NutritionRange,
     UpdateMealPayload,
 } from "@/types/nutrition";
@@ -70,6 +71,11 @@ export async function deleteWorkout(id: string): Promise<void> {
 /* -------------------------------------------------------------------------- */
 export async function getNutritionDay(date: string): Promise<NutritionDay> {
     const { data } = await api.get(`/nutrition/days/${date}`);
+    return data.data;
+}
+
+export async function getNutritionPlan(): Promise<NutritionPlan> {
+    const { data } = await api.get("/nutrition/plan");
     return data.data;
 }
 

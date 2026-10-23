@@ -79,6 +79,19 @@ export type NutritionAnalytics = {
     loggedDays: number;
 };
 
+export type NutritionPlan = {
+    calories: number;
+    macros: Macros;
+    waterMl: number;
+    waterLiters: number;
+    recommendedWorkoutsPerWeek: number;
+    recommendedCategories: string[];
+    estimatedWeeklyWeightChange: number;
+    estimatedTargetDate: string | null;
+    tips: string[];
+    missingFields: string[];
+};
+
 export const EMPTY_MACROS: Macros = { protein: 0, carbs: 0, fat: 0 };
 
 export function sumMacros(a: Macros, b: Macros): Macros {

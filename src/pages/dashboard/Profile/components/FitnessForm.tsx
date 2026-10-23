@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdateProfile } from "@/features/profile/useProfile";
@@ -48,6 +48,10 @@ export default function FitnessForm({ profile }: { profile: UserProfile }) {
         resolver: zodResolver(fitnessSchema),
         defaultValues: toFormValues(profile, unitSystem),
     });
+
+    useEffect(() => {
+        resetForm(toFormValues(profile, unitSystem));
+    }, [profile, unitSystem, resetForm]);
 
     const onSubmit = handleSubmit(async (values) => {
         const num = (raw: string, convert: (n: number) => number) =>

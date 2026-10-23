@@ -48,9 +48,9 @@ function LogRow({
             : "Bodyweight";
 
     return (
-        <article className="rounded-sm border border-white/10 bg-white/2 backdrop-blur-sm">
-            <div className={cn("h-0.5 rounded-t-sm", category.bar)} />
-            <div className="p-5">
+        <article className="rounded-xl border border-white/10 bg-white/3 backdrop-blur-md shadow-lg transition-all hover:bg-white/5">
+            <div className={cn("h-1 rounded-t-xl", category.bar)} />
+            <div className="p-4 sm:p-5">
                 <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                         <p className={cn("flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase", category.text)}>
