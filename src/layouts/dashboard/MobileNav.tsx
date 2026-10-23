@@ -86,7 +86,7 @@ function MobileTopBar({ onMenuClick }: { onMenuClick: () => void }) {
             </div>
 
             <Link to={PROFILE_PATH} aria-label="View your profile">
-                <Avatar name={profile?.name ?? "Athlete"} src={profile?.avatarUrl} size="sm" ring />
+                <Avatar name={profile?.name ?? "Athlete"} src={profile?.profilePicture} size="sm" ring />
             </Link>
         </header>
     );

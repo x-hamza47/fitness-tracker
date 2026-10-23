@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { UnitSystem } from "@/types/profile";
 
+
 interface UiState {
     sidebarCollapsed: boolean;
     toggleSidebar: () => void;

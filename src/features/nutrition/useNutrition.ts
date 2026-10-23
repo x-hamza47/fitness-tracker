@@ -22,7 +22,6 @@ export const nutritionKeys = {
     analytics: (range: NutritionRange) => ["nutrition", "analytics", range] as const,
 };
 
-/** Meals, totals and targets for one day (YYYY-MM-DD). */
 export function useNutritionDay(date: string) {
     const isAuthenticated = useIsAuthenticated();
 
@@ -49,7 +48,6 @@ export function useNutritionAnalytics(range: NutritionRange) {
         queryFn: () => getNutritionAnalytics(range),
         enabled: isAuthenticated,
         staleTime: 5 * 60 * 1000,
-        // Keep the old chart on screen while a new range loads
         placeholderData: keepPreviousData,
     });
 
@@ -62,7 +60,6 @@ export function useNutritionAnalytics(range: NutritionRange) {
     };
 }
 
-/** Shared by every mutation: refresh Nutrition (day and analytics) and the Overview numbers. */
 function useRefreshNutritionData() {
     const queryClient = useQueryClient();
 

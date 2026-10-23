@@ -7,24 +7,21 @@ import {
     IconLayoutDashboard,
     // IconLifebuoy,
     // IconMessages,
-    // IconSettings,
+    IconSettings,
     IconToolsKitchen2,
     IconTrendingUp,
-    // IconUsers,
+    IconUsers,
 } from "@tabler/icons-react";
 
-/** Keys for live counters shown as a badge next to a nav item. */
+
 export type NavBadgeKey = "notifications";
 
 export type NavItem = {
     name: string;
     to: string;
     icon: Icon;
-    /** true = only active on the exact path (needed for "/dashboard") */
     end?: boolean;
-    /** shows a counter badge, the value is supplied by the sidebar */
     badge?: NavBadgeKey;
-    /** appears in the mobile bottom tab bar */
     mobileTab?: boolean;
 };
 
@@ -46,23 +43,23 @@ export const NAV_GROUPS: NavGroup[] = [
             { name: "Progress", to: "/dashboard/progress", icon: IconTrendingUp, mobileTab: true },
         ],
     },
-    // {
-    //     label: "Community",
-    //     items: [
-    //         { name: "Discover", to: "/dashboard/discover", icon: IconCompass },
-    //         { name: "Followers", to: "/dashboard/followers", icon: IconUsers },
-    //         { name: "Forum", to: "/dashboard/forum", icon: IconMessages },
-    //     ],
-    // },
-    // {
-    //     label: "Account",
-    //     items: [
-    //         { name: "Notifications", to: "/dashboard/notifications", icon: IconBell, badge: "notifications" },
-    //         { name: "Reports", to: "/dashboard/reports", icon: IconFileAnalytics },
-    //         { name: "Settings", to: "/dashboard/settings", icon: IconSettings },
-    //         { name: "Support", to: "/dashboard/support", icon: IconLifebuoy },
-    //     ],
-    // },
+    {
+        label: "Community",
+        items: [
+            // { name: "Discover", to: "/dashboard/discover", icon: IconCompass },
+            { name: "Followers", to: "/dashboard/followers", icon: IconUsers },
+            // { name: "Forum", to: "/dashboard/forum", icon: IconMessages },
+        ],
+    },
+    {
+        label: "Account",
+        items: [
+            // { name: "Notifications", to: "/dashboard/notifications", icon: IconBell, badge: "notifications" },
+            // { name: "Reports", to: "/dashboard/reports", icon: IconFileAnalytics },
+            { name: "Settings", to: "/dashboard/settings", icon: IconSettings },
+            // { name: "Support", to: "/dashboard/support", icon: IconLifebuoy },
+        ],
+    },
 ];
 
 const ALL_ITEMS: NavItem[] = NAV_GROUPS.flatMap((group) => group.items);

@@ -9,6 +9,9 @@ import Workouts from "@/pages/dashboard/Workouts/Workouts";
 import Nutrition from "@/pages/dashboard/Nutrition/Nutrition";
 import Progress from "@/pages/dashboard/Progress/Progress";
 import { Link } from "react-router-dom";
+import Profile from "@/pages/dashboard/Profile/Profile";
+import Settings from "@/pages/dashboard/Settings/Settings";
+import Followers from "@/pages/dashboard/Followers/Followers";
 
 // function Placeholder({ title }: { title: string }) {
 //     return (
@@ -51,6 +54,9 @@ const router = createBrowserRouter([
                     { path: "workouts", element: <Workouts /> },
                     { path: "nutrition", element: <Nutrition /> },
                     { path: "progress", element: <Progress /> },
+                    { path: "profile", element: <Profile /> },
+                    { path: "settings", element: <Settings /> },
+                    { path: "followers", element: <Followers /> },
                     { path: "*", element: <NotFound /> },
                 ],
             },

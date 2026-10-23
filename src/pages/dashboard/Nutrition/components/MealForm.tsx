@@ -8,13 +8,9 @@ import { mealSchema, type MealFormValues } from "@/schemas/nutritionSchema";
 import type { CreateMealPayload, Meal, MealType } from "@/types/nutrition";
 
 type MealFormProps = {
-    /** Lets a button outside the form (the drawer footer) submit it */
     formId: string;
-    /** Provide to edit, omit to create */
     meal?: Meal | null;
-    /** Used when creating */
     defaultMealType: MealType;
-    /** The day being viewed. New meals are logged on it. */
     date: string;
     onSubmit: (payload: CreateMealPayload) => void | Promise<void>;
     errorMessage?: string | null;

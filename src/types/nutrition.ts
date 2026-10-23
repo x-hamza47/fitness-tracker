@@ -8,7 +8,7 @@ export type Macros = {
     fat: number;
 };
 
-/** One food in a meal. Calories and macros are totals for the quantity entered, not per 100 g. */
+
 export type FoodItem = {
     id: string;
     name: string;
@@ -20,18 +20,18 @@ export type FoodItem = {
 
 export type Meal = {
     id: string;
-    /** Local calendar day, YYYY-MM-DD */
+    
     date: string;
     mealType: MealType;
     items: FoodItem[];
     notes: string;
-    /** ISO date-time */
+    
     createdAt: string;
-    /** ISO date-time */
+    
     updatedAt: string;
 };
 
-/** What the form sends when logging a meal. The server fills in the rest. */
+
 export type CreateMealPayload = {
     date: string;
     mealType: MealType;
@@ -51,7 +51,7 @@ export type NutritionTargets = {
     macros: Macros;
 };
 
-/** Everything the Nutrition page needs for one selected day. */
+
 export type NutritionDay = {
     date: string;
     meals: Meal[];
@@ -62,7 +62,7 @@ export type NutritionDay = {
 export type NutritionRange = "7d" | "30d" | "90d";
 
 export type NutritionTrendPoint = {
-    /** YYYY-MM-DD */
+    
     date: string;
     calories: number;
     macros: Macros;
@@ -71,11 +71,11 @@ export type NutritionTrendPoint = {
 export type NutritionAnalytics = {
     range: NutritionRange;
     targets: NutritionTargets;
-    /** One point per day, oldest first. Days with no logs have zeros. */
+    
     trend: NutritionTrendPoint[];
-    /** Average over days that have at least one log */
+    
     averages: NutritionTotals;
-    /** Days with at least one meal logged */
+    
     loggedDays: number;
 };
 
@@ -89,7 +89,7 @@ export function sumMacros(a: Macros, b: Macros): Macros {
     };
 }
 
-/** Totals for a list of food items. */
+
 export function getItemsTotals(items: Pick<FoodItem, "calories" | "macros">[]): NutritionTotals {
     return items.reduce<NutritionTotals>(
         (sum, item) => ({
@@ -100,7 +100,7 @@ export function getItemsTotals(items: Pick<FoodItem, "calories" | "macros">[]): 
     );
 }
 
-/** Totals for a list of meals, such as everything eaten in a day. */
+
 export function getMealsTotals(meals: Pick<Meal, "items">[]): NutritionTotals {
     return getItemsTotals(meals.flatMap((m) => m.items));
 }

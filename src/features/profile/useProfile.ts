@@ -3,13 +3,13 @@ import { useIsAuthenticated } from "@/stores/authStore";
 import { getAuthErrorMessage } from "@/services/authService";
 import { getProfile, updateProfile } from "@/services/profileService";
 import type { UpdateProfilePayload, UserProfile } from "@/types/profile";
+import { toast } from "sonner";
 
 export const profileKeys = {
     all: ["profile"] as const,
     me: () => [...profileKeys.all, "me"] as const,
 };
 
-/** Current user's profile. Shared by the sidebar, profile page and settings. */
 export function useProfile() {
     const isAuthenticated = useIsAuthenticated();
 
@@ -28,7 +28,7 @@ export function useProfile() {
     };
 }
 
-/** Updates the profile and instantly refreshes every component that reads it. */
+
 export function useUpdateProfile() {
     const queryClient = useQueryClient();
 
@@ -36,6 +36,10 @@ export function useUpdateProfile() {
         mutationFn: (payload: UpdateProfilePayload) => updateProfile(payload),
         onSuccess: (updated) => {
             queryClient.setQueryData(profileKeys.me(), updated);
+            toast.success("Profile updated");
+        },
+        onError: (error) => {
+            toast.error(getAuthErrorMessage(error));
         },
     });
 

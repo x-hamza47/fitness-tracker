@@ -1,4 +1,4 @@
-import { IconCopy, IconPencil, IconStar, IconStarFilled, IconTrash } from "@tabler/icons-react";
+import { IconCopy, IconPencil, IconPlayerPlay, IconStar, IconStarFilled, IconTrash } from "@tabler/icons-react";
 import ActionMenu from "@/components/ui/ActionMenu";
 import { CATEGORY_CONFIG, type WorkoutView } from "@/features/workouts/workout.config";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ type WorkoutCardProps = {
     onDelete: (workout: Workout) => void;
     onToggleFavorite: (workout: Workout) => void;
     onTagClick: (tag: string) => void;
+    onLog: (workout: Workout) => void;
 };
 
 function Stat({ label, value }: { label: string; value: string }) {
@@ -44,6 +45,7 @@ export default function WorkoutCard({
     onDelete,
     onToggleFavorite,
     onTagClick,
+    onLog,
 }: WorkoutCardProps) {
     const category = CATEGORY_CONFIG[workout.category];
     const CategoryIcon = category.icon;
@@ -138,21 +140,31 @@ export default function WorkoutCard({
                 )}
 
                 {/* Footer / list actions */}
-                <div className={cn("flex items-center justify-between gap-2", isList && "sm:w-48 sm:justify-end")}>
+                <div className={cn("flex items-center justify-between gap-2", isList && "sm:w-64 sm:justify-end")}>
                     <p className="text-xs text-(--color-text-muted)">{lastPerformed}</p>
 
-                    {isList && (
-                        <div className="flex items-center">
-                            <FavoriteButton workout={workout} onToggle={onToggleFavorite} />
-                            <CardMenu
-                                workout={workout}
-                                onEdit={onEdit}
-                                onDuplicate={onDuplicate}
-                                onDelete={onDelete}
-                                
-                            />
-                        </div>
-                    )}
+                    <div className="flex items-center gap-1">
+                        <button
+                            type="button"
+                            onClick={() => onLog(workout)}
+                            className="flex cursor-pointer items-center gap-1.5 rounded-sm border border-white/20 px-3 py-1.5 text-[10px] font-semibold tracking-[0.15em] text-white uppercase transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                        >
+                            <IconPlayerPlay size={14} stroke={1.75} aria-hidden="true" />
+                            Log
+                        </button>
+
+                        {isList && (
+                            <>
+                                <FavoriteButton workout={workout} onToggle={onToggleFavorite} />
+                                <CardMenu
+                                    workout={workout}
+                                    onEdit={onEdit}
+                                    onDuplicate={onDuplicate}
+                                    onDelete={onDelete}
+                                />
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </article>

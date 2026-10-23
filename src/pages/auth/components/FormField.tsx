@@ -64,7 +64,6 @@ export default function FormField({
                 )}
             </div>
 
-            {/* Reserve one line so the card height doesn't jump when errors appear */}
             <p
                 id={errorId}
                 role={error ? "alert" : undefined}

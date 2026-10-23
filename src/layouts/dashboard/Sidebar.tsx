@@ -9,10 +9,11 @@ import { useUiStore } from "@/stores/uiStore";
 import SidebarProfile from "./SidebarProfile";
 import { NAV_GROUPS, type NavBadgeKey, type NavItem } from "./navigation";
 import { useLogout } from "@/features/auth/useLogout";
-
+import { useUnreadCount } from "@/features/social/useNotifications";
 
 function useNavBadges(): Record<NavBadgeKey, number> {
-    return { notifications: 3 };
+    const notifications = useUnreadCount();
+    return { notifications };
 }
 export function Logo({
     compact = false,

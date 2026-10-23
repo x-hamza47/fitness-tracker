@@ -24,11 +24,11 @@ export default function RegisterForm({
         formState: { errors, isSubmitting },
     } = useForm<RegisterValues>({
         resolver: zodResolver(registerSchema),
-        defaultValues: { name: "", email: "", password: "", confirmPassword: "" },
+        defaultValues: { name: "", username: "", email: "", password: "", confirmPassword: "" },
     });
 
     const busy = isSubmitting || isPending;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const submit = handleSubmit(({ confirmPassword: _confirm, ...payload }) =>
         onSubmit(payload)
     );
@@ -62,7 +62,13 @@ export default function RegisterForm({
                     error={errors.name?.message}
                     {...register("name")}
                 />
-
+                <FormField
+                    label="Username"
+                    autoComplete="username"
+                    placeholder="forge_athlete"
+                    error={errors.username?.message}
+                    {...register("username")}
+                />
                 <FormField
                     label="Email"
                     type="email"

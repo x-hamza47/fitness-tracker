@@ -2,9 +2,11 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./dashboard/Sidebar";
 import MobileNav from "./dashboard/MobileNav";
 import DotGrid from "@/components/dashboard/DotGrid";
+import { useSettings } from "@/features/social/useSettings";
 // import AmbientBackground from "@/components/dashboard/AmbientBackground";
 
 export default function DashboardLayout() {
+    useSettings();
     return (
         <div className="min-h-screen bg-(--color-bg) text-(--color-text) lg:flex">
             <a

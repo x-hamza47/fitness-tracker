@@ -5,9 +5,7 @@ import { useProfile } from "@/features/profile/useProfile";
 import { FOLLOWERS_PATH, PROFILE_PATH } from "./navigation";
 
 type SidebarProfileProps = {
-    /** Icon-only rail: shows just the avatar */
     collapsed?: boolean;
-    /** Called after a link is clicked, used by the mobile drawer to close itself */
     onNavigate?: () => void;
 };
 
@@ -88,7 +86,7 @@ export default function SidebarProfile({
                 aria-label={`View profile of ${profile.name}`}
                 className="flex justify-center rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
-                <Avatar name={profile.name} src={profile.avatarUrl} size="md" ring />
+                <Avatar name={profile.name} src={profile.profilePicture} size="md" ring />
             </Link>
         );
     }
@@ -101,7 +99,7 @@ export default function SidebarProfile({
                 aria-label={`View profile of ${profile.name}`}
                 className="-mx-2 flex items-center gap-3 rounded-sm px-2 py-2 transition-colors hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
-                <Avatar name={profile.name} src={profile.avatarUrl} size="lg" ring />
+                <Avatar name={profile.name} src={profile.profilePicture} size="lg" ring />
                 <div className="min-w-0">
                     <p className="truncate text-sm font-semibold text-white">{profile.name}</p>
                     <p className="truncate text-xs text-(--color-text-muted)">
@@ -109,21 +107,12 @@ export default function SidebarProfile({
                     </p>
                 </div>
             </Link>
-
-            <div className="mt-2 flex items-center gap-4 px-0.5">
-                <Stat
-                    value={profile.stats.followers}
-                    label="Followers"
-                    to={FOLLOWERS_PATH}
-                    onNavigate={onNavigate}
-                />
-                <Stat
-                    value={profile.stats.following}
-                    label="Following"
-                    to={FOLLOWERS_PATH}
-                    onNavigate={onNavigate}
-                />
-            </div>
+            {profile.role !== "admin" && (
+                <div className="mt-2 flex items-center gap-4 px-0.5">
+                    <Stat value={profile.stats.followers} label="Followers" to={`${FOLLOWERS_PATH}?tab=followers`} onNavigate={onNavigate} />
+                    <Stat value={profile.stats.following} label="Following" to={`${FOLLOWERS_PATH}?tab=following`} onNavigate={onNavigate} />
+                </div>
+            )}
         </div>
     );
 }

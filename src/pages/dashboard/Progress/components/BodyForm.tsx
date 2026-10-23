@@ -20,11 +20,8 @@ import {
 import { Field, INPUT } from "./Field";
 
 type BodyFormProps = {
-    /** Lets a button outside the form (the drawer footer) submit it */
     formId: string;
-    /** Provide to edit, omit to create */
     entry?: BodyEntry | null;
-    /** Used when creating */
     defaultDate: string;
     unitSystem: UnitSystem;
     onSubmit: (payload: CreateBodyEntryPayload) => void | Promise<void>;
