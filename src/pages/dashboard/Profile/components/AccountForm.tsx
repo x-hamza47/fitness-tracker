@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdateProfile } from "@/features/profile/useProfile";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ export default function AccountForm({ profile }: { profile: UserProfile }) {
     const {
         register,
         handleSubmit,
-        watch,
+        control,
         reset: resetForm,
         formState: { errors, isDirty },
     } = useForm<AccountValues>({
@@ -28,8 +28,8 @@ export default function AccountForm({ profile }: { profile: UserProfile }) {
             bio: profile.bio ?? "",
         },
     });
-
-    const bioLength = watch("bio")?.length ?? 0;
+    const bio = useWatch({ control, name: "bio" });
+    const bioLength = bio?.length ?? 0;
 
     const onSubmit = handleSubmit(async (values) => {
         try {

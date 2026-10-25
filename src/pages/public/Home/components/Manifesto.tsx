@@ -9,8 +9,8 @@ import {
 } from "@tabler/icons-react";
 import { usePublicStats } from "@/hooks/usePublicStats";
 import LaserFlow from "@/components/ui/LaserFlow";
-import dashboardPreview from "@/assets/dashboard-preview.jpeg";
-import dashboardReveal from "@/assets/dashboard-reveal.jpeg";
+import dashboardPreview from "@/assets/dashboard-preview.webp";
+import dashboardReveal from "@/assets/dashboard-reveal.webp";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import CountUp from "@/components/ui/CountUp";
 import SectionEyebrow from "@/components/ui/SectionEyebrow";

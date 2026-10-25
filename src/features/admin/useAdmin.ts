@@ -16,6 +16,7 @@ import {
     type UpdateAdminUserPayload,
 } from "@/services/adminService";
 import type { TicketStatus } from "@/types/ticket";
+import { getErrorMessage } from "@/lib/getErrorMessage";
 
 export const adminKeys = {
     all: ["admin"] as const,
@@ -74,8 +75,8 @@ export function useCreateAdminUser() {
             queryClient.invalidateQueries({ queryKey: adminKeys.stats() });
             toast.success(`Account for "${created.name}" created successfully`);
         },
-        onError: (err: any) => {
-            toast.error(err?.response?.data?.message ?? "Failed to create user");
+        onError: (err: unknown) => {
+            toast.error(getErrorMessage(err));
         },
     });
 }
@@ -92,8 +93,8 @@ export function useUpdateAdminUser() {
             queryClient.invalidateQueries({ queryKey: adminKeys.stats() });
             toast.success(`Account "${updated.name}" updated`);
         },
-        onError: (err: any) => {
-            toast.error(err?.response?.data?.message ?? "Failed to update user");
+        onError: (err: unknown) => {
+            toast.error(getErrorMessage(err));
         },
     });
 }
@@ -108,8 +109,8 @@ export function useToggleUserStatus() {
             queryClient.invalidateQueries({ queryKey: adminKeys.stats() });
             toast.success(`User ${updated.isActive ? "activated" : "deactivated"}`);
         },
-        onError: (err: any) => {
-            toast.error(err?.response?.data?.message ?? "Failed to toggle status");
+        onError: (err: unknown) => {
+            toast.error(getErrorMessage(err));
         },
     });
 }
@@ -124,8 +125,8 @@ export function useDeleteUser() {
             queryClient.invalidateQueries({ queryKey: adminKeys.stats() });
             toast.success("User account and all data deleted");
         },
-        onError: (err: any) => {
-            toast.error(err?.response?.data?.message ?? "Failed to delete user");
+        onError:(err: unknown) => {
+            toast.error(getErrorMessage(err));
         },
     });
 }
@@ -156,8 +157,8 @@ export function useUpdateAdminTicket() {
             queryClient.invalidateQueries({ queryKey: adminKeys.stats() });
             toast.success("Ticket updated");
         },
-        onError: (err: any) => {
-            toast.error(err?.response?.data?.message ?? "Failed to update ticket");
+        onError:(err: unknown) => {
+            toast.error(getErrorMessage(err));
         },
     });
 }
@@ -172,8 +173,8 @@ export function useDeleteAdminTicket() {
             queryClient.invalidateQueries({ queryKey: adminKeys.stats() });
             toast.success("Support ticket deleted");
         },
-        onError: (err: any) => {
-            toast.error(err?.response?.data?.message ?? "Failed to delete ticket");
+        onError: (err: unknown) => {
+            toast.error(getErrorMessage(err));
         },
     });
 }

@@ -57,7 +57,7 @@ export function useSearchUsers(q: string, page = 1) {
     return useQuery({
         queryKey: followKeys.search(term, page),
         queryFn: () => searchUsers(term, { page }),
-        enabled: term.length >= 2,
+        // enabled: term.length >= 2,
         placeholderData: keepPreviousData,
     });
 }

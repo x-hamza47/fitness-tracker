@@ -22,35 +22,36 @@ const REPORT_TYPES: {
     description: string;
     icon: typeof IconBarbell;
 }[] = [
-    {
-        id: "workouts",
-        title: "Workouts Report",
-        description: "Logged sessions, routine exercises, completed sets, reps, and lifted weights.",
-        icon: IconBarbell,
-    },
-    {
-        id: "nutrition",
-        title: "Nutrition Report",
-        description: "Daily meal logs, food items, caloric intake, and macronutrient breakdowns.",
-        icon: IconToolsKitchen2,
-    },
-    {
-        id: "progress",
-        title: "Progress Report",
-        description: "Body weight check-ins, body circumference measurements, and strength PRs.",
-        icon: IconTrendingUp,
-    },
-];
+        {
+            id: "workouts",
+            title: "Workouts Report",
+            description: "Logged sessions, routine exercises, completed sets, reps, and lifted weights.",
+            icon: IconBarbell,
+        },
+        {
+            id: "nutrition",
+            title: "Nutrition Report",
+            description: "Daily meal logs, food items, caloric intake, and macronutrient breakdowns.",
+            icon: IconToolsKitchen2,
+        },
+        {
+            id: "progress",
+            title: "Progress Report",
+            description: "Body weight check-ins, body circumference measurements, and strength PRs.",
+            icon: IconTrendingUp,
+        },
+    ];
 
 export default function Reports() {
     const [selectedType, setSelectedType] = useState<ReportType>("workouts");
     const [format, setFormat] = useState<ReportFormat>("pdf");
 
     const today = new Date().toISOString().slice(0, 10);
-    const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+    // const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
 
-    const [from, setFrom] = useState(thirtyDaysAgo);
-    const [to, setTo] = useState(today);
+    const toISODate = (d: Date) => d.toISOString().slice(0, 10);
+    const [from, setFrom] = useState(() => toISODate(new Date(Date.now() - 30 * 86400000)));
+    const [to, setTo] = useState(() => toISODate(new Date()));
     const [isDownloading, setIsDownloading] = useState(false);
 
     const setPreset = (days: number | null) => {
@@ -100,7 +101,7 @@ export default function Reports() {
                                 type="button"
                                 onClick={() => setSelectedType(t.id)}
                                 className={cn(
-                                    "flex flex-col text-left cursor-pointer rounded-sm border p-4 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none",
+                                    "flex flex-col text-left cursor-pointer rounded-sm border p-4 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none backdrop-blur-sm",
                                     isSelected
                                         ? "border-(--color-accent) bg-white/5 shadow-[0_0_15px_rgba(255,165,0,0.1)]"
                                         : "border-white/10 bg-white/2 hover:border-white/20 hover:bg-white/4",
@@ -135,7 +136,7 @@ export default function Reports() {
                         type="button"
                         onClick={() => setFormat("pdf")}
                         className={cn(
-                            "flex items-center gap-3.5 cursor-pointer rounded-sm border p-4 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none",
+                            "flex items-center gap-3.5 cursor-pointer rounded-sm border p-4 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none backdrop-blur-sm",
                             format === "pdf"
                                 ? "border-(--color-accent) bg-white/5"
                                 : "border-white/10 bg-white/2 hover:border-white/20 hover:bg-white/4",
@@ -157,7 +158,7 @@ export default function Reports() {
                         type="button"
                         onClick={() => setFormat("csv")}
                         className={cn(
-                            "flex items-center gap-3.5 cursor-pointer rounded-sm border p-4 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none",
+                            "flex items-center gap-3.5 cursor-pointer rounded-sm border p-4 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none backdrop-blur-sm",
                             format === "csv"
                                 ? "border-(--color-accent) bg-white/5"
                                 : "border-white/10 bg-white/2 hover:border-white/20 hover:bg-white/4",
@@ -180,7 +181,7 @@ export default function Reports() {
             {/* Date range picker */}
             <section
                 aria-label="Select date range"
-                className="rounded-sm border border-white/10 bg-white/2 p-5 space-y-4"
+                className="rounded-sm border border-white/10 bg-white/2 p-5 space-y-4 backdrop-blur-sm"
             >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                     <h2 className="text-xs font-semibold tracking-[0.2em] text-white/70 uppercase">

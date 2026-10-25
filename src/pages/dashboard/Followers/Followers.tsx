@@ -190,7 +190,7 @@ function DiscoverTab({ onSelectUser }: { onSelectUser: (username: string) => voi
     const [q, setQ] = useState("");
     const [page, setPage] = useState(1);
     const { data, isFetching } = useSearchUsers(q, page);
-    const hasTerm = q.trim().length >= 2;
+    // const hasTerm = q.trim().length >= 2;
 
     return (
         <>
@@ -205,9 +205,11 @@ function DiscoverTab({ onSelectUser }: { onSelectUser: (username: string) => voi
                 className={INPUT}
             />
             <div className="mt-3">
-                {!hasTerm ? (
+                {/* {!hasTerm ? (
                     <Empty text="Type at least 2 characters to search." />
-                ) : isFetching && !data ? (
+                ) :  */}
+                {
+                    isFetching && !data ? (
                     <Loading />
                 ) : !data?.items.length ? (
                     <Empty text="No users found." />
