@@ -180,7 +180,7 @@ export default function Nutrition() {
                     </div>
                 }
             >
-                {/* key resets the form every time the drawer opens */}
+
                 <MealForm
                     key={editor.key}
                     formId={FORM_ID}

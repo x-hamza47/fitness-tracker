@@ -17,7 +17,6 @@ import RecentWorkouts from "./components/RecentWorkouts";
 import Reminders from "./components/Reminders";
 import WorkoutActivity from "./components/WorkoutActivity";
 import YourPlanCard from "@/components/dashboard/YourPlanCard";
-// import AmbientBackground from "@/components/dashboard/AmbientBackground";
 
 export default function Overview() {
     const [range, setRange] = useState<DateRange>("30d");
@@ -37,7 +36,6 @@ export default function Overview() {
 
     return (
         <div className="mx-auto max-w-7xl space-y-6">
-            {/* <AmbientBackground /> */}
             <section aria-label="Welcome and calendar" className="grid grid-cols-1 gap-4 lg:grid-cols-3">
                 <div className="min-w-0 lg:col-span-2">
                     <WelcomeHero

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
@@ -6,6 +6,8 @@ import { MEAL_CONFIG, MEAL_TYPES, UNIT_OPTIONS } from "@/features/nutrition/nutr
 import { cn } from "@/lib/utils";
 import { mealSchema, type MealFormValues } from "@/schemas/nutritionSchema";
 import type { CreateMealPayload, Meal, MealType } from "@/types/nutrition";
+import FoodNameInput from "./FoodNameInput";
+import type { FoodResult } from "@/services/foodService";
 
 type MealFormProps = {
     formId: string;
@@ -24,7 +26,7 @@ const LABEL = "text-[10px] tracking-[0.2em] text-white/50 uppercase";
 const blankItem = () => ({
     uid: crypto.randomUUID(),
     name: "",
-    quantity: "100",
+    quantity: "1",
     unit: "g" as const,
     calories: "",
     protein: "",
@@ -93,6 +95,8 @@ export default function MealForm({
         register,
         control,
         handleSubmit,
+        setValue,
+        getValues,
         formState: { errors },
     } = useForm<MealFormValues>({
         resolver: zodResolver(mealSchema),
@@ -100,6 +104,36 @@ export default function MealForm({
     });
 
     const { fields, append, remove } = useFieldArray({ control, name: "items" });
+    const bases = useRef<Record<string, FoodResult>>({});
+
+    const recalc = (index: number, override?: { quantity?: string; unit?: string }) => {
+        const uid = getValues(`items.${index}.uid`);
+        const base = bases.current[uid];
+        if (!base) return;
+
+        const unit = override?.unit ?? getValues(`items.${index}.unit`);
+        if (unit !== "g" && unit !== "ml") return; // can't know the weight of a piece/serving
+
+        const qty = Number(override?.quantity ?? getValues(`items.${index}.quantity`));
+        if (!Number.isFinite(qty) || qty <= 0) return;
+
+        const f = qty / 100;
+        const r1 = (n: number) => String(Math.round(n * f * 10) / 10);
+        const opts = { shouldValidate: true };
+
+        setValue(`items.${index}.calories`, String(Math.round(base.calories * f)), opts);
+        setValue(`items.${index}.protein`, r1(base.protein), opts);
+        setValue(`items.${index}.carbs`, r1(base.carbs), opts);
+        setValue(`items.${index}.fat`, r1(base.fat), opts);
+    };
+
+    const pickFood = (index: number, food: FoodResult) => {
+        const uid = getValues(`items.${index}.uid`);
+        bases.current[uid] = food;
+        setValue(`items.${index}.name`, food.name, { shouldValidate: true });
+        setValue(`items.${index}.unit`, "g");
+        recalc(index, { unit: "g" });
+    };
     const watchedItems = useWatch({ control, name: "items" });
     const totalKcal = Math.round((watchedItems ?? []).reduce((sum, i) => sum + num(i?.calories ?? ""), 0));
 
@@ -178,11 +212,22 @@ export default function MealForm({
                                 <div className="flex items-start gap-2">
                                     <div className="min-w-0 flex-1 space-y-3">
                                         <Field label="Food" error={rowErrors?.name?.message}>
-                                            <input
-                                                {...register(`items.${index}.name`)}
-                                                placeholder="e.g. Grilled chicken breast"
-                                                autoComplete="off"
-                                                className={INPUT}
+                                            <Controller
+                                                control={control}
+                                                name={`items.${index}.name`}
+                                                render={({ field: nameField }) => (
+                                                    <FoodNameInput
+                                                        value={nameField.value}
+                                                        onChange={(v) => {
+                                                            nameField.onChange(v);
+                                                            // User is typing their own food, so stop auto-calculating
+                                                            delete bases.current[getValues(`items.${index}.uid`)];
+                                                        }}
+                                                        onBlur={nameField.onBlur}
+                                                        onPick={(food) => pickFood(index, food)}
+                                                        className={INPUT}
+                                                    />
+                                                )}
                                             />
                                         </Field>
 
@@ -190,12 +235,19 @@ export default function MealForm({
                                             <Field label="Quantity" error={rowErrors?.quantity?.message}>
                                                 <input
                                                     inputMode="decimal"
-                                                    {...register(`items.${index}.quantity`)}
+                                                    {...register(`items.${index}.quantity`, {
+                                                        onChange: (e) => recalc(index, { quantity: e.target.value }),
+                                                    })}
                                                     className={INPUT}
                                                 />
                                             </Field>
                                             <Field label="Unit" error={rowErrors?.unit?.message}>
-                                                <select {...register(`items.${index}.unit`)} className={SELECT}>
+                                                <select
+                                                    {...register(`items.${index}.unit`, {
+                                                        onChange: (e) => recalc(index, { unit: e.target.value }),
+                                                    })}
+                                                    className={SELECT}
+                                                >
                                                     {UNIT_OPTIONS.map((u) => (
                                                         <option key={u.value} value={u.value}>
                                                             {u.label}

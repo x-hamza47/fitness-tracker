@@ -33,7 +33,7 @@ export default function ActionMenu({ items, label }: { items: ActionMenuItem[]; 
     }, [open]);
 
     return (
-        <div ref={ref} className="relative z-99999">
+        <div ref={ref} className="relative z-9999">
             <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}

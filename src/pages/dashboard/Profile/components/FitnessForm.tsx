@@ -96,7 +96,7 @@ export default function FitnessForm({ profile }: { profile: UserProfile }) {
                             className={cn(INPUT, "scheme-dark")}
                         />
                     </Field>
-                    <Field label="Sex" error={errors.sex?.message}>
+                    <Field label="Gender" error={errors.sex?.message}>
                         <select {...register("sex")} className={SELECT}>
                             <option value="">Not set</option>
                             {SEX_OPTIONS.map((o) => (

@@ -90,7 +90,7 @@ export default function BodyForm({ formId, entry, defaultDate, unitSystem, onSub
                     />
                 </Field>
                 <Field label={`Weight (${weightUnit(unitSystem)})`} error={errors.weight?.message}>
-                    <input inputMode="decimal" placeholder="Optional" {...register("weight")} className={INPUT} />
+                    <input inputMode="decimal" placeholder="-" {...register("weight")} className={INPUT} />
                 </Field>
             </div>
 
