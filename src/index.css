@@ -89,3 +89,10 @@ input:-webkit-autofill:active {
         user-select: none;
     }
 }
+
+@media (max-width: 1023px) {
+    .hero-canvas,
+    .hero-canvas * {
+        touch-action: pan-y !important;
+    }
+}
