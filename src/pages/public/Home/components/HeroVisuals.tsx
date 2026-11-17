@@ -328,18 +328,21 @@ function HeroVisuals({ progress }: HeroVisualsProps) {
 
         const io = new IntersectionObserver(
             ([entry]) => setVisible(entry.isIntersecting),
-            { rootMargin: "200px 0px" } 
+            { rootMargin: "200px 0px" }
         );
         io.observe(el);
         return () => io.disconnect();
     }, []);
 
     return (
-        <div ref={wrapRef} className="h-svh w-full">
+        <div ref={wrapRef} className="hero-canvas h-svh w-full">
             <Canvas
                 frameloop={visible ? "always" : "never"}
                 shadows="percentage"
-                camera={{ position: [7, 5, 6], fov: 43 }}
+                camera={{
+                    position: window.innerWidth < 1024 ? [10, 5.5, 12] : [7, 5, 6],
+                    fov: window.innerWidth < 1024 ? 50 : 43,
+                }}
             >
                 <OrbitControls
                     makeDefault
