@@ -21,7 +21,7 @@ export async function updateProfile(
     if (avatar instanceof File) form.append("avatar", avatar);
     if (avatar === null) form.append("removeAvatar", "true");
 
-    const { data } = await api.patch("/users/me", form);
+    const { data } = await api.patch("/users/me", form, { timeout: 30000 });
     return data.data;
 }
 
@@ -55,4 +55,4 @@ export type PublicProfile = {
 export async function getPublicProfile(username: string): Promise<PublicProfile> {
     const { data } = await api.get(`/users/u/${username}`);
     return data.data;
-}
+}

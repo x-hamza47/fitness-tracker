@@ -205,6 +205,7 @@ export default function MealForm({
                 <legend className={LABEL}>Foods</legend>
 
                 <ul className="mt-1.5 space-y-3">
+                    {/* eslint-disable-next-line react-hooks/refs */}
                     {fields.map((field, index) => {
                         const rowErrors = errors.items?.[index];
                         return (
