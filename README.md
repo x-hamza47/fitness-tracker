@@ -21,7 +21,7 @@
 <br />
 
 <a href="https://forge-fitness-tracker-sigma.vercel.app/">
-  <img src="public/images/og.png" alt="Forge fitness tracker preview" width="100%" />
+  <img src="public/images/og.jpg" alt="Forge fitness tracker preview" width="100%" />
 </a>
 
 </div>
