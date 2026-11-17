@@ -52,6 +52,9 @@ function useRefreshProgressData() {
     return () => {
         queryClient.invalidateQueries({ queryKey: progressKeys.all });
         queryClient.invalidateQueries({ queryKey: overviewKeys.all });
+        queryClient.invalidateQueries({ queryKey: ["profile"] });
+        queryClient.invalidateQueries({ queryKey: ["nutrition"] });
+        queryClient.invalidateQueries({ queryKey: ["plan"] });
     };
 }
 

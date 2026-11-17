@@ -1,15 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useIsAuthenticated } from "@/stores/authStore";
 import { getAuthErrorMessage } from "@/services/authService";
-import { getProfile, updateProfile } from "@/services/profileService";
+import { getProfile, updateProfile, getPublicProfile, type PublicProfile } from "@/services/profileService";
 import type { UpdateProfilePayload, UserProfile } from "@/types/profile";
+import { toast } from "sonner";
 
 export const profileKeys = {
     all: ["profile"] as const,
     me: () => [...profileKeys.all, "me"] as const,
+    public: (username: string) => [...profileKeys.all, "public", username] as const,
 };
 
-/** Current user's profile. Shared by the sidebar, profile page and settings. */
 export function useProfile() {
     const isAuthenticated = useIsAuthenticated();
 
@@ -28,7 +29,19 @@ export function useProfile() {
     };
 }
 
-/** Updates the profile and instantly refreshes every component that reads it. */
+export function usePublicProfile(username: string | null) {
+    const isAuthenticated = useIsAuthenticated();
+
+    return useQuery<PublicProfile>({
+        queryKey: profileKeys.public(username ?? ""),
+        queryFn: () => getPublicProfile(username!),
+        enabled: isAuthenticated && !!username,
+        staleTime: 30 * 1000,
+    });
+}
+
+
+
 export function useUpdateProfile() {
     const queryClient = useQueryClient();
 
@@ -36,6 +49,14 @@ export function useUpdateProfile() {
         mutationFn: (payload: UpdateProfilePayload) => updateProfile(payload),
         onSuccess: (updated) => {
             queryClient.setQueryData(profileKeys.me(), updated);
+            queryClient.invalidateQueries({ queryKey: profileKeys.all });
+            queryClient.invalidateQueries({ queryKey: ["nutrition"] });
+            queryClient.invalidateQueries({ queryKey: ["overview"] });
+            queryClient.invalidateQueries({ queryKey: ["plan"] });
+            toast.success("Profile updated");
+        },
+        onError: (error) => {
+            toast.error(getAuthErrorMessage(error));
         },
     });
 

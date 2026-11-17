@@ -1,5 +1,5 @@
 import type { Icon } from "@tabler/icons-react";
-import { IconBarbell, IconMessageCircle, IconTrophy, IconUserPlus } from "@tabler/icons-react";
+import { IconBarbell, IconBell, IconMessageCircle, IconTrophy, IconUserPlus } from "@tabler/icons-react";
 import { timeAgo } from "@/lib/time";
 import type { ActivityItem, ActivityType } from "@/types/dashboard";
 import RecentList, { RecentListItem } from "./RecentList";
@@ -32,7 +32,7 @@ export default function ActivityFeed({ data, isLoading, isError, onRetry }: Acti
             emptyMessage="New followers, goals and replies will show up here."
             renderItem={(a) => (
                 <RecentListItem
-                    icon={ICONS[a.type]}
+                    icon={ICONS[a.type] ?? IconBell}
                     title={a.message}
                     meta={`${a.read ? "" : "New · "}${timeAgo(a.createdAt)}`}
                 />

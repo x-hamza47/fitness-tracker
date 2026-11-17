@@ -9,6 +9,14 @@ import Workouts from "@/pages/dashboard/Workouts/Workouts";
 import Nutrition from "@/pages/dashboard/Nutrition/Nutrition";
 import Progress from "@/pages/dashboard/Progress/Progress";
 import { Link } from "react-router-dom";
+import Profile from "@/pages/dashboard/Profile/Profile";
+import Settings from "@/pages/dashboard/Settings/Settings";
+import Followers from "@/pages/dashboard/Followers/Followers";
+import Reports from "@/pages/dashboard/Reports/Reports";
+import Support from "@/pages/dashboard/Support/Support";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminUsers from "@/pages/admin/AdminUsers";
+import AdminTickets from "@/pages/admin/AdminTickets";
 
 // function Placeholder({ title }: { title: string }) {
 //     return (
@@ -31,6 +39,8 @@ function NotFound() {
         </div>
     );
 }
+import ProfileGate from "./ProfileGate";
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -47,10 +57,37 @@ const router = createBrowserRouter([
             {
                 element: <DashboardLayout />,
                 children: [
-                    { index: true, element: <Overview /> },
+                    {
+                        element: <ProfileGate />,
+                        children: [
+                            { index: true, element: <Overview /> },
+                            { path: "nutrition", element: <Nutrition /> },
+                        ],
+                    },
                     { path: "workouts", element: <Workouts /> },
-                    { path: "nutrition", element: <Nutrition /> },
                     { path: "progress", element: <Progress /> },
+                    { path: "profile", element: <Profile /> },
+                    { path: "settings", element: <Settings /> },
+                    { path: "followers", element: <Followers /> },
+                    { path: "reports", element: <Reports /> },
+                    { path: "support", element: <Support /> },
+                    { path: "*", element: <NotFound /> },
+                ],
+            },
+        ],
+    },
+    {
+        path: "/admin",
+        element: <ProtectedRoute />,
+        children: [
+            {
+                element: <DashboardLayout />,
+                children: [
+                    { index: true, element: <AdminDashboard /> },
+                    { path: "users", element: <AdminUsers /> },
+                    { path: "tickets", element: <AdminTickets /> },
+                    { path: "profile", element: <Profile /> },
+                    { path: "settings", element: <Settings /> },
                     { path: "*", element: <NotFound /> },
                 ],
             },

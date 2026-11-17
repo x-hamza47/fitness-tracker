@@ -2,9 +2,10 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./dashboard/Sidebar";
 import MobileNav from "./dashboard/MobileNav";
 import DotGrid from "@/components/dashboard/DotGrid";
-// import AmbientBackground from "@/components/dashboard/AmbientBackground";
+import { useSettings } from "@/features/social/useSettings";
 
 export default function DashboardLayout() {
+    useSettings();
     return (
         <div className="min-h-screen bg-(--color-bg) text-(--color-text) lg:flex">
             <a
@@ -14,18 +15,16 @@ export default function DashboardLayout() {
                 Skip to content
             </a>
 
-            {/* Desktop only (hidden below lg) */}
             <div className="relative z-20">
                 <Sidebar />
             </div>
 
-            {/* relative + isolate: the background fills this whole column and stays behind its content */}
+   
             <div className="relative isolate flex min-h-screen min-w-0 flex-1 flex-col">
-                {/* <AmbientBackground /> */}
                 <div className="fixed inset-0 -z-50">
                     <DotGrid
                         baseColor="#463a34"
-                        activeColor="#ffa500"
+                        activeColor="#b45309"
                         shape="circle"
                         dotSize={5}
                         gap={18}
@@ -47,7 +46,6 @@ export default function DashboardLayout() {
                     />
                 </div>
 
-                {/* Mobile only: top bar, bottom tabs and drawer (hidden at lg and up) */}
                 <MobileNav />
 
                 <main id="main-content" className="flex-1 p-4 pb-24 sm:p-6 lg:p-8 lg:pb-8">

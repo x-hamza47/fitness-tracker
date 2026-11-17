@@ -23,18 +23,30 @@ import WorkoutCard from "./components/WorkoutCard";
 import WorkoutForm from "./components/WorkoutForm";
 import { StateMessage, WorkoutSkeletonGrid } from "./components/WorkoutStates";
 import WorkoutToolbar from "./components/WorkoutToolbar";
+import { toast } from "sonner";
+import { useLogWorkout } from "@/features/workouts/useWorkoutLogs";
+import type { LogWorkoutPayload } from "@/types/workoutLog";
+import LogSessionForm from "./components/LogSessionForm";
+import RangeTabs from "@/components/dashboard/RangeTabs";
+import HistoryList from "./components/HistoryList";
 
 const FORM_ID = "workout-form";
+
+const LOG_FORM_ID = "log-session-form";
+const TAB_OPTIONS = [
+    { value: "routines", label: "Routines" },
+    { value: "history", label: "History" },
+] as const;
+
 
 const PRIMARY_BUTTON =
     "flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-(--color-accent) px-4 py-2.5 text-[10px] font-semibold tracking-[0.15em] text-black uppercase transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
 
-/**
- * The drawer and dialog keep their last target while closing,
- * so the content doesn't vanish during the exit animation.
- */
+
 type EditorState = { open: boolean; workout: Workout | null; key: number };
 type DeleteState = { open: boolean; workout: Workout | null };
+type LogState = { open: boolean; workout: Workout | null; key: number };
+type WorkoutTab = (typeof TAB_OPTIONS)[number]["value"];
 
 export default function Workouts() {
     const unitSystem = useUiStore((s) => s.unitSystem);
@@ -44,11 +56,14 @@ export default function Workouts() {
     const { toggle } = useToggleFavorite();
     const { duplicate } = useDuplicateWorkout();
     const del = useDeleteWorkout();
+    const logger = useLogWorkout();
 
     const [filters, setFilters] = useState<WorkoutFilters>(DEFAULT_WORKOUT_FILTERS);
     const [view, setView] = useState<WorkoutView>("grid");
+    const [tab, setTab] = useState<WorkoutTab>("routines");
     const [editor, setEditor] = useState<EditorState>({ open: false, workout: null, key: 0 });
     const [deleting, setDeleting] = useState<DeleteState>({ open: false, workout: null });
+    const [logging, setLogging] = useState<LogState>({ open: false, workout: null, key: 0 });
 
     const all = workouts ?? [];
     const visible = applyWorkoutFilters(all, filters);
@@ -82,6 +97,21 @@ export default function Workouts() {
             setDeleting((d) => ({ ...d, open: false }));
         } catch {
             // The error is shown inside the dialog through errorMessage
+        }
+    };
+    const openLog = (workout: Workout) => {
+        logger.reset();
+        setLogging((l) => ({ open: true, workout, key: l.key + 1 }));
+    };
+    const closeLog = () => setLogging((l) => ({ ...l, open: false }));
+
+    const handleLog = async (payload: LogWorkoutPayload) => {
+        try {
+            await logger.logAsync(payload);
+            closeLog();
+            toast.success("Session logged");
+        } catch {
+            // The error is shown inside the form through errorMessage
         }
     };
 
@@ -153,6 +183,7 @@ export default function Workouts() {
                         onDelete={(w) => setDeleting({ open: true, workout: w })}
                         onToggleFavorite={(w) => toggle({ id: w.id, favorite: !w.favorite })}
                         onTagClick={(tag) => patchFilters({ tag })}
+                        onLog={openLog}
                     />
                 ))}
             </div>
@@ -177,20 +208,27 @@ export default function Workouts() {
                 </button>
             </header>
 
-            {all.length > 0 && (
-                <WorkoutToolbar
-                    filters={filters}
-                    onChange={patchFilters}
-                    onClear={clearFilters}
-                    hasActiveFilters={hasActiveFilters}
-                    counts={getCategoryCounts(all)}
-                    tags={getAllTags(all)}
-                    view={view}
-                    onViewChange={setView}
-                />
-            )}
+            <RangeTabs label="Section" options={TAB_OPTIONS} value={tab} onChange={setTab} />
 
-            {content}
+            {tab === "routines" ? (
+                <>
+                    {all.length > 0 && (
+                        <WorkoutToolbar
+                            filters={filters}
+                            onChange={patchFilters}
+                            onClear={clearFilters}
+                            hasActiveFilters={hasActiveFilters}
+                            counts={getCategoryCounts(all)}
+                            tags={getAllTags(all)}
+                            view={view}
+                            onViewChange={setView}
+                        />
+                    )}
+                    {content}
+                </>
+            ): (
+                    <HistoryList unitSystem = { unitSystem } />
+            )}
 
             <Drawer
                 open={editor.open}
@@ -226,6 +264,38 @@ export default function Workouts() {
                     onSubmit={handleSave}
                     errorMessage={isEditing ? update.errorMessage : create.errorMessage}
                 />
+            </Drawer>
+            <Drawer
+                open={logging.open}
+                onClose={closeLog}
+                title={`Log ${logging.workout?.name ?? "session"}`}
+                description="Adjust what you actually lifted, then save."
+                footer={
+                    <div className="flex justify-end gap-2">
+                        <button
+                            type="button"
+                            onClick={closeLog}
+                            disabled={logger.isPending}
+                            className="cursor-pointer rounded-sm border border-white/15 px-4 py-2.5 text-[10px] font-semibold tracking-[0.15em] text-white uppercase transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:opacity-50"
+                        >
+                            Cancel
+                        </button>
+                        <button type="submit" form={LOG_FORM_ID} disabled={logger.isPending} className={PRIMARY_BUTTON}>
+                            {logger.isPending ? "Saving..." : "Save session"}
+                        </button>
+                    </div>
+                }
+            >
+                {logging.workout && (
+                    <LogSessionForm
+                        key={logging.key}
+                        formId={LOG_FORM_ID}
+                        workout={logging.workout}
+                        unitSystem={unitSystem}
+                        onSubmit={handleLog}
+                        errorMessage={logger.errorMessage}
+                    />
+                )}
             </Drawer>
 
             <ConfirmDialog

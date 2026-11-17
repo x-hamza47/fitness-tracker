@@ -6,12 +6,14 @@ import {
     deleteMeal,
     getNutritionAnalytics,
     getNutritionDay,
+    getNutritionPlan,
     updateMeal,
 } from "@/services/userService";
 import { useIsAuthenticated } from "@/stores/authStore";
 import type {
     NutritionAnalytics,
     NutritionDay,
+    NutritionPlan,
     NutritionRange,
     UpdateMealPayload,
 } from "@/types/nutrition";
@@ -20,9 +22,27 @@ export const nutritionKeys = {
     all: ["nutrition"] as const,
     day: (date: string) => ["nutrition", "day", date] as const,
     analytics: (range: NutritionRange) => ["nutrition", "analytics", range] as const,
+    plan: () => ["nutrition", "plan"] as const,
 };
 
-/** Meals, totals and targets for one day (YYYY-MM-DD). */
+export function useNutritionPlan() {
+    const isAuthenticated = useIsAuthenticated();
+
+    const query = useQuery<NutritionPlan>({
+        queryKey: nutritionKeys.plan(),
+        queryFn: getNutritionPlan,
+        enabled: isAuthenticated,
+        staleTime: 60 * 1000,
+    });
+
+    return {
+        plan: query.data ?? null,
+        isLoading: query.isLoading,
+        isError: query.isError,
+        refetch: query.refetch,
+    };
+}
+
 export function useNutritionDay(date: string) {
     const isAuthenticated = useIsAuthenticated();
 
@@ -49,7 +69,6 @@ export function useNutritionAnalytics(range: NutritionRange) {
         queryFn: () => getNutritionAnalytics(range),
         enabled: isAuthenticated,
         staleTime: 5 * 60 * 1000,
-        // Keep the old chart on screen while a new range loads
         placeholderData: keepPreviousData,
     });
 
@@ -62,7 +81,6 @@ export function useNutritionAnalytics(range: NutritionRange) {
     };
 }
 
-/** Shared by every mutation: refresh Nutrition (day and analytics) and the Overview numbers. */
 function useRefreshNutritionData() {
     const queryClient = useQueryClient();
 

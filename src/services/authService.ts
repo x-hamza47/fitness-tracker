@@ -1,10 +1,13 @@
 import axios from "axios";
+import { api } from "@/lib/api";
 import type { LoginPayload, RegisterPayload } from "@/schemas/authSchema";
 
 export type AuthUser = {
     id: string;
     name: string;
+    username: string;
     email: string;
+    role: "user" | "admin";
 };
 
 export type AuthResult = {
@@ -22,34 +25,17 @@ export function getAuthErrorMessage(error: unknown): string {
     return "Something went wrong. Please try again.";
 }
 
-const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
 export async function loginRequest(payload: LoginPayload): Promise<AuthResult> {
-    // --- REAL API ---
-    // const { data } = await api.post("/auth/login", payload);
-    // return data.data;
-
-    await wait(700);
-    if (payload.password === "wrong") {
-        throw {
-            isAxiosError: true,
-            response: { status: 401, data: { message: "Invalid email or password." } },
-        };
-    }
-    return {
-        token: "mock-token",
-        user: { id: "1", name: "Forge Athlete", email: payload.email },
-    };
+    const { data } = await api.post("/auth/login", payload);
+    return data.data;
 }
 
 export async function registerRequest(payload: RegisterPayload): Promise<AuthResult> {
-    // --- REAL API ---
-    // const { data } = await api.post("/auth/register", payload);
-    // return data.data;
+    const { data } = await api.post("/auth/register", payload);
+    return data.data;
+}
 
-    await wait(900);
-    return {
-        token: "mock-token",
-        user: { id: "1", name: payload.name, email: payload.email },
-    };
+export async function getMeRequest(): Promise<AuthUser> {
+    const { data } = await api.get("/auth/me");
+    return data.data.user;
 }

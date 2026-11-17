@@ -29,7 +29,7 @@ export const NUTRITION_RANGE_OPTIONS: { value: NutritionRange; label: string }[]
     { value: "90d", label: "90D" },
 ];
 
-/** Hex values because Recharts needs real colors, not Tailwind classes. */
+
 export const MACRO_CONFIG = {
     protein: { label: "Protein", color: "#60a5fa", kcalPerGram: 4 },
     carbs: { label: "Carbs", color: "#fbbf24", kcalPerGram: 4 },
@@ -38,7 +38,7 @@ export const MACRO_CONFIG = {
 
 export const MACRO_KEYS = ["protein", "carbs", "fat"] as const;
 
-/** Picks the meal the user is most likely logging right now. */
+
 export function defaultMealTypeNow(): MealType {
     const hour = new Date().getHours();
     if (hour < 11) return "breakfast";
@@ -47,7 +47,7 @@ export function defaultMealTypeNow(): MealType {
     return "dinner";
 }
 
-/* ----------------------------- date helpers ----------------------------- */
+
 
 export function toISODate(d: Date): string {
     const month = String(d.getMonth() + 1).padStart(2, "0");

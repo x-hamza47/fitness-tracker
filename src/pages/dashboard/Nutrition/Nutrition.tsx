@@ -16,16 +16,14 @@ import DaySwitcher from "./components/DaySwitcher";
 import MealForm from "./components/MealForm";
 import MealSection from "./components/MealSection";
 import NutritionAnalytics from "./components/NutritionAnalytics";
+import YourPlanCard from "@/components/dashboard/YourPlanCard";
 
 const FORM_ID = "meal-form";
 
 const PRIMARY_BUTTON =
     "flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-(--color-accent) px-4 py-2.5 text-[10px] font-semibold tracking-[0.15em] text-black uppercase transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
 
-/**
- * The drawer and dialog keep their last target while closing,
- * so the content doesn't vanish during the exit animation.
- */
+
 type EditorState = { open: boolean; meal: Meal | null; mealType: MealType; key: number };
 type DeleteState = { open: boolean; meal: Meal | null };
 
@@ -144,6 +142,8 @@ export default function Nutrition() {
 
             <DaySwitcher date={date} onChange={setDate} />
 
+            <YourPlanCard />
+
             {content}
 
             <NutritionAnalytics
@@ -180,7 +180,7 @@ export default function Nutrition() {
                     </div>
                 }
             >
-                {/* key resets the form every time the drawer opens */}
+
                 <MealForm
                     key={editor.key}
                     formId={FORM_ID}

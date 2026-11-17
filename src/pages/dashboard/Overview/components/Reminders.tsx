@@ -1,8 +1,10 @@
+import { useState } from "react";
 import type { Icon } from "@tabler/icons-react";
 import { IconBarbell, IconTarget, IconToolsKitchen2 } from "@tabler/icons-react";
 import { timeAgo } from "@/lib/time";
 import type { Reminder } from "@/types/dashboard";
 import RecentList, { RecentListItem } from "./RecentList";
+import RemindersDrawer from "@/features/reminders/RemindersDrawer";
 
 type RemindersProps = {
     data?: Reminder[];
@@ -18,25 +20,32 @@ const ICONS: Record<Reminder["kind"], Icon> = {
 };
 
 export default function Reminders({ data, isLoading, isError, onRetry }: RemindersProps) {
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
     const sorted = data
         ? [...data].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
         : undefined;
 
     return (
-        <RecentList
-            title="Upcoming reminders"
-            viewAllTo="/dashboard/settings"
-            items={sorted}
-            getKey={(r) => r.id}
-            isLoading={isLoading}
-            isError={isError}
-            onRetry={onRetry}
-            skeletonRows={3}
-            emptyTitle="No reminders"
-            emptyMessage="Set reminders for workouts and meals in Settings."
-            renderItem={(r) => (
-                <RecentListItem icon={ICONS[r.kind]} title={r.title} value={timeAgo(r.at)} />
-            )}
-        />
+        <>
+            <RecentList
+                title="Upcoming reminders"
+                onViewAll={() => setDrawerOpen(true)}
+                viewAllText="Manage"
+                items={sorted}
+                getKey={(r) => r.id}
+                isLoading={isLoading}
+                isError={isError}
+                onRetry={onRetry}
+                skeletonRows={3}
+                emptyTitle="No reminders"
+                emptyMessage="Tap Manage to set reminders for workouts, meals, and goals."
+                renderItem={(r) => (
+                    <RecentListItem icon={ICONS[r.kind]} title={r.title} value={timeAgo(r.at)} />
+                )}
+            />
+
+            <RemindersDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+        </>
     );
 }

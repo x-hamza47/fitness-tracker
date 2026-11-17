@@ -8,7 +8,7 @@ import type { UnitSystem } from "@/types/profile";
 import { MEASUREMENT_KEYS, type BodyEntry } from "@/types/progress";
 
 type BodyLogProps = {
-    /** Oldest first, as the API returns them */
+    
     entries: BodyEntry[];
     unitSystem: UnitSystem;
     onAdd: () => void;

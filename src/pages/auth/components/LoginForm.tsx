@@ -91,11 +91,7 @@ export default function LoginForm({
                     className="group/btn mt-5 flex cursor-pointer  items-center justify-center rounded-sm bg-(--color-accent-dark) px-5 py-3.5 text-sm sm:text-base font-bold tracking-wide uppercase transition-[filter] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     {busy ? "Signing in..." : "Sign in"}
-                    {/* <IconArrowUpRight
-                        size={18}
-                        aria-hidden="true"
-                        className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
-                    /> */}
+
                 </button>
 
                 <p className="mt-auto pt-6 text-center text-xs text-(--color-text-muted)">

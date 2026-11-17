@@ -23,7 +23,7 @@ export default function DaySummary({ totals, targets }: DaySummaryProps) {
     const over = remaining < 0;
 
     return (
-        <section aria-label="Daily summary" className="rounded-sm border border-white/10 bg-white/2 p-5 backdrop-blur-sm">
+        <section aria-label="Daily summary" className="rounded-xl border border-white/10 bg-white/3 p-4 sm:p-5 backdrop-blur-md shadow-lg">
             <div className="flex flex-wrap items-end justify-between gap-2">
                 <div>
                     <p className="text-[10px] tracking-[0.2em] text-white/40 uppercase">Calories</p>

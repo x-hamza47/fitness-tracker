@@ -20,11 +20,8 @@ import {
 import { Field, INPUT } from "./Field";
 
 type BodyFormProps = {
-    /** Lets a button outside the form (the drawer footer) submit it */
     formId: string;
-    /** Provide to edit, omit to create */
     entry?: BodyEntry | null;
-    /** Used when creating */
     defaultDate: string;
     unitSystem: UnitSystem;
     onSubmit: (payload: CreateBodyEntryPayload) => void | Promise<void>;
@@ -93,7 +90,7 @@ export default function BodyForm({ formId, entry, defaultDate, unitSystem, onSub
                     />
                 </Field>
                 <Field label={`Weight (${weightUnit(unitSystem)})`} error={errors.weight?.message}>
-                    <input inputMode="decimal" placeholder="Optional" {...register("weight")} className={INPUT} />
+                    <input inputMode="decimal" placeholder="-" {...register("weight")} className={INPUT} />
                 </Field>
             </div>
 

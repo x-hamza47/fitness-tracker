@@ -14,7 +14,8 @@ export function useLogin() {
             loginRequest({ email, password }),
         onSuccess: ({ user, token }, variables) => {
             login(user, token, variables.remember);
-            navigate(AFTER_AUTH_PATH, { replace: true });
+            const destination = user.role === "admin" ? "/admin" : AFTER_AUTH_PATH;
+            navigate(destination, { replace: true });
         },
     });
 

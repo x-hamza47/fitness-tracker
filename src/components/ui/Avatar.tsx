@@ -5,12 +5,10 @@ import { getInitials } from "./avatar.utils";
 type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 type AvatarProps = {
-    /** Used for the initials fallback and the image alt text */
+    
     name: string;
-    /** null or undefined shows the initials fallback */
     src?: string | null;
     size?: AvatarSize;
-    /** Adds an accent ring, useful for the "current user" avatar */
     ring?: boolean;
     className?: string;
 };
@@ -32,8 +30,8 @@ export default function Avatar({
     ring = false,
     className,
 }: AvatarProps) {
-    // Remember which src failed, so a new src gets a fresh attempt
-    // without needing an effect to reset state.
+    
+    
     const [failedSrc, setFailedSrc] = useState<string | null>(null);
     const showImage = !!src && src !== failedSrc;
 

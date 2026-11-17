@@ -5,22 +5,14 @@ import { cn } from "@/lib/utils";
 type ChartCardProps = {
     title: string;
     description?: string;
-    /** Top-right slot, e.g. <RangeTabs /> or a "View all" link */
     action?: ReactNode;
-
-    /** First load: shows a skeleton instead of children */
     isLoading?: boolean;
-    /** Request failed: shows a retry message instead of children */
     isError?: boolean;
     onRetry?: () => void;
-    /** Loaded but nothing to show: shows an empty message instead of children */
     isEmpty?: boolean;
     emptyTitle?: string;
     emptyMessage?: string;
-    /** Showing old data while new data loads: dims the content slightly */
     isRefetching?: boolean;
-
-    /** Sets the height of the content area, so loading and loaded states match. e.g. "h-64" */
     contentClassName?: string;
     className?: string;
     children: ReactNode;
@@ -63,8 +55,7 @@ export default function ChartCard({
     children,
 }: ChartCardProps) {
     const titleId = useId();
-
-    // Order matters: loading first, then error, then empty, then content
+    
     let body: ReactNode;
     if (isLoading) {
         body = <div aria-hidden="true" className="size-full animate-pulse rounded-sm bg-white/5 backdrop-blur-xs" />;

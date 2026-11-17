@@ -1,25 +1,22 @@
 import type { ReactNode } from "react";
-import type { Icon } from "@tabler/icons-react";
+import { IconBell, type Icon } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import ChartCard from "@/components/dashboard/ChartCard";
 
-/* -------------------------------------------------------------------------- */
-/*  Row                                                                        */
-/* -------------------------------------------------------------------------- */
 
 type RecentListItemProps = {
-    icon: Icon;
+    icon?: Icon;
     title: string;
-    /** Small line under the title, e.g. "Strength · 7 exercises" */
+    
     subtitle?: string;
-    /** Right side, e.g. "62 min" or "520 kcal" */
+    
     value?: string;
-    /** Small line under the value, e.g. "5 hours ago" */
+    
     meta?: string;
 };
 
 export function RecentListItem({
-    icon: IconComponent,
+    icon: IconComponent = IconBell,
     title,
     subtitle,
     value,
@@ -50,15 +47,17 @@ export function RecentListItem({
     );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  List card                                                                  */
-/* -------------------------------------------------------------------------- */
+
+
+
 
 type RecentListProps<T> = {
     title: string;
     description?: string;
-    /** "View all" link target, e.g. "/dashboard/workouts" */
+    
     viewAllTo?: string;
+    onViewAll?: () => void;
+    viewAllText?: string;
     items?: T[];
     getKey: (item: T) => string;
     renderItem: (item: T) => ReactNode;
@@ -68,7 +67,7 @@ type RecentListProps<T> = {
     onRetry?: () => void;
     emptyTitle?: string;
     emptyMessage?: string;
-    /** How many placeholder rows to show while loading */
+    
     skeletonRows?: number;
     className?: string;
 };
@@ -94,6 +93,8 @@ export default function RecentList<T>({
     title,
     description,
     viewAllTo,
+    onViewAll,
+    viewAllText,
     items,
     getKey,
     renderItem,
@@ -110,17 +111,25 @@ export default function RecentList<T>({
             title={title}
             description={description}
             action={
-                viewAllTo && (
+                onViewAll ? (
+                    <button
+                        type="button"
+                        onClick={onViewAll}
+                        className="cursor-pointer text-[10px] tracking-[0.15em] text-white/50 uppercase transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                    >
+                        {viewAllText ?? "Manage"}
+                    </button>
+                ) : viewAllTo ? (
                     <Link
                         to={viewAllTo}
                         className="text-[10px] tracking-[0.15em] text-white/50 uppercase transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                     >
-                        View all
+                        {viewAllText ?? "View all"}
                     </Link>
-                )
+                ) : undefined
             }
-            // Loading is handled below with row skeletons, so the card's own
-            // block skeleton (which needs a fixed height) isn't used here.
+            
+            
             isError={isError}
             onRetry={onRetry}
             isEmpty={!isLoading && !!items && items.length === 0}
